@@ -32,7 +32,7 @@ export const load: PageServerLoad = async (event) => {
             position`
 
 	const { rows: links, err: links_err } = await query<{
-		id: number
+		id: string
 		url: string
 		label: string
 		position: number
@@ -79,10 +79,13 @@ export const actions: Actions = {
 			})
 		}
 
+		const link_id = crypto.randomUUID()
+
 		const sql = `
 			INSERT INTO
-				links (label, url, user_id, position)
+				links (id, label, url, user_id, position)
 			SELECT
+				?,
 				?,
 				?,
 				?,
@@ -92,7 +95,7 @@ export const actions: Actions = {
 			WHERE
 				links.user_id = ?`
 
-		const { err } = await query(sql, [label, url, user.id, user.id])
+		const { err } = await query(sql, [link_id, label, url, user.id, user.id])
 
 		if (err) {
 			if (err.code === 'SQLITE_CONSTRAINT_UNIQUE') {

@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE INDEX IF NOT EXISTS idx_users_displayname ON users (displayname);
 
 CREATE TABLE IF NOT EXISTS links (
-    id INTEGER PRIMARY KEY,
+    id TEXT PRIMARY KEY,
     user_id INTEGER NOT NULL,
     url TEXT NOT NULL,
     label TEXT NOT NULL,

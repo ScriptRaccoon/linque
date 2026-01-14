@@ -12,7 +12,7 @@ export const GET: RequestHandler = async (event) => {
 		error(429, 'Too many link clicks. Try again later.')
 	}
 
-	const link_id = Number(event.params.id)
+	const link_id = event.params.id
 
 	const { rows, err } = await query<{ url: string }>(
 		`UPDATE links

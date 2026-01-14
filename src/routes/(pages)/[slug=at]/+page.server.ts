@@ -23,7 +23,7 @@ export const load: PageServerLoad = async (event) => {
         l.position
     `
 
-	const { rows: links, err } = await query<{ id: number; url: string; label: string }>(
+	const { rows: links, err } = await query<{ id: string; url: string; label: string }>(
 		sql,
 		[name],
 	)
