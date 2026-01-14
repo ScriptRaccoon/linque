@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { enhance } from '$app/forms'
 	import { ArrowDownUp, Link2, X } from 'lucide-svelte'
+	import { flip } from 'svelte/animate'
+	import { cubicOut } from 'svelte/easing'
 
 	let { data, form } = $props()
 </script>
@@ -52,31 +54,33 @@
 	{#if data.links.length}
 		<div class="links">
 			{#each data.links as link, index (link.id)}
-				<div class="link">
-					<div>
-						<h3>{link.label}</h3>
-						<span class="url">
-							{link.url}
-						</span>
+				<div animate:flip={{ duration: 200, easing: cubicOut }}>
+					<div class="link">
+						<div>
+							<h3>{link.label}</h3>
+							<span class="url">
+								{link.url}
+							</span>
+						</div>
+						<form method="POST" action="?/delete" use:enhance>
+							<input type="hidden" name="id" value={link.id} />
+							<button aria-label="Delete">
+								<X />
+							</button>
+						</form>
 					</div>
-					<form method="POST" action="?/delete" use:enhance>
-						<input type="hidden" name="id" value={link.id} />
-						<button aria-label="Delete">
-							<X />
-						</button>
-					</form>
-				</div>
 
-				{#if index < data.links.length - 1}
-					{@const next_link = data.links[index + 1]}
-					<form method="POST" action="?/swap" use:enhance class="swap-form">
-						<input type="hidden" name="position_a" value={link.position} />
-						<input type="hidden" name="position_b" value={next_link.position} />
-						<button aria-label="swap">
-							<ArrowDownUp size={20} />
-						</button>
-					</form>
-				{/if}
+					{#if index < data.links.length - 1}
+						{@const next_link = data.links[index + 1]}
+						<form method="POST" action="?/swap" use:enhance class="swap-form">
+							<input type="hidden" name="position_a" value={link.position} />
+							<input type="hidden" name="position_b" value={next_link.position} />
+							<button aria-label="swap">
+								<ArrowDownUp size={20} />
+							</button>
+						</form>
+					{/if}
+				</div>
 			{/each}
 		</div>
 	{:else}
@@ -98,11 +102,6 @@
 		margin-bottom: 1.5rem;
 	}
 
-	.links {
-		display: grid;
-		gap: 0.5rem;
-	}
-
 	.link {
 		background-color: var(--secondary-bg-color);
 		padding: 0.75rem;
@@ -121,5 +120,6 @@
 
 	.swap-form {
 		text-align: center;
+		margin-block: 0.5rem;
 	}
 </style>
