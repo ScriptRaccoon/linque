@@ -64,7 +64,7 @@
 						</div>
 						<form method="POST" action="?/delete" use:enhance>
 							<input type="hidden" name="id" value={link.id} />
-							<button aria-label="Delete">
+							<button aria-label="delete {link.label}">
 								<X />
 							</button>
 						</form>
@@ -75,7 +75,7 @@
 						<form method="POST" action="?/swap" use:enhance class="swap-form">
 							<input type="hidden" name="position_a" value={link.position} />
 							<input type="hidden" name="position_b" value={next_link.position} />
-							<button aria-label="swap">
+							<button aria-label="swap {link.label} with {next_link.label}">
 								<ArrowDownUp size={20} />
 							</button>
 						</form>
