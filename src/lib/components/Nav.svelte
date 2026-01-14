@@ -6,13 +6,13 @@
 	<ul>
 		{#if page.data.user}
 			<li>
-				<a href="/app">Links</a>
+				<a href="/links">Links</a>
 			</li>
 			<li>
-				<a href="/app/account">Account</a>
+				<a href="/account">Account</a>
 			</li>
 			<li>
-				<a href="/app/logout" data-sveltekit-preload-data="off">Logout</a>
+				<a href="/logout" data-sveltekit-preload-data="off">Logout</a>
 			</li>
 		{:else}
 			<li>

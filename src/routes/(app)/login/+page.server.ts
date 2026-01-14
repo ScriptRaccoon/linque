@@ -58,6 +58,6 @@ export const actions: Actions = {
 
 		set_auth_cookie(event, user_id)
 
-		return redirect(303, '/app')
+		return redirect(303, '/links')
 	},
 }

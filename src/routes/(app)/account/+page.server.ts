@@ -1,7 +1,7 @@
 import { error, fail, redirect, type Actions } from '@sveltejs/kit'
 import bcrypt from 'bcrypt'
 import { query } from '$lib/server/db'
-import type { PageServerLoad } from '../$types'
+import type { PageServerLoad } from './$types'
 import { delete_auth_cookie } from '$lib/server/auth'
 import * as v from 'valibot'
 import { displayname_schema, password_schema, username_schema } from '$lib/server/schemas'
