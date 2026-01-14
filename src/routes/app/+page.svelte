@@ -7,9 +7,11 @@
 
 <h1>Manage links</h1>
 
-<p>
-	<a href="/list/{data.displayname}">Preview your public link list</a>
-</p>
+{#if data.links.length}
+	<p>
+		<a href="/list/{data.displayname}">Public link page</a>
+	</p>
+{/if}
 
 <section>
 	<h2>Add Link</h2>
@@ -42,35 +44,39 @@
 <section>
 	<h2>Links</h2>
 
-	<div class="links">
-		{#each data.links as link, index (link.id)}
-			<div class="link">
-				<div>
-					<h3>{link.label}</h3>
-					<span class="url">
-						{link.url}
-					</span>
+	{#if data.links.length}
+		<div class="links">
+			{#each data.links as link, index (link.id)}
+				<div class="link">
+					<div>
+						<h3>{link.label}</h3>
+						<span class="url">
+							{link.url}
+						</span>
+					</div>
+					<form method="POST" action="?/delete" use:enhance>
+						<input type="hidden" name="id" value={link.id} />
+						<button aria-label="Delete">
+							<X />
+						</button>
+					</form>
 				</div>
-				<form method="POST" action="?/delete" use:enhance>
-					<input type="hidden" name="id" value={link.id} />
-					<button aria-label="Delete">
-						<X />
-					</button>
-				</form>
-			</div>
 
-			{#if index < data.links.length - 1}
-				{@const next_link = data.links[index + 1]}
-				<form method="POST" action="?/swap" use:enhance class="swap-form">
-					<input type="hidden" name="position_a" value={link.position} />
-					<input type="hidden" name="position_b" value={next_link.position} />
-					<button aria-label="swap">
-						<ArrowDownUp size={20} />
-					</button>
-				</form>
-			{/if}
-		{/each}
-	</div>
+				{#if index < data.links.length - 1}
+					{@const next_link = data.links[index + 1]}
+					<form method="POST" action="?/swap" use:enhance class="swap-form">
+						<input type="hidden" name="position_a" value={link.position} />
+						<input type="hidden" name="position_b" value={next_link.position} />
+						<button aria-label="swap">
+							<ArrowDownUp size={20} />
+						</button>
+					</form>
+				{/if}
+			{/each}
+		</div>
+	{:else}
+		<p>No links yet</p>
+	{/if}
 
 	{#if form?.type === 'edit' && form.error}
 		<p class="error">{form.error}</p>
