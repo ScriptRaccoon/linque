@@ -31,6 +31,8 @@
 <style>
 	nav {
 		padding-block: 1rem;
+		background-color: var(--nav-color);
+		margin-bottom: 0.5rem;
 	}
 
 	ul {

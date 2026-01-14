@@ -11,6 +11,7 @@
 	--success-color: #22e222;
 	--button-color: royalblue;
 	--bg-color: #101013;
+	--nav-color: #19295b;
 	--secondary-bg-color: #25252d;
 	--font-color: #fff;
 	--light-outline-color: #bbb;
@@ -35,6 +36,12 @@ body {
 		'Helvetica Neue',
 		sans-serif;
 	line-height: 1.5;
+}
+
+.container {
+	max-width: 600px;
+	margin-inline: auto;
+	padding-inline: 1rem;
 }
 
 /* ELEMENTS */
