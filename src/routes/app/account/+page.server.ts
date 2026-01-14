@@ -2,8 +2,9 @@ import { error, fail, redirect, type Actions } from '@sveltejs/kit'
 import bcrypt from 'bcrypt'
 import { query } from '$lib/server/db'
 import type { PageServerLoad } from '../$types'
-import { MINIMAL_PASSWORD_LENGTH } from '$lib/server/config'
 import { delete_auth_cookie } from '$lib/server/auth'
+import * as v from 'valibot'
+import { displayname_schema, password_schema, username_schema } from '$lib/server/schemas'
 
 export const load: PageServerLoad = async (event) => {
 	const user = event.locals.user
@@ -35,10 +36,12 @@ export const actions: Actions = {
 		const form = await event.request.formData()
 		const username = form.get('username') as string
 
-		if (!username.length) {
+		const username_parsed = v.safeParse(username_schema, username)
+
+		if (!username_parsed.success) {
 			return fail(400, {
 				type: 'username',
-				error: 'Username required',
+				error: username_parsed.issues[0].message,
 			})
 		}
 
@@ -76,10 +79,12 @@ export const actions: Actions = {
 		const form = await event.request.formData()
 		const displayname = form.get('displayname') as string
 
-		if (!displayname.length) {
+		const displayname_parsed = v.safeParse(displayname_schema, displayname)
+
+		if (!displayname_parsed.success) {
 			return fail(400, {
 				type: 'displayname',
-				error: 'Display name required',
+				error: displayname_parsed.issues[0].message,
 			})
 		}
 
@@ -142,10 +147,12 @@ export const actions: Actions = {
 			})
 		}
 
-		if (new_password.length < MINIMAL_PASSWORD_LENGTH) {
+		const new_password_parsed = v.safeParse(password_schema, new_password)
+
+		if (!new_password_parsed.success) {
 			return fail(400, {
 				type: 'password',
-				error: `New password must be at least ${MINIMAL_PASSWORD_LENGTH} characters`,
+				error: new_password_parsed.issues[0].message,
 			})
 		}
 

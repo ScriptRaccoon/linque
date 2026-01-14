@@ -1,6 +1,8 @@
 import { error, fail } from '@sveltejs/kit'
 import type { Actions, PageServerLoad } from './$types'
 import { query } from '$lib/server/db'
+import * as v from 'valibot'
+import { label_schema, url_schema } from '$lib/server/schemas'
 
 export const load: PageServerLoad = async (event) => {
 	const user = event.locals.user
@@ -58,17 +60,21 @@ export const actions: Actions = {
 		const label = form.get('label') as string
 		const url = form.get('url') as string
 
-		if (!label) {
+		const label_parsed = v.safeParse(label_schema, label)
+
+		if (!label_parsed.success) {
 			return fail(400, {
 				type: 'add',
-				error: 'Label required',
+				error: label_parsed.issues[0].message,
 			})
 		}
 
-		if (!url) {
+		const url_parsed = v.safeParse(url_schema, url)
+
+		if (!url_parsed.success) {
 			return fail(400, {
 				type: 'add',
-				error: 'URL required',
+				error: url_parsed.issues[0].message,
 			})
 		}
 
@@ -146,17 +152,23 @@ export const actions: Actions = {
 		}
 
 		const form = await event.request.formData()
-		const position_a = parseInt(form.get('position_a') as string)
-		const position_b = parseInt(form.get('position_b') as string)
+		const position_a = Number(form.get('position_a') as string)
+		const position_b = Number(form.get('position_b') as string)
+
+		if (!Number.isInteger(position_a) || !Number.isInteger(position_b)) {
+			return fail(400, {
+				type: 'edit',
+				error: 'Positions must be integers',
+			})
+		}
 
 		const sql = `
-			UPDATE
-				links
+			UPDATE links
 			SET
 				position = CASE position
-				WHEN ? THEN ?
-				WHEN ? THEN ?
-				ELSE position
+					WHEN ? THEN ?
+					WHEN ? THEN ?
+					ELSE position
 				END
 			WHERE
 				user_id = ?`

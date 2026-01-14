@@ -1,1 +1,0 @@
-export const MINIMAL_PASSWORD_LENGTH = 8

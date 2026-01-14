@@ -29,6 +29,10 @@ export const actions: Actions = {
 		const username = form.get('username') as string
 		const password = form.get('password') as string
 
+		if (!username || !password) {
+			return fail(400, { error: 'Username and password required' })
+		}
+
 		const { rows, err } = await query<{ id: number; password_hash: string }>(
 			'SELECT id, password_hash FROM users WHERE username = ?',
 			[username],

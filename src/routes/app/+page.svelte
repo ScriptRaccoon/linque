@@ -23,12 +23,12 @@
 	<form method="POST" action="?/add" use:enhance>
 		<div class="form-group">
 			<label for="label">Label</label>
-			<input type="text" name="label" id="label" />
+			<input type="text" name="label" id="label" required />
 		</div>
 
 		<div class="form-group">
 			<label for="url">URL</label>
-			<input type="text" name="url" id="url" />
+			<input type="text" name="url" id="url" required />
 		</div>
 
 		<div class="form-actions">

@@ -13,17 +13,17 @@
 <form method="POST" use:enhance>
 	<div class="form-group">
 		<label for="username">Username</label>
-		<input type="text" name="username" id="username" />
+		<input type="text" name="username" id="username" required />
 	</div>
 
 	<div class="form-group">
 		<label for="displayname">Display name</label>
-		<input type="text" name="displayname" id="displayname" />
+		<input type="text" name="displayname" id="displayname" required />
 	</div>
 
 	<div class="form-group">
 		<label for="password">Password</label>
-		<input type="password" name="password" id="password" />
+		<input type="password" name="password" id="password" required />
 	</div>
 
 	<div class="form-actions">

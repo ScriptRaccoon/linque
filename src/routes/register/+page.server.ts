@@ -1,8 +1,9 @@
-import { MINIMAL_PASSWORD_LENGTH } from '$lib/server/config'
 import { query } from '$lib/server/db'
 import { Rate_Limiter } from '$lib/server/ratelimit'
+import { displayname_schema, password_schema, username_schema } from '$lib/server/schemas'
 import { fail, redirect, type Actions } from '@sveltejs/kit'
 import bcrypt from 'bcrypt'
+import * as v from 'valibot'
 
 const limiter = new Rate_Limiter({ limit: 5, window_ms: 60_000 })
 
@@ -21,26 +22,26 @@ export const actions: Actions = {
 		const displayname = form.get('displayname') as string
 		const password = form.get('password') as string
 
-		if (!username) {
+		const username_parsed = v.safeParse(username_schema, username)
+
+		if (!username_parsed.success) {
 			return fail(400, {
-				error: 'Username required',
+				error: username_parsed.issues[0].message,
 			})
 		}
 
-		if (!displayname) {
+		const displayname_parsed = v.safeParse(displayname_schema, displayname)
+
+		if (!displayname_parsed.success) {
 			return fail(400, {
-				error: 'Display name required',
+				error: displayname_parsed.issues[0].message,
 			})
 		}
 
-		if (!password) {
-			return fail(400, { error: 'Password required' })
-		}
+		const password_parsed = v.safeParse(password_schema, password)
 
-		if (password.length < MINIMAL_PASSWORD_LENGTH) {
-			return fail(400, {
-				error: `Password must be at least ${MINIMAL_PASSWORD_LENGTH} characters`,
-			})
+		if (!password_parsed.success) {
+			return fail(400, { error: password_parsed.issues[0].message })
 		}
 
 		const password_hash = await bcrypt.hash(password, 10)

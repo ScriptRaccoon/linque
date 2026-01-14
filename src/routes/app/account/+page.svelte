@@ -24,7 +24,7 @@
 	<form method="POST" action="?/username" use:enhance>
 		<div class="form-group">
 			<label for="username">New username</label>
-			<input type="text" name="username" id="username" value={data.username} />
+			<input type="text" name="username" id="username" value={data.username} required />
 		</div>
 
 		<div class="form-actions">
@@ -49,7 +49,13 @@
 	<form method="POST" action="?/displayname" use:enhance>
 		<div class="form-group">
 			<label for="displayname">New display name</label>
-			<input type="text" name="displayname" id="displayname" value={data.displayname} />
+			<input
+				type="text"
+				name="displayname"
+				id="displayname"
+				value={data.displayname}
+				required
+			/>
 		</div>
 
 		<div class="form-actions">
@@ -72,12 +78,12 @@
 	<form method="POST" action="?/password" use:enhance>
 		<div class="form-group">
 			<label for="current_password">Current password</label>
-			<input type="password" name="current_password" id="current_password" />
+			<input type="password" name="current_password" id="current_password" required />
 		</div>
 
 		<div class="form-group">
 			<label for="new_password">New password</label>
-			<input type="password" name="new_password" id="new_password" />
+			<input type="password" name="new_password" id="new_password" required />
 		</div>
 
 		<div class="form-actions">
