@@ -3,6 +3,7 @@ import type { Actions, PageServerLoad } from './$types'
 import { query } from '$lib/server/db'
 import * as v from 'valibot'
 import { label_schema, url_schema } from '$lib/server/schemas'
+import type { LinkItem } from '$lib/types'
 
 export const load: PageServerLoad = async (event) => {
 	const user = event.locals.user
@@ -31,13 +32,7 @@ export const load: PageServerLoad = async (event) => {
         ORDER BY
             position`
 
-	const { rows: links, err: links_err } = await query<{
-		id: string
-		url: string
-		label: string
-		position: number
-		click_count: number
-	}>(sql, [user.id])
+	const { rows: links, err: links_err } = await query<LinkItem>(sql, [user.id])
 
 	if (links_err) {
 		error(500, 'Internal Server Error')
