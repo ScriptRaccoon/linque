@@ -169,6 +169,15 @@ textarea {
 	}
 }
 
+.accent-button {
+	border-radius: 100vw;
+	width: 2.25rem;
+	height: 2.25rem;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+}
+
 .accent-button:is(:hover, :focus-visible) {
 	color: var(--accent-color);
 }

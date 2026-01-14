@@ -130,6 +130,6 @@
 
 	.swap-form {
 		text-align: center;
-		margin-block: 0.5rem;
+		margin-block: 0.25rem;
 	}
 </style>
