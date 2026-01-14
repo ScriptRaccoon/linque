@@ -18,6 +18,7 @@
 	--outline-color: #444;
 	--input-bg-color: #202020;
 	--input-focus-color: #252525;
+	--accent-color: yellow;
 }
 
 body {
@@ -49,6 +50,10 @@ body {
 a {
 	color: inherit;
 	text-underline-offset: 2px;
+}
+
+a:is(:hover, :focus-visible) {
+	color: var(--accent-color);
 }
 
 h1,
@@ -162,4 +167,8 @@ textarea {
 	button.danger {
 		background-color: var(--error-color);
 	}
+}
+
+.accent-button:is(:hover, :focus-visible) {
+	color: var(--accent-color);
 }

@@ -64,7 +64,10 @@
 						</div>
 						<form method="POST" action="?/delete" use:enhance>
 							<input type="hidden" name="id" value={link.id} />
-							<button aria-label="delete {link.label}">
+							<button
+								aria-label="delete {link.label}"
+								class="accent-button delete-button"
+							>
 								<X />
 							</button>
 						</form>
@@ -75,7 +78,10 @@
 						<form method="POST" action="?/swap" use:enhance class="swap-form">
 							<input type="hidden" name="position_a" value={link.position} />
 							<input type="hidden" name="position_b" value={next_link.position} />
-							<button aria-label="swap {link.label} with {next_link.label}">
+							<button
+								aria-label="swap {link.label} with {next_link.label}"
+								class="accent-button"
+							>
 								<ArrowDownUp size={20} />
 							</button>
 						</form>
@@ -112,6 +118,10 @@
 		flex-wrap: wrap;
 		gap: 0.25rem;
 		overflow: hidden;
+	}
+
+	.link:has(.delete-button:is(:focus-visible, :hover)) {
+		outline: 2px dashed var(--outline-color);
 	}
 
 	.url {
