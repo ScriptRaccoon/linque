@@ -10,6 +10,15 @@
 	}
 
 	let { id, label, url, click_count }: Props = $props()
+
+	let confirm_deletion = $state(false)
+
+	function handle_delete_click() {
+		confirm_deletion = true
+		setTimeout(() => {
+			confirm_deletion = false
+		}, 3000)
+	}
 </script>
 
 <div class="link">
@@ -21,10 +30,22 @@
 	</span>
 
 	<form method="POST" action="?/delete" use:enhance>
-		<input type="hidden" name="id" value={id} />
-		<button aria-label="delete {label}" class="accent-button delete-button">
-			<X />
-		</button>
+		{#if confirm_deletion}
+			<input type="hidden" name="id" value={id} />
+			<button aria-label="delete {label}" class="accent-button delete-button">
+				<X />
+			</button>
+			<span class="confirm">Confirm deletion</span>
+		{:else}
+			<button
+				aria-label="delete {label}"
+				type="button"
+				class="accent-button delete-button"
+				onclick={handle_delete_click}
+			>
+				<X />
+			</button>
+		{/if}
 	</form>
 </div>
 
@@ -37,7 +58,7 @@
 		grid-template-rows: repeat(3, 1fr);
 		grid-template-columns: 1fr auto;
 		gap: 0.25rem;
-		overflow: hidden;
+		position: relative;
 
 		form {
 			grid-column: 2;
@@ -60,5 +81,15 @@
 
 	.url {
 		font-family: monospace;
+	}
+
+	.confirm {
+		position: absolute;
+		bottom: 100%;
+		right: 0;
+		border-radius: 0.25rem;
+		background-color: var(--bg-color);
+		padding: 0.1rem 0.5rem;
+		outline: 1px solid var(--outline-color);
 	}
 </style>
