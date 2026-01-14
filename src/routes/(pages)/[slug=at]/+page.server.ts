@@ -1,6 +1,7 @@
 import { query } from '$lib/server/db'
 import { error } from '@sveltejs/kit'
 import type { PageServerLoad } from './$types'
+import { generate_token } from '$lib/server/tokens'
 
 export const load: PageServerLoad = async (event) => {
 	const slug = event.params.slug
@@ -36,5 +37,7 @@ export const load: PageServerLoad = async (event) => {
 		error(404, 'Not Found')
 	}
 
-	return { links, name }
+	const token = generate_token()
+
+	return { links, name, token }
 }

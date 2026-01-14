@@ -13,7 +13,7 @@
 
 	<main class="links">
 		{#each data.links as link (link.id)}
-			<a href="/go/{link.id}" class="link">
+			<a href="/go/{link.id}?token={data.token}" class="link">
 				{link.label}
 			</a>
 		{/each}
