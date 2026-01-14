@@ -1,5 +1,4 @@
 <script lang="ts">
-	import Nav from '$lib/components/Nav.svelte'
 	import './app.css'
 
 	let { children } = $props()
@@ -8,8 +7,6 @@
 <svelte:head>
 	<title>Linque</title>
 </svelte:head>
-
-<Nav />
 
 <div class="container">
 	{@render children()}
