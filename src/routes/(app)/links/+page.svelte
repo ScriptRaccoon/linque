@@ -13,14 +13,16 @@
 	<title>Linque - Manage Links</title>
 </svelte:head>
 
-<h1>Manage Links</h1>
+<header>
+	<h1>Manage Links</h1>
 
-{#if data.links.length}
-	<div class="public-link-container">
-		<Link2 size={20} />
-		<a href="@{data.displayname}">Public link page</a>
-	</div>
-{/if}
+	{#if data.links.length}
+		<div class="public-link-container">
+			<Link2 size={20} />
+			<a href="@{data.displayname}">Public link page</a>
+		</div>
+	{/if}
+</header>
 
 <section>
 	<h2>Add Link</h2>
@@ -80,8 +82,16 @@
 </section>
 
 <style>
-	.public-link-container {
-		margin-top: -0.6rem;
-		margin-bottom: 1.5rem;
+	h1 {
+		margin-bottom: 0;
+	}
+
+	header {
+		margin-bottom: 1rem;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 0.25rem;
 	}
 </style>
