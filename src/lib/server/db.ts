@@ -6,16 +6,15 @@ export const db = createClient({
 	url: DB_URL,
 })
 
-async function adjust_database() {
+export async function initialize_db() {
 	try {
 		await db.executeMultiple('PRAGMA foreign_keys = ON; PRAGMA journal_mode = WAL;')
+		console.info('Database initialized ✅')
 	} catch (err) {
 		const libsql_error = err as LibsqlError
 		console.error(libsql_error.message)
 	}
 }
-
-adjust_database()
 
 export async function query<T = unknown>(
 	sql: string,

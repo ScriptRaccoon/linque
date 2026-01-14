@@ -1,5 +1,6 @@
 import { authenticate } from '$lib/server/auth'
-import { redirect, type Handle } from '@sveltejs/kit'
+import { initialize_db } from '$lib/server/db'
+import { redirect, type Handle, type ServerInit } from '@sveltejs/kit'
 
 export const handle: Handle = async ({ event, resolve }) => {
 	authenticate(event)
@@ -11,4 +12,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 	}
 
 	return await resolve(event)
+}
+
+export const init: ServerInit = async () => {
+	await initialize_db()
 }
