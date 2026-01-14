@@ -5,7 +5,11 @@
 	let { data, form } = $props()
 </script>
 
-<h1>Manage links</h1>
+<svelte:head>
+	<title>Linque - Manage Links</title>
+</svelte:head>
+
+<h1>Manage Links</h1>
 
 {#if data.links.length}
 	<p>

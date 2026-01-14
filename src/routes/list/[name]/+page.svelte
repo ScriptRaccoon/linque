@@ -3,10 +3,10 @@
 </script>
 
 <svelte:head>
-	<title>Links by {data.name}</title>
+	<title>Linque by {data.name}</title>
 </svelte:head>
 
-<h1>Links by {data.name}</h1>
+<h1>Linque by {data.name}</h1>
 
 <div class="links">
 	{#each data.links as link}

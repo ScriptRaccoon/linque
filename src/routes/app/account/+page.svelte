@@ -10,6 +10,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Linque - Account</title>
+</svelte:head>
+
 <h1>Account</h1>
 
 <section>

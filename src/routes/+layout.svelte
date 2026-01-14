@@ -6,7 +6,7 @@
 </script>
 
 <svelte:head>
-	<title>Linktree Clone</title>
+	<title>Linque</title>
 </svelte:head>
 
 <Nav />
