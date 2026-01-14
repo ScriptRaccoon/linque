@@ -21,7 +21,7 @@ export const load: PageServerLoad = async (event) => {
 
 	const sql = `
         SELECT
-            id, url, label
+            id, url, label, position
         FROM
             links
         WHERE
@@ -33,6 +33,7 @@ export const load: PageServerLoad = async (event) => {
 		id: number
 		url: string
 		label: string
+		position: number
 	}>(sql, [user.id])
 
 	if (links_err) {
@@ -111,7 +112,7 @@ export const actions: Actions = {
 
 		if (!user) {
 			return fail(401, {
-				type: 'delete',
+				type: 'edit',
 				error: 'Unauthorized',
 			})
 		}
@@ -126,11 +127,49 @@ export const actions: Actions = {
 
 		if (err) {
 			return fail(500, {
-				type: 'delete',
+				type: 'edit',
 				error: 'Internal Server Error',
 			})
 		}
 
-		return { type: 'delete', message: 'Link has been deleted' }
+		return { type: 'edit', message: 'Link has been deleted' }
+	},
+
+	swap: async (event) => {
+		const user = event.locals.user
+
+		if (!user) {
+			return fail(401, {
+				type: 'edit',
+				error: 'Unauthorized',
+			})
+		}
+
+		const form = await event.request.formData()
+		const position_a = parseInt(form.get('position_a') as string)
+		const position_b = parseInt(form.get('position_b') as string)
+
+		const sql = `
+			UPDATE
+				links
+			SET
+				position = CASE position
+				WHEN ? THEN ?
+				WHEN ? THEN ?
+				ELSE position
+				END
+			WHERE
+				user_id = ?`
+
+		const args = [position_a, position_b, position_b, position_a, user.id]
+
+		const { err } = await query(sql, args)
+
+		if (err) {
+			return fail(500, {
+				type: 'edit',
+				error: 'Internal Server Error',
+			})
+		}
 	},
 }
