@@ -7,3 +7,16 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 CREATE INDEX IF NOT EXISTS idx_users_displayname ON users (displayname);
+
+CREATE TABLE IF NOT EXISTS links (
+    id INTEGER PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    url TEXT NOT NULL,
+    label TEXT NOT NULL,
+    created_at TEXT NOT NULL DEFAULT current_timestamp,
+    UNIQUE (user_id, url),
+    UNIQUE (user_id, label),
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_links_user ON links (user_id);

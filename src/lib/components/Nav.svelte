@@ -6,7 +6,7 @@
 	<ul>
 		{#if page.data.user}
 			<li>
-				<a href="/app">App</a>
+				<a href="/app">Links</a>
 			</li>
 			<li>
 				<a href="/app/account">Account</a>

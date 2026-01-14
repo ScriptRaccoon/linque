@@ -11,6 +11,7 @@
 	--success-color: #22e222;
 	--button-color: royalblue;
 	--bg-color: #101013;
+	--secondary-bg-color: #25252d;
 	--font-color: #fff;
 	--light-outline-color: #bbb;
 	--outline-color: #444;
@@ -45,7 +46,8 @@ a {
 }
 
 h1,
-h2 {
+h2,
+h3 {
 	font-weight: 500;
 }
 
