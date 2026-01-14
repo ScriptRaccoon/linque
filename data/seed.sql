@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS links (
     user_id INTEGER NOT NULL,
     url TEXT NOT NULL,
     label TEXT NOT NULL,
+    position INTEGER NOT NULL,
     created_at TEXT NOT NULL DEFAULT current_timestamp,
     UNIQUE (user_id, url),
     UNIQUE (user_id, label),

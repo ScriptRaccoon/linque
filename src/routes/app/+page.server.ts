@@ -27,7 +27,7 @@ export const load: PageServerLoad = async (event) => {
         WHERE
             user_id = ?
         ORDER BY
-            created_at`
+            position`
 
 	const { rows: links, err: links_err } = await query<{
 		id: number
@@ -71,14 +71,27 @@ export const actions: Actions = {
 			})
 		}
 
-		const { err } = await query(
-			'INSERT INTO links (label, url, user_id) VALUES (?,?,?)',
-			[label, url, user.id],
-		)
+		const sql = `
+			INSERT INTO
+				links (label, url, user_id, position)
+			SELECT
+				?,
+				?,
+				?,
+				COALESCE(MAX(position), 0) + 1
+			FROM
+				links
+			WHERE
+				links.user_id = ?`
+
+		const { err } = await query(sql, [label, url, user.id, user.id])
 
 		if (err) {
 			if (err.code === 'SQLITE_CONSTRAINT_UNIQUE') {
-				return fail(400, { error: 'Duplicates are not allowed' })
+				return fail(400, {
+					type: 'add',
+					error: 'Duplicates are not allowed',
+				})
 			}
 
 			return fail(500, {

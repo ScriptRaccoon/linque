@@ -18,7 +18,7 @@ export const load: PageServerLoad = async (event) => {
     WHERE
         u.displayname = ?
     ORDER BY
-        l.created_at
+        l.position
     `
 
 	const { rows: links, err } = await query<{ url: string; label: string }>(sql, [name])
