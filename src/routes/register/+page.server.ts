@@ -18,11 +18,18 @@ export const actions: Actions = {
 
 		const form = await event.request.formData()
 		const username = form.get('username') as string
+		const displayname = form.get('displayname') as string
 		const password = form.get('password') as string
 
 		if (!username) {
 			return fail(400, {
 				error: 'Username required',
+			})
+		}
+
+		if (!displayname) {
+			return fail(400, {
+				error: 'Display name required',
 			})
 		}
 
@@ -39,13 +46,13 @@ export const actions: Actions = {
 		const password_hash = await bcrypt.hash(password, 10)
 
 		const { err } = await query(
-			'INSERT INTO users (username, password_hash) VALUES (?,?)',
-			[username, password_hash],
+			'INSERT INTO users (username, displayname, password_hash) VALUES (?,?,?)',
+			[username, displayname, password_hash],
 		)
 
 		if (err) {
 			if (err.code === 'SQLITE_CONSTRAINT_UNIQUE') {
-				return fail(400, { error: 'Try a different username' })
+				return fail(400, { error: 'Try a different username or displayname' })
 			}
 			return fail(500, { error: 'Internal Server Error' })
 		}

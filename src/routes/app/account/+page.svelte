@@ -15,6 +15,8 @@
 <section>
 	<h2>Username</h2>
 
+	<p>Your username is used for logging in.</p>
+
 	<form method="POST" action="?/username" use:enhance>
 		<div class="form-group">
 			<label for="username">New username</label>
@@ -31,6 +33,31 @@
 	{/if}
 
 	{#if form?.message && form.type === 'username'}
+		<p class="message">{form.message}</p>
+	{/if}
+</section>
+
+<section>
+	<h2>Display name</h2>
+
+	<p>Your display name is shown on your link page.</p>
+
+	<form method="POST" action="?/displayname" use:enhance>
+		<div class="form-group">
+			<label for="displayname">New display name</label>
+			<input type="text" name="displayname" id="displayname" value={data.displayname} />
+		</div>
+
+		<div class="form-actions">
+			<button>Submit</button>
+		</div>
+	</form>
+
+	{#if form?.error && form.type === 'displayname'}
+		<p class="error">{form.error}</p>
+	{/if}
+
+	{#if form?.message && form.type === 'displayname'}
 		<p class="message">{form.message}</p>
 	{/if}
 </section>

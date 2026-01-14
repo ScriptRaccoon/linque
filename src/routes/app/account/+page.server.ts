@@ -11,8 +11,8 @@ export const load: PageServerLoad = async (event) => {
 		error(401, 'Unauthorized')
 	}
 
-	const { rows, err } = await query<{ username: string }>(
-		'SELECT username FROM users WHERE id = ?',
+	const { rows, err } = await query<{ username: string; displayname: string }>(
+		'SELECT username, displayname FROM users WHERE id = ?',
 		[user.id],
 	)
 
@@ -20,9 +20,9 @@ export const load: PageServerLoad = async (event) => {
 		error(500, 'Internal Server Error')
 	}
 
-	const username = rows[0].username
+	const { username, displayname } = rows[0]
 
-	return { username }
+	return { username, displayname }
 }
 
 export const actions: Actions = {
@@ -48,6 +48,13 @@ export const actions: Actions = {
 		])
 
 		if (err) {
+			if (err.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+				return fail(400, {
+					type: 'username',
+					error: 'Try a different username',
+				})
+			}
+
 			return fail(500, {
 				type: 'username',
 				error: 'Internal Server Error',
@@ -57,6 +64,47 @@ export const actions: Actions = {
 		return {
 			type: 'username',
 			message: 'Username has been updated',
+		}
+	},
+
+	displayname: async (event) => {
+		const user = event.locals.user
+		if (!user) {
+			error(401, 'Unauthorized')
+		}
+
+		const form = await event.request.formData()
+		const displayname = form.get('displayname') as string
+
+		if (!displayname.length) {
+			return fail(400, {
+				type: 'displayname',
+				error: 'Display name required',
+			})
+		}
+
+		const { err } = await query('UPDATE users SET displayname = ? WHERE id = ?', [
+			displayname,
+			user.id,
+		])
+
+		if (err) {
+			if (err.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+				return fail(400, {
+					type: 'displayname',
+					error: 'Try a different display name',
+				})
+			}
+
+			return fail(500, {
+				type: 'displayname',
+				error: 'Internal Server Error',
+			})
+		}
+
+		return {
+			type: 'displayname',
+			message: 'Display name has been updated',
 		}
 	},
 
