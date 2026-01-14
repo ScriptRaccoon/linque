@@ -81,6 +81,7 @@
 
 	.url {
 		font-family: monospace;
+		width: fit-content;
 	}
 
 	.confirm {
