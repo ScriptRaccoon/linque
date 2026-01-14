@@ -23,7 +23,7 @@ export const load: PageServerLoad = async (event) => {
 
 	const sql = `
         SELECT
-            id, url, label, position
+            id, url, label, position, click_count
         FROM
             links
         WHERE
@@ -36,6 +36,7 @@ export const load: PageServerLoad = async (event) => {
 		url: string
 		label: string
 		position: number
+		click_count: number
 	}>(sql, [user.id])
 
 	if (links_err) {

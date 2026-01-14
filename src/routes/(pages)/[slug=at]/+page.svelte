@@ -12,8 +12,8 @@
 	</header>
 
 	<main class="links">
-		{#each data.links as link}
-			<a class="link" href={link.url}>
+		{#each data.links as link (link.id)}
+			<a href="/go/{link.id}" class="link">
 				{link.label}
 			</a>
 		{/each}

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms'
-	import { ArrowDownUp, Link2, X } from 'lucide-svelte'
+	import { ArrowDownUp, Eye, Link2, X } from 'lucide-svelte'
 	import { flip } from 'svelte/animate'
 	import { cubicOut } from 'svelte/easing'
 
@@ -56,10 +56,13 @@
 			{#each data.links as link, index (link.id)}
 				<div animate:flip={{ duration: 200, easing: cubicOut }}>
 					<div class="link">
-						<div>
-							<h3>{link.label}</h3>
-							<a href={link.url} class="url">{link.url}</a>
-						</div>
+						<h3>{link.label}</h3>
+						<a href={link.url} class="url">{link.url}</a>
+						<span aria-label="number of clicks" class="clicks">
+							<Eye size={18} />
+							{link.click_count}
+						</span>
+
 						<form method="POST" action="?/delete" use:enhance>
 							<input type="hidden" name="id" value={link.id} />
 							<button
@@ -110,12 +113,25 @@
 		background-color: var(--secondary-bg-color);
 		padding: 0.75rem;
 		border-radius: 0.5rem;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		flex-wrap: wrap;
+		display: grid;
+		grid-template-rows: repeat(3, 1fr);
+		grid-template-columns: 1fr auto;
 		gap: 0.25rem;
 		overflow: hidden;
+
+		form {
+			grid-column: 2;
+			grid-row: 1 / -1;
+			align-self: center;
+		}
+	}
+
+	.clicks {
+		display: flex;
+		align-items: center;
+		gap: 0.25rem;
+		font-size: 0.875rem;
+		color: var(--secondary-font-color);
 	}
 
 	.link:has(.delete-button:is(:focus-visible, :hover)) {

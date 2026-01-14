@@ -8,6 +8,7 @@ export const load: PageServerLoad = async (event) => {
 
 	const sql = `
     SELECT
+        l.id, 
         l.url,
         l.label
     FROM
@@ -22,7 +23,10 @@ export const load: PageServerLoad = async (event) => {
         l.position
     `
 
-	const { rows: links, err } = await query<{ url: string; label: string }>(sql, [name])
+	const { rows: links, err } = await query<{ id: number; url: string; label: string }>(
+		sql,
+		[name],
+	)
 
 	if (err) {
 		error(500, 'Internal Server Error')
