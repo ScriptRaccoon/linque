@@ -58,9 +58,7 @@
 					<div class="link">
 						<div>
 							<h3>{link.label}</h3>
-							<span class="url">
-								{link.url}
-							</span>
+							<a href={link.url} class="url">{link.url}</a>
 						</div>
 						<form method="POST" action="?/delete" use:enhance>
 							<input type="hidden" name="id" value={link.id} />
