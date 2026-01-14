@@ -128,7 +128,7 @@ export const actions: Actions = {
 		}
 
 		const form = await event.request.formData()
-		const link_id = parseInt(form.get('id') as string)
+		const link_id = form.get('id') as string
 
 		const { err } = await query('DELETE FROM links WHERE user_id = ? AND id = ?', [
 			user.id,
