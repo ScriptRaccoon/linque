@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms'
-	import { ArrowDownUp, X } from 'lucide-svelte'
+	import { ArrowDownUp, Link2, X } from 'lucide-svelte'
 
 	let { data, form } = $props()
 </script>
@@ -12,9 +12,10 @@
 <h1>Manage Links</h1>
 
 {#if data.links.length}
-	<p>
+	<div class="public-link-container">
+		<Link2 size={20} />
 		<a href="@{data.displayname}">Public link page</a>
-	</p>
+	</div>
 {/if}
 
 <section>
@@ -92,6 +93,11 @@
 </section>
 
 <style>
+	.public-link-container {
+		margin-top: -0.6rem;
+		margin-bottom: 1.5rem;
+	}
+
 	.links {
 		display: grid;
 		gap: 0.5rem;
