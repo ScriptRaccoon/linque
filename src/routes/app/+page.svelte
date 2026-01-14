@@ -13,7 +13,7 @@
 
 {#if data.links.length}
 	<p>
-		<a href="/list/{data.displayname}">Public link page</a>
+		<a href="@{data.displayname}">Public link page</a>
 	</p>
 {/if}
 

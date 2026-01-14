@@ -3,7 +3,8 @@ import { error } from '@sveltejs/kit'
 import type { PageServerLoad } from './$types'
 
 export const load: PageServerLoad = async (event) => {
-	const name = event.params.name
+	const slug = event.params.slug
+	const name = slug.substring(1)
 
 	const sql = `
     SELECT
