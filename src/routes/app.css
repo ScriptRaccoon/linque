@@ -67,6 +67,12 @@ section + section {
 	margin-top: 2rem;
 }
 
+/* ICONS */
+
+.lucide {
+	vertical-align: text-bottom;
+}
+
 /* MESSAGES */
 
 .error {

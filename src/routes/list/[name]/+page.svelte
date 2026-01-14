@@ -10,7 +10,9 @@
 
 <div class="links">
 	{#each data.links as link}
-		<a class="link" href={link.url}>{link.label}</a>
+		<a class="link" href={link.url}>
+			{link.label}
+		</a>
 	{/each}
 </div>
 

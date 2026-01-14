@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms'
+	import { ArrowDownUp, X } from 'lucide-svelte'
 
 	let { data, form } = $props()
 </script>
@@ -52,9 +53,9 @@
 				</div>
 				<form method="POST" action="?/delete" use:enhance>
 					<input type="hidden" name="id" value={link.id} />
-					<div class="form-actions">
-						<button>Delete</button>
-					</div>
+					<button aria-label="Delete">
+						<X />
+					</button>
 				</form>
 			</div>
 
@@ -63,7 +64,9 @@
 				<form method="POST" action="?/swap" use:enhance class="swap-form">
 					<input type="hidden" name="position_a" value={link.position} />
 					<input type="hidden" name="position_b" value={next_link.position} />
-					<button>swap</button>
+					<button aria-label="swap">
+						<ArrowDownUp size={20} />
+					</button>
 				</form>
 			{/if}
 		{/each}
