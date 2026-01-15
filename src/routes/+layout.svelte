@@ -14,6 +14,6 @@
 	<Nav />
 {/if}
 
-<div class="container">
+<div class="container" class:mb-2={!page.data.linkpage}>
 	{@render children()}
 </div>

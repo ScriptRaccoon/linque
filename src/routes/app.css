@@ -181,3 +181,9 @@ textarea {
 .accent-button:is(:hover, :focus-visible) {
 	color: var(--accent-color);
 }
+
+/* UTILS */
+
+.mb-2 {
+	margin-bottom: 2rem;
+}
