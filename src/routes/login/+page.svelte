@@ -8,7 +8,9 @@
 	<title>Linque - Login</title>
 </svelte:head>
 
-<h1>Login</h1>
+<header>
+	<h1>Login</h1>
+</header>
 
 <form method="POST" use:enhance>
 	<div class="form-group">

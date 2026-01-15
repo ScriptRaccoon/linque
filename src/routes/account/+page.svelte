@@ -126,12 +126,7 @@
 </section>
 
 <style>
-	h1 {
-		margin: 0;
-	}
-
 	header {
-		margin-bottom: 1rem;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;

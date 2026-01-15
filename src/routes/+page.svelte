@@ -2,7 +2,9 @@
 	<title>Linque</title>
 </svelte:head>
 
-<h1>Linque</h1>
+<header>
+	<h1>Linque</h1>
+</header>
 
 <main>
 	<p>
