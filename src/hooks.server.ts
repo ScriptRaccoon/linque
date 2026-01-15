@@ -9,7 +9,9 @@ export const handle: Handle = async ({ event, resolve }) => {
 		event.url.pathname.startsWith('/account') || event.url.pathname.startsWith('/links')
 
 	const requires_guest =
-		event.url.pathname.startsWith('/login') || event.url.pathname.startsWith('/register')
+		event.url.pathname.startsWith('/login') ||
+		event.url.pathname.startsWith('/register') ||
+		event.url.pathname === '/'
 
 	if (requires_auth && !event.locals.user) {
 		redirect(307, '/login')
