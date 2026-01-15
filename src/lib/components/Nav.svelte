@@ -11,9 +11,6 @@
 			<li>
 				<a href="/account">Account</a>
 			</li>
-			<li>
-				<a href="/logout" data-sveltekit-preload-data="off">Logout</a>
-			</li>
 		{:else}
 			<li>
 				<a href="/">Home</a>

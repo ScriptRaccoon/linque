@@ -14,7 +14,10 @@
 	<title>Linque - Account</title>
 </svelte:head>
 
-<h1>Account</h1>
+<header>
+	<h1>Account</h1>
+	<a href="/logout" data-sveltekit-preload-data="off">Logout</a>
+</header>
 
 <section>
 	<h2>Username</h2>
@@ -121,3 +124,16 @@
 		<p class="error">{form.error}</p>
 	{/if}
 </section>
+
+<style>
+	h1 {
+		margin: 0;
+	}
+
+	header {
+		margin-bottom: 1rem;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+</style>
