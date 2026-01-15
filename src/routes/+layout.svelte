@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { page } from '$app/state'
+	import Nav from '$lib/components/Nav.svelte'
 	import './app.css'
 
 	let { children } = $props()
@@ -8,4 +10,10 @@
 	<title>Linque</title>
 </svelte:head>
 
-{@render children()}
+{#if !page.data.linkpage}
+	<Nav />
+{/if}
+
+<div class="container">
+	{@render children()}
+</div>

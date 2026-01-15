@@ -39,5 +39,5 @@ export const load: PageServerLoad = async (event) => {
 
 	const token = generate_token()
 
-	return { links, name, token }
+	return { links, name, token, linkpage: true }
 }

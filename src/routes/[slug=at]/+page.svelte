@@ -6,7 +6,7 @@
 	<title>Linque by {data.name}</title>
 </svelte:head>
 
-<div class="page container">
+<div class="page">
 	<header>
 		<h1>Linque by {data.name}</h1>
 	</header>

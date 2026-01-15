@@ -8,6 +8,7 @@ declare global {
 		}
 		interface PageData {
 			user?: { id: number }
+			linkpage?: boolean
 		}
 		// interface PageState {}
 		// interface Platform {}
