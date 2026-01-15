@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { enhance } from '$app/forms'
 	import { Eye, X } from 'lucide-svelte'
+	import DeleteDialog from './DeleteDialog.svelte'
 
 	type Props = {
 		id: string
@@ -10,6 +10,8 @@
 	}
 
 	let { id, label, url, click_count }: Props = $props()
+
+	let show_dialog = $state(false)
 </script>
 
 <div class="link">
@@ -20,13 +22,18 @@
 		{click_count}
 	</span>
 
-	<form method="POST" action="?/delete" use:enhance>
-		<input type="hidden" name="id" value={id} />
-		<button aria-label="delete {label}" class="accent-button delete-button">
-			<X />
-		</button>
-	</form>
+	<button
+		aria-label="delete {label}"
+		class="accent-button"
+		onclick={() => (show_dialog = true)}
+	>
+		<X />
+	</button>
 </div>
+
+{#if show_dialog}
+	<DeleteDialog bind:show_dialog {id} />
+{/if}
 
 <style>
 	.link {
@@ -37,8 +44,9 @@
 		grid-template-rows: repeat(3, 1fr);
 		grid-template-columns: 1fr auto;
 		gap: 0.25rem;
+		position: relative;
 
-		form {
+		button {
 			grid-column: 2;
 			grid-row: 1 / -1;
 			align-self: center;
@@ -51,10 +59,6 @@
 		gap: 0.25rem;
 		font-size: 0.875rem;
 		color: var(--secondary-font-color);
-	}
-
-	.link:has(.delete-button:is(:focus-visible, :hover)) {
-		outline: 2px dashed var(--outline-color);
 	}
 
 	.url {
