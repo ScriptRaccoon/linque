@@ -1,6 +1,7 @@
 import type { RequestEvent } from '@sveltejs/kit'
 import jwt from 'jsonwebtoken'
 import { JWT_SECRET } from '$env/static/private'
+import type { User } from '$lib/types'
 
 const COOKIE_AUTH_TOKEN = 'auth_token'
 
@@ -16,13 +17,12 @@ export function authenticate(event: RequestEvent): void {
 	const token = event.cookies.get(COOKIE_AUTH_TOKEN)
 	if (!token) return
 	try {
-		const payload = jwt.verify(token, JWT_SECRET) as { user_id: number }
-		event.locals.user = { id: payload.user_id }
+		event.locals.user = jwt.verify(token, JWT_SECRET) as User
 	} catch (_) {}
 }
 
-export function set_auth_cookie(event: RequestEvent, user_id: number): void {
-	const token = jwt.sign({ user_id }, JWT_SECRET, { expiresIn: '1w' })
+export function set_auth_cookie(event: RequestEvent, user: User): void {
+	const token = jwt.sign(user, JWT_SECRET, { expiresIn: '1w' })
 	event.cookies.set(COOKIE_AUTH_TOKEN, token, COOKIE_OPTIONS)
 }
 

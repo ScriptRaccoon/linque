@@ -33,10 +33,11 @@ export const actions: Actions = {
 			return fail(400, { error: 'Username and password required' })
 		}
 
-		const { rows, err } = await query<{ id: number; password_hash: string }>(
-			'SELECT id, password_hash FROM users WHERE username = ?',
-			[username],
-		)
+		const { rows, err } = await query<{
+			id: number
+			displayname: string
+			password_hash: string
+		}>('SELECT id, displayname, password_hash FROM users WHERE username = ?', [username])
 
 		if (err) {
 			return fail(500, { error: 'Internal Server Error' })
@@ -46,9 +47,9 @@ export const actions: Actions = {
 			return fail(401, { error: 'Invalid credentials' })
 		}
 
-		const { id: user_id, password_hash } = rows[0]
+		const user = rows[0]
 
-		const is_correct = await bcrypt.compare(password, password_hash)
+		const is_correct = await bcrypt.compare(password, user.password_hash)
 
 		if (!is_correct) {
 			return fail(401, { error: 'Invalid credentials' })
@@ -56,7 +57,7 @@ export const actions: Actions = {
 
 		limiter.clear(ip)
 
-		set_auth_cookie(event, user_id)
+		set_auth_cookie(event, { id: user.id, username, displayname: user.displayname })
 
 		return redirect(303, '/links')
 	},

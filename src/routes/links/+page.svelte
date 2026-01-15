@@ -19,7 +19,7 @@
 	{#if data.links.length}
 		<div class="public-link-container">
 			<Link2 size={20} />
-			<a href="@{data.displayname}">Public link page</a>
+			<a href="@{data.user?.displayname}">Public link page</a>
 		</div>
 	{/if}
 </header>

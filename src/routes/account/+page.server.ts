@@ -2,29 +2,9 @@ import { error, fail, redirect, type Actions } from '@sveltejs/kit'
 import bcrypt from 'bcrypt'
 import { query } from '$lib/server/db'
 import type { PageServerLoad } from './$types'
-import { delete_auth_cookie } from '$lib/server/auth'
+import { delete_auth_cookie, set_auth_cookie } from '$lib/server/auth'
 import * as v from 'valibot'
 import { displayname_schema, password_schema, username_schema } from '$lib/server/schemas'
-
-export const load: PageServerLoad = async (event) => {
-	const user = event.locals.user
-	if (!user) {
-		error(401, 'Unauthorized')
-	}
-
-	const { rows, err } = await query<{ username: string; displayname: string }>(
-		'SELECT username, displayname FROM users WHERE id = ?',
-		[user.id],
-	)
-
-	if (err || !rows.length) {
-		error(500, 'Internal Server Error')
-	}
-
-	const { username, displayname } = rows[0]
-
-	return { username, displayname }
-}
 
 export const actions: Actions = {
 	username: async (event) => {
@@ -63,6 +43,8 @@ export const actions: Actions = {
 				error: 'Internal Server Error',
 			})
 		}
+
+		set_auth_cookie(event, { id: user.id, username, displayname: user.displayname })
 
 		return {
 			type: 'username',
@@ -106,6 +88,8 @@ export const actions: Actions = {
 				error: 'Internal Server Error',
 			})
 		}
+
+		set_auth_cookie(event, { id: user.id, username: user.username, displayname })
 
 		return {
 			type: 'displayname',

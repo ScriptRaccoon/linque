@@ -5,3 +5,9 @@ export type LinkItem = {
 	position: number
 	click_count: number
 }
+
+export type User = {
+	id: number
+	username: string
+	displayname: string
+}
