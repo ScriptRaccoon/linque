@@ -1,12 +1,14 @@
 <script lang="ts">
 	import { enhance } from '$app/forms'
+	import { open_dialog } from '$lib/dialog.svelte.js'
 
 	let { data, form } = $props()
 
-	let confirm_deletion = $state(false)
-
-	function handle_confirm_click() {
-		confirm_deletion = true
+	function open_delete_account_dialog() {
+		open_dialog({
+			question: 'Do you want to delete your account? All data will be permanently lost.',
+			action: '/account?/delete',
+		})
 	}
 </script>
 
@@ -112,19 +114,9 @@
 <section>
 	<h2>Delete account</h2>
 
-	{#if confirm_deletion}
-		<p>All your data will be lost. This action cannot be undone.</p>
-
-		<form method="POST" action="?/delete" use:enhance>
-			<div class="form-actions">
-				<button class="danger">Confirm deletion</button>
-			</div>
-		</form>
-	{:else}
-		<div class="form-actions">
-			<button class="danger" onclick={handle_confirm_click}>Delete</button>
-		</div>
-	{/if}
+	<div class="form-actions">
+		<button class="danger" onclick={open_delete_account_dialog}>Delete</button>
+	</div>
 
 	{#if form?.error && form.type === 'delete'}
 		<p class="error">{form.error}</p>
