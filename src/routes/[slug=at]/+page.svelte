@@ -1,19 +1,35 @@
 <script lang="ts">
-	import { page } from '$app/state'
-	import { List } from 'lucide-svelte'
+	import { Copy, CopyCheck, List } from 'lucide-svelte'
 
 	let { data } = $props()
+
+	let copied = $state(false)
+
+	async function copy_page_url() {
+		copied = true
+		await navigator.clipboard.writeText(data.page_url)
+		setTimeout(() => {
+			copied = false
+		}, 2000)
+	}
 </script>
 
 <svelte:head>
 	<title>Linque by {data.name}</title>
 </svelte:head>
 
-{#if page.url.searchParams.get('preview') === 'true'}
+{#if data.is_preview}
 	<menu>
 		<a href="/links" class="edit-link" aria-label="edit">
-			<List size={24} />
+			<List />
 		</a>
+		<button aria-label="copy page URL" onclick={copy_page_url}>
+			{#if copied}
+				<CopyCheck />
+			{:else}
+				<Copy />
+			{/if}
+		</button>
 	</menu>
 {/if}
 
@@ -73,7 +89,8 @@
 	menu {
 		display: flex;
 		justify-content: center;
-		gap: 0.25rem;
-		margin-top: 1rem;
+		gap: 1rem;
+		padding-block: 1rem;
+		border-bottom: 1px solid var(--outline-color);
 	}
 </style>

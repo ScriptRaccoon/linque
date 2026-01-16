@@ -33,5 +33,9 @@ export const load: PageServerLoad = async (event) => {
 
 	const token = generate_token()
 
-	return { links, name, token, linkpage: true }
+	const is_preview = event.url.searchParams.get('preview') === 'true'
+
+	const page_url = event.url.origin + event.url.pathname
+
+	return { links, name, token, linkpage: true, is_preview, page_url }
 }
