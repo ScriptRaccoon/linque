@@ -18,7 +18,7 @@
 
 <header>
 	<h1>Account</h1>
-	<a href="/logout" data-sveltekit-preload-data="off">Logout</a>
+	<a href="/logout" class="button" data-sveltekit-preload-data="off">Logout</a>
 </header>
 
 <section>

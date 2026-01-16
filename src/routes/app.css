@@ -19,7 +19,6 @@
 	--outline-color: #444;
 	--input-bg-color: #202020;
 	--input-focus-color: #252525;
-	--accent-color: yellow;
 }
 
 body {
@@ -40,21 +39,11 @@ body {
 	line-height: 1.5;
 }
 
-.container {
-	max-width: 600px;
-	margin-inline: auto;
-	padding-inline: 1rem;
-}
-
 /* ELEMENTS */
 
 a {
 	color: inherit;
 	text-underline-offset: 2px;
-}
-
-a:is(:hover, :focus-visible) {
-	color: var(--accent-color);
 }
 
 h1,
@@ -133,6 +122,7 @@ textarea {
 		display: block;
 		margin-bottom: 0.1rem;
 		font-size: 0.875rem;
+		color: var(--secondary-font-color);
 	}
 
 	input,
@@ -169,21 +159,21 @@ textarea {
 	}
 }
 
-.accent-button {
+.button {
+	background-color: var(--button-color);
+	padding: 0.2rem 0.75rem;
+	border-radius: 0.2rem;
+}
+
+a.button {
+	text-decoration: none;
+}
+
+.icon-button {
 	border-radius: 100vw;
 	width: 2.25rem;
 	height: 2.25rem;
 	display: inline-flex;
 	justify-content: center;
 	align-items: center;
-}
-
-.accent-button:is(:hover, :focus-visible) {
-	color: var(--accent-color);
-}
-
-/* UTILS */
-
-.mb-2 {
-	margin-bottom: 2rem;
 }

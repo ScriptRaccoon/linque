@@ -30,7 +30,7 @@
 
 	<button
 		aria-label="delete {label}"
-		class="accent-button"
+		class="icon-button"
 		onclick={() => show_delete_dialog()}
 	>
 		<X />
@@ -47,6 +47,7 @@
 		grid-template-columns: 1fr auto;
 		gap: 0.25rem;
 		position: relative;
+		box-shadow: 0 0 1rem #0006;
 
 		button {
 			grid-column: 2;

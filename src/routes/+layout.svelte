@@ -35,8 +35,17 @@
 	<Nav />
 {/if}
 
-<div class="container" class:mb-2={!page.data.linkpage}>
+<div class="container">
 	{@render children()}
 </div>
 
 <Dialog />
+
+<style>
+	.container {
+		max-width: 600px;
+		margin-inline: auto;
+		padding-inline: 1rem;
+		margin-bottom: 2rem;
+	}
+</style>

@@ -14,7 +14,7 @@
 <form method="POST" action="?/swap" use:enhance class="swap-form">
 	<input type="hidden" name="position_a" value={link.position} />
 	<input type="hidden" name="position_b" value={next_link.position} />
-	<button aria-label="swap {link.label} with {next_link.label}" class="accent-button">
+	<button aria-label="swap {link.label} with {next_link.label}" class="icon-button">
 		<ArrowDownUp size={20} />
 	</button>
 </form>
