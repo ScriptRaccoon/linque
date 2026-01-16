@@ -33,7 +33,7 @@
 				type="text"
 				name="displayname"
 				id="displayname"
-				value={data.user?.displayname}
+				value={data.displayname}
 				required
 			/>
 		</div>
@@ -85,13 +85,7 @@
 	<form method="POST" action="?/username" use:enhance>
 		<div class="form-group">
 			<label for="username">New username</label>
-			<input
-				type="text"
-				name="username"
-				id="username"
-				value={data.user?.username}
-				required
-			/>
+			<input type="text" name="username" id="username" value={data.username} required />
 		</div>
 
 		<div class="form-actions">

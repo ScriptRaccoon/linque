@@ -8,7 +8,6 @@ import { set_auth_cookie } from '$lib/server/auth'
 export const load: PageServerLoad = (event) => {
 	const LOGIN_MESSAGES: Record<string, undefined | string> = {
 		logout: 'You have been logged out.',
-		register: 'Registration successful. You can now log in.',
 	}
 
 	const from = event.url.searchParams.get('from') ?? ''
@@ -35,9 +34,13 @@ export const actions: Actions = {
 
 		const { rows, err } = await query<{
 			id: number
-			displayname: string
 			password_hash: string
-		}>('SELECT id, displayname, password_hash FROM users WHERE username = ?', [username])
+			displayname: string
+			profile_completed: 0 | 1
+		}>(
+			'SELECT id, password_hash, displayname, profile_completed FROM users WHERE username = ?',
+			[username],
+		)
 
 		if (err) {
 			return fail(500, { error: 'Internal Server Error' })
@@ -47,9 +50,9 @@ export const actions: Actions = {
 			return fail(401, { error: 'Invalid credentials' })
 		}
 
-		const user = rows[0]
+		const { id, password_hash, displayname, profile_completed } = rows[0]
 
-		const is_correct = await bcrypt.compare(password, user.password_hash)
+		const is_correct = await bcrypt.compare(password, password_hash)
 
 		if (!is_correct) {
 			return fail(401, { error: 'Invalid credentials' })
@@ -57,8 +60,12 @@ export const actions: Actions = {
 
 		limiter.clear(ip)
 
-		set_auth_cookie(event, { id: user.id, username, displayname: user.displayname })
+		set_auth_cookie(event, { id, displayname, profile_completed })
 
-		return redirect(303, '/links')
+		if (profile_completed) {
+			redirect(303, '/links')
+		} else {
+			redirect(303, '/register/complete')
+		}
 	},
 }

@@ -17,18 +17,19 @@ export const load: PageServerLoad = async (event) => {
 		error(401, 'Unauthorized')
 	}
 
-	const { rows, err } = await query<{ bio: string | null }>(
-		'SELECT bio FROM users WHERE id = ?',
-		[user.id],
-	)
+	const { rows, err } = await query<{
+		username: string
+		displayname: string | null
+		bio: string | null
+	}>('SELECT username, displayname, bio FROM users WHERE id = ?', [user.id])
 
 	if (err || !rows.length) {
 		error(500, 'Internal Server Error')
 	}
 
-	const bio = rows[0].bio
+	const { username, bio, displayname } = rows[0]
 
-	return { bio }
+	return { username, bio, displayname }
 }
 
 export const actions: Actions = {
@@ -68,8 +69,6 @@ export const actions: Actions = {
 				error: 'Internal Server Error',
 			})
 		}
-
-		set_auth_cookie(event, { id: user.id, username, displayname: user.displayname })
 
 		return {
 			type: 'username',
@@ -114,7 +113,7 @@ export const actions: Actions = {
 			})
 		}
 
-		set_auth_cookie(event, { id: user.id, username: user.username, displayname })
+		set_auth_cookie(event, { id: user.id, displayname, profile_completed: 1 })
 
 		return {
 			type: 'displayname',

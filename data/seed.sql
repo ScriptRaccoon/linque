@@ -2,9 +2,10 @@ CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY,
     username TEXT NOT NULL UNIQUE,
     password_hash TEXT NOT NULL,
+    displayname TEXT NOT NULL UNIQUE,
     bio TEXT,
-    created_at TEXT NOT NULL DEFAULT current_timestamp,
-    displayname TEXT NOT NULL UNIQUE
+    profile_completed INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT NOT NULL DEFAULT current_timestamp
 );
 
 CREATE INDEX IF NOT EXISTS idx_users_displayname ON users (displayname);

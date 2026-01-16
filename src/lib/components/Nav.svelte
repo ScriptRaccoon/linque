@@ -6,14 +6,14 @@
 
 <nav>
 	<ul>
-		{#if page.data.user}
+		{#if page.data.user?.profile_completed}
 			<li>
 				<NavLink path="/links" label="Links">
 					<List size={20} />
 				</NavLink>
 			</li>
 			<li>
-				<NavLink path="@{page.data.user?.displayname}?preview=true" label="Preview">
+				<NavLink path="@{page.data.user.displayname}?preview=true" label="Preview">
 					<Eye size={20} />
 				</NavLink>
 			</li>
@@ -34,7 +34,7 @@
 				</NavLink>
 			</li>
 			<li>
-				<NavLink path="/register" label="Register">
+				<NavLink path="/register/start" label="Register">
 					<UserPlus size={20} />
 				</NavLink>
 			</li>
