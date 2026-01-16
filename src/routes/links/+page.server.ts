@@ -106,7 +106,7 @@ export const actions: Actions = {
 
 		if (!user) {
 			return fail(401, {
-				type: 'edit',
+				type: 'delete',
 				error: 'Unauthorized',
 			})
 		}
@@ -121,12 +121,12 @@ export const actions: Actions = {
 
 		if (err) {
 			return fail(500, {
-				type: 'edit',
+				type: 'delete',
 				error: 'Internal Server Error',
 			})
 		}
 
-		return { type: 'edit', message: 'Link has been deleted' }
+		return { type: 'delete', message: 'Link has been deleted' }
 	},
 
 	swap: async (event) => {

@@ -1,30 +1,30 @@
 <script lang="ts">
 	import { enhance } from '$app/forms'
-
-	type Props = {
-		id: string
-		show_dialog: boolean
-	}
-
-	let { id, show_dialog = $bindable() }: Props = $props()
+	import { close_dialog, dialog_state } from '$lib/dialog.svelte'
 
 	let dialog_element = $state<HTMLDialogElement | null>(null)
 
 	$effect(() => {
-		if (show_dialog) {
+		if (dialog_state.open) {
 			dialog_element?.showModal()
+		} else {
+			dialog_element?.close()
 		}
 	})
 </script>
 
-<dialog bind:this={dialog_element}>
-	<div class="question">Do you want to delete this link?</div>
+<dialog bind:this={dialog_element} onclose={close_dialog}>
+	<div class="question">
+		{dialog_state.question}
+	</div>
 
-	<form method="POST" action="/links?/delete" use:enhance>
-		<input type="hidden" name="id" value={id} />
+	<form method="POST" action={dialog_state.action} use:enhance>
+		{#if dialog_state.id}
+			<input type="hidden" name="id" value={dialog_state.id} />
+		{/if}
 		<div class="form-actions">
 			<button class="danger">Yes</button>
-			<button type="button" onclick={() => (show_dialog = false)}> Cancel </button>
+			<button type="button" onclick={close_dialog}>Cancel</button>
 		</div>
 	</form>
 </dialog>

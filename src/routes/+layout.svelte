@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state'
+	import Dialog from '$lib/components/Dialog.svelte'
 	import Nav from '$lib/components/Nav.svelte'
 	import './app.css'
 
@@ -17,3 +18,5 @@
 <div class="container" class:mb-2={!page.data.linkpage}>
 	{@render children()}
 </div>
+
+<Dialog />

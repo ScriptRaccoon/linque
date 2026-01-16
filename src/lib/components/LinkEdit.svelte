@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Eye, X } from 'lucide-svelte'
-	import DeleteDialog from './DeleteDialog.svelte'
+	import { open_dialog } from '$lib/dialog.svelte'
 
 	type Props = {
 		id: string
@@ -11,7 +11,13 @@
 
 	let { id, label, url, click_count }: Props = $props()
 
-	let show_dialog = $state(false)
+	function show_delete_dialog() {
+		open_dialog({
+			id,
+			question: 'Do you want to delete this link?',
+			action: '/links?/delete',
+		})
+	}
 </script>
 
 <div class="link">
@@ -25,15 +31,11 @@
 	<button
 		aria-label="delete {label}"
 		class="accent-button"
-		onclick={() => (show_dialog = true)}
+		onclick={() => show_delete_dialog()}
 	>
 		<X />
 	</button>
 </div>
-
-{#if show_dialog}
-	<DeleteDialog bind:show_dialog {id} />
-{/if}
 
 <style>
 	.link {

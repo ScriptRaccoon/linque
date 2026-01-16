@@ -2,11 +2,18 @@
 	import { enhance } from '$app/forms'
 	import LinkEdit from '$lib/components/LinkEdit.svelte'
 	import LinkSwapper from '$lib/components/LinkSwapper.svelte'
+	import { close_dialog } from '$lib/dialog.svelte.js'
 	import { Link2 } from 'lucide-svelte'
 	import { flip } from 'svelte/animate'
 	import { cubicOut } from 'svelte/easing'
 
 	let { data, form } = $props()
+
+	$effect(() => {
+		if (form?.type === 'delete') {
+			close_dialog()
+		}
+	})
 </script>
 
 <svelte:head>
@@ -72,12 +79,14 @@
 		<p>No links yet</p>
 	{/if}
 
-	{#if form?.type === 'edit' && form.error}
-		<p class="error">{form.error}</p>
-	{/if}
+	{#if form && ['edit', 'delete'].includes(form.type)}
+		{#if form.error}
+			<p class="error">{form.error}</p>
+		{/if}
 
-	{#if form?.type === 'edit' && form?.message}
-		<p class="message">{form.message}</p>
+		{#if form?.message}
+			<p class="message">{form.message}</p>
+		{/if}
 	{/if}
 </section>
 
