@@ -15,7 +15,7 @@
 </script>
 
 <svelte:head>
-	<title>Linque by {data.name}</title>
+	<title>Linque by {data.displayname}</title>
 </svelte:head>
 
 {#if data.is_preview}
@@ -34,7 +34,11 @@
 {/if}
 
 <header>
-	<h1>Linque by {data.name}</h1>
+	<h1>Linque by {data.displayname}</h1>
+
+	{#if data.bio}
+		<div class="bio">{data.bio}</div>
+	{/if}
 </header>
 
 {#if data.links.length}
@@ -56,10 +60,11 @@
 <style>
 	header {
 		padding-block: 1.25rem;
+		text-align: center;
 	}
 
-	h1 {
-		text-align: center;
+	.bio {
+		color: var(--secondary-font-color);
 	}
 
 	.links {

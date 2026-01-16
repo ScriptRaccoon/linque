@@ -5,11 +5,11 @@ import { generate_token } from '$lib/server/tokens'
 
 export const load: PageServerLoad = async (event) => {
 	const slug = event.params.slug
-	const name = slug.substring(1)
+	const displayname = slug.substring(1)
 
-	const { rows: users, err: err_user } = await query<{ id: number }>(
-		'SELECT id FROM users WHERE displayname = ?',
-		[name],
+	const { rows: users, err: err_user } = await query<{ id: number; bio: string | null }>(
+		'SELECT id, bio FROM users WHERE displayname = ?',
+		[displayname],
 	)
 
 	if (err_user) {
@@ -20,11 +20,11 @@ export const load: PageServerLoad = async (event) => {
 		error(404, 'Not Found')
 	}
 
-	const user_id = users[0].id
+	const user = users[0]
 
 	const { rows: links, err } = await query<{ id: string; url: string; label: string }>(
 		'SELECT id, url, label FROM links WHERE user_id = ? ORDER BY position',
-		[user_id],
+		[user.id],
 	)
 
 	if (err) {
@@ -37,5 +37,13 @@ export const load: PageServerLoad = async (event) => {
 
 	const page_url = event.url.origin + event.url.pathname
 
-	return { links, name, token, linkpage: true, is_preview, page_url }
+	return {
+		displayname,
+		bio: user.bio,
+		links,
+		token,
+		linkpage: true,
+		is_preview,
+		page_url,
+	}
 }

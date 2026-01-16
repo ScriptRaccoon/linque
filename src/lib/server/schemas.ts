@@ -29,6 +29,13 @@ export const displayname_schema = v.pipe(
 	),
 )
 
+export const bio_schema = v.nullable(
+	v.pipe(
+		v.string('Bio must be a string'),
+		v.maxLength(160, 'Bio must be at most 160 characters'),
+	),
+)
+
 export const label_schema = v.pipe(
 	v.string('Label must be a string'),
 	v.nonEmpty('Label required'),

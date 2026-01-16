@@ -1,10 +1,35 @@
 import { error, fail, redirect, type Actions } from '@sveltejs/kit'
 import bcrypt from 'bcrypt'
 import { query } from '$lib/server/db'
-import type { PageServerLoad } from './$types'
 import { delete_auth_cookie, set_auth_cookie } from '$lib/server/auth'
 import * as v from 'valibot'
-import { displayname_schema, password_schema, username_schema } from '$lib/server/schemas'
+import {
+	bio_schema,
+	displayname_schema,
+	password_schema,
+	username_schema,
+} from '$lib/server/schemas'
+import type { PageServerLoad } from './$types'
+
+export const load: PageServerLoad = async (event) => {
+	const user = event.locals.user
+	if (!user) {
+		error(401, 'Unauthorized')
+	}
+
+	const { rows, err } = await query<{ bio: string | null }>(
+		'SELECT bio FROM users WHERE id = ?',
+		[user.id],
+	)
+
+	if (err || !rows.length) {
+		error(500, 'Internal Server Error')
+	}
+
+	const bio = rows[0].bio
+
+	return { bio }
+}
 
 export const actions: Actions = {
 	username: async (event) => {
@@ -178,5 +203,38 @@ export const actions: Actions = {
 		delete_auth_cookie(event)
 
 		return redirect(302, '/')
+	},
+
+	bio: async (event) => {
+		const user = event.locals.user
+		if (!user) {
+			error(401, 'Unauthorized')
+		}
+
+		const form = await event.request.formData()
+		const bio = form.get('bio') as string
+
+		const bio_parsed = v.safeParse(bio_schema, bio)
+
+		if (!bio_parsed.success) {
+			return fail(400, {
+				type: 'bio',
+				error: bio_parsed.issues[0].message,
+			})
+		}
+
+		const { err } = await query('UPDATE users SET bio = ? WHERE id = ?', [bio, user.id])
+
+		if (err) {
+			return fail(500, {
+				type: 'bio',
+				error: 'Internal Server Error',
+			})
+		}
+
+		return {
+			type: 'bio',
+			message: 'Bio name has been updated',
+		}
 	},
 }
