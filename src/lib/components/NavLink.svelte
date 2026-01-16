@@ -5,13 +5,14 @@
 	type Props = {
 		path: string
 		label: string
+		current?: boolean
 		children: Snippet
 	}
 
-	let { path, label, children }: Props = $props()
+	let { path, label, current, children }: Props = $props()
 </script>
 
-<a href={path} aria-current={page.url.pathname == path}>
+<a href={path} aria-current={current === true || page.url.pathname == path}>
 	{@render children()}
 	<span>{label}</span>
 </a>

@@ -13,7 +13,11 @@
 				</NavLink>
 			</li>
 			<li>
-				<NavLink path="@{page.data.user.displayname}?preview=true" label="Preview">
+				<NavLink
+					path="@{page.data.user.displayname}?preview=true"
+					label="Preview"
+					current={page.url.pathname === `/@${page.data.user.displayname}`}
+				>
 					<Eye size={20} />
 				</NavLink>
 			</li>
