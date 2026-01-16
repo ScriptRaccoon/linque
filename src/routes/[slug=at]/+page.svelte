@@ -11,13 +11,17 @@
 		<h1>Linque by {data.name}</h1>
 	</header>
 
-	<main class="links">
-		{#each data.links as link (link.id)}
-			<a href="/go/{link.id}?token={data.token}" class="link">
-				{link.label}
-			</a>
-		{/each}
-	</main>
+	{#if data.links.length}
+		<main class="links">
+			{#each data.links as link (link.id)}
+				<a href="/go/{link.id}?token={data.token}" class="link">
+					{link.label}
+				</a>
+			{/each}
+		</main>
+	{:else}
+		<p class="info">No links yet</p>
+	{/if}
 
 	<footer>
 		<a href="/">Create your own linque</a>
@@ -58,5 +62,9 @@
 		text-align: center;
 		padding-block: 2rem;
 		align-self: end;
+	}
+
+	.info {
+		text-align: center;
 	}
 </style>

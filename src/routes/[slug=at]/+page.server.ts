@@ -7,34 +7,28 @@ export const load: PageServerLoad = async (event) => {
 	const slug = event.params.slug
 	const name = slug.substring(1)
 
-	const sql = `
-    SELECT
-        l.id, 
-        l.url,
-        l.label
-    FROM
-        users u
-    INNER JOIN
-        links l
-    ON
-        l.user_id = u.id
-    WHERE
-        u.displayname = ?
-    ORDER BY
-        l.position
-    `
+	const { rows: users, err: err_user } = await query<{ id: number }>(
+		'SELECT id FROM users WHERE displayname = ?',
+		[name],
+	)
+
+	if (err_user) {
+		error(500, 'Internal Server Error')
+	}
+
+	if (!users.length) {
+		error(404, 'Not Found')
+	}
+
+	const user_id = users[0].id
 
 	const { rows: links, err } = await query<{ id: string; url: string; label: string }>(
-		sql,
-		[name],
+		'SELECT id, url, label FROM links WHERE user_id = ? ORDER BY position',
+		[user_id],
 	)
 
 	if (err) {
 		error(500, 'Internal Server Error')
-	}
-
-	if (!links.length) {
-		error(404, 'Not Found')
 	}
 
 	const token = generate_token()
