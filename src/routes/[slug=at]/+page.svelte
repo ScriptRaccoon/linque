@@ -34,7 +34,7 @@
 {/if}
 
 <header>
-	<h1>Linque by {data.displayname}</h1>
+	<h1>{data.displayname}</h1>
 
 	{#if data.bio}
 		<div class="bio">{data.bio}</div>
