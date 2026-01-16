@@ -16,6 +16,19 @@
 	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 	<meta name="apple-mobile-web-app-title" content="Linque" />
 	<link rel="manifest" href="/site.webmanifest" />
+
+	<meta property="og:title" content="Lingue" />
+	<meta
+		property="og:description"
+		content="Linque is a simple page that shows all of your links in one place."
+	/>
+	<meta
+		name="description"
+		content="Linque is a simple page that shows all of your links in one place."
+	/>
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://linque.netlify.app" />
+	<meta property="og:site_name" content="Linque" />
 </svelte:head>
 
 {#if !page.data.linkpage}
