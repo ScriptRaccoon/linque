@@ -18,7 +18,16 @@
 		{dialog_state.question}
 	</div>
 
-	<form method="POST" action={dialog_state.action} use:enhance>
+	<form
+		method="POST"
+		action={dialog_state.action}
+		use:enhance={() => {
+			return async ({ update }) => {
+				await update()
+				close_dialog()
+			}
+		}}
+	>
 		{#if dialog_state.id}
 			<input type="hidden" name="id" value={dialog_state.id} />
 		{/if}

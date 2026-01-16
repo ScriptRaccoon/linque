@@ -2,18 +2,11 @@
 	import { enhance } from '$app/forms'
 	import LinkEdit from '$lib/components/LinkEdit.svelte'
 	import LinkSwapper from '$lib/components/LinkSwapper.svelte'
-	import { close_dialog } from '$lib/dialog.svelte.js'
 	import { Link2 } from 'lucide-svelte'
 	import { flip } from 'svelte/animate'
 	import { cubicOut } from 'svelte/easing'
 
 	let { data, form } = $props()
-
-	$effect(() => {
-		if (form?.type === 'delete') {
-			close_dialog()
-		}
-	})
 </script>
 
 <svelte:head>
