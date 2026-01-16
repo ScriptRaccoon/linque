@@ -2,32 +2,35 @@ import { authenticate } from '$lib/server/auth'
 import { initialize_db } from '$lib/server/db'
 import { redirect, type Handle, type ServerInit } from '@sveltejs/kit'
 
+const auth_routes = ['/account', '/links', '/register/complete']
+const completed_profile_routes = ['/account', '/links']
+
+const matches_route = (pathname: string, routes: string[]) =>
+	routes.some((route) => pathname.startsWith(route))
+
 export const handle: Handle = async ({ event, resolve }) => {
 	authenticate(event)
 
-	const requires_auth =
-		event.url.pathname.startsWith('/account') ||
-		event.url.pathname.startsWith('/links') ||
-		event.url.pathname.startsWith('/register/complete')
+	const pathname = event.url.pathname
+	const user = event.locals.user
 
-	const requires_completed_profile =
-		event.url.pathname.startsWith('/account') || event.url.pathname.startsWith('/links')
-
-	const requires_guest = event.url.pathname === '/'
-
-	if (requires_auth && !event.locals.user) {
+	if (!user && matches_route(pathname, auth_routes)) {
 		redirect(307, '/login')
-	} else if (
-		event.locals.user &&
-		!event.locals.user.profile_completed &&
-		requires_completed_profile
+	}
+
+	if (
+		user &&
+		!user.profile_completed &&
+		matches_route(pathname, completed_profile_routes)
 	) {
 		redirect(307, '/register/complete')
-	} else if (requires_guest && event.locals.user) {
+	}
+
+	if (user && pathname === '/') {
 		redirect(307, '/links')
 	}
 
-	return await resolve(event)
+	return resolve(event)
 }
 
 export const init: ServerInit = async () => {
