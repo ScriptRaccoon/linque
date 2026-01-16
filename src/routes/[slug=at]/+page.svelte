@@ -1,16 +1,10 @@
 <script lang="ts">
-	import PreviewBar from './PreviewBar.svelte'
-
 	let { data } = $props()
 </script>
 
 <svelte:head>
 	<title>Linque by {data.displayname}</title>
 </svelte:head>
-
-{#if data.is_preview}
-	<PreviewBar page_url={data.page_url} />
-{/if}
 
 <header>
 	<h1>{data.displayname}</h1>

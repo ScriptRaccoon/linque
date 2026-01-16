@@ -33,17 +33,13 @@ export const load: PageServerLoad = async (event) => {
 
 	const token = generate_token()
 
-	const is_preview = event.url.searchParams.get('preview') === 'true'
-
-	const page_url = event.url.origin + event.url.pathname
+	const is_linkpage = !event.url.searchParams.has('preview')
 
 	return {
 		displayname,
 		bio: user.bio,
 		links,
 		token,
-		linkpage: true,
-		is_preview,
-		page_url,
+		is_linkpage,
 	}
 }

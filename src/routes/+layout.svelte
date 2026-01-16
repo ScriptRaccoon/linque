@@ -31,7 +31,7 @@
 	<meta property="og:site_name" content="Linque" />
 </svelte:head>
 
-{#if !page.data.linkpage}
+{#if !page.data.is_linkpage}
 	<Nav />
 {/if}
 
