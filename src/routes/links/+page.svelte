@@ -35,7 +35,7 @@
 
 		<div class="form-group">
 			<label for="url">URL</label>
-			<input type="text" name="url" id="url" required />
+			<input type="text" name="url" id="url" required value="https://" />
 		</div>
 
 		<div class="form-actions">
