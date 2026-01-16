@@ -32,10 +32,18 @@
 	</div>
 
 	<div class="form-actions">
-		<button>Submit</button>
+		<button formaction="?/complete">Submit</button>
+		<button class="danger" formaction="?/cancel">Cancel</button>
 	</div>
 </form>
 
 {#if form?.error}
 	<p class="error">{form.error}</p>
 {/if}
+
+<style>
+	.form-actions {
+		justify-content: space-between;
+		flex-direction: row-reverse;
+	}
+</style>

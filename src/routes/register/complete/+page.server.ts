@@ -1,4 +1,4 @@
-import { set_auth_cookie } from '$lib/server/auth'
+import { delete_auth_cookie, set_auth_cookie } from '$lib/server/auth'
 import { query } from '$lib/server/db'
 import { Rate_Limiter } from '$lib/server/ratelimit'
 import { bio_schema } from '$lib/server/schemas'
@@ -9,7 +9,24 @@ import * as v from 'valibot'
 const limiter = new Rate_Limiter({ limit: 5, window_ms: 60_000 })
 
 export const actions: Actions = {
-	default: async (event) => {
+	cancel: async (event) => {
+		const user = event.locals.user
+		if (!user) {
+			error(401, 'Unauthorized')
+		}
+
+		const { err } = await query('DELETE FROM users WHERE id = ?', [user.id])
+
+		if (err) {
+			return fail(500, { error: 'Internal Server Error' })
+		}
+
+		delete_auth_cookie(event)
+
+		redirect(303, '/')
+	},
+
+	complete: async (event) => {
 		const user = event.locals.user
 
 		if (!user) {
