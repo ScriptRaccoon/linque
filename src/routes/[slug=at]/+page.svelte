@@ -20,7 +20,7 @@
 
 {#if data.is_preview}
 	<menu>
-		<a href="/links" class="edit-link" aria-label="edit">
+		<a href="/links" aria-label="links">
 			<List />
 		</a>
 		<button aria-label="copy page URL" onclick={copy_page_url}>

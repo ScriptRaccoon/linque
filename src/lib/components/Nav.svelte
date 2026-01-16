@@ -8,7 +8,7 @@
 	<ul>
 		{#if page.data.user}
 			<li>
-				<NavLink path="/links" label="Edit">
+				<NavLink path="/links" label="Links">
 					<List size={20} />
 				</NavLink>
 			</li>

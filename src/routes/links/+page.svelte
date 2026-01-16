@@ -9,11 +9,11 @@
 </script>
 
 <svelte:head>
-	<title>Linque - Edit Links</title>
+	<title>Linque - Links</title>
 </svelte:head>
 
 <header>
-	<h1>Edit Links</h1>
+	<h1>Links</h1>
 </header>
 
 <section>
@@ -45,7 +45,7 @@
 </section>
 
 <section>
-	<h2>Links</h2>
+	<h2>Edit Links</h2>
 
 	{#if data.links.length}
 		<div>
