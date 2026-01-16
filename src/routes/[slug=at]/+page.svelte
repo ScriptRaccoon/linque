@@ -1,17 +1,7 @@
 <script lang="ts">
-	import { Copy, CopyCheck, List } from 'lucide-svelte'
+	import PreviewBar from './PreviewBar.svelte'
 
 	let { data } = $props()
-
-	let copied = $state(false)
-
-	async function copy_page_url() {
-		copied = true
-		await navigator.clipboard.writeText(data.page_url)
-		setTimeout(() => {
-			copied = false
-		}, 2000)
-	}
 </script>
 
 <svelte:head>
@@ -19,18 +9,7 @@
 </svelte:head>
 
 {#if data.is_preview}
-	<menu>
-		<a href="/links" aria-label="links">
-			<List />
-		</a>
-		<button aria-label="copy page URL" onclick={copy_page_url}>
-			{#if copied}
-				<CopyCheck />
-			{:else}
-				<Copy />
-			{/if}
-		</button>
-	</menu>
+	<PreviewBar page_url={data.page_url} />
 {/if}
 
 <header>
@@ -89,13 +68,5 @@
 
 	.info {
 		text-align: center;
-	}
-
-	menu {
-		display: flex;
-		justify-content: center;
-		gap: 1rem;
-		padding-block: 1rem;
-		border-bottom: 1px solid var(--outline-color);
 	}
 </style>
