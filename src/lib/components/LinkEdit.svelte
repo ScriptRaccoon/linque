@@ -14,7 +14,7 @@
 	function show_delete_dialog() {
 		open_dialog({
 			id,
-			question: 'Do you want to delete this link?',
+			question: `Do you want to delete the link '${label}'?`,
 			action: '/links?/delete',
 		})
 	}
