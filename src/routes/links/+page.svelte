@@ -2,7 +2,6 @@
 	import { enhance } from '$app/forms'
 	import LinkEdit from '$lib/components/LinkEdit.svelte'
 	import LinkSwapper from '$lib/components/LinkSwapper.svelte'
-	import { Link2 } from 'lucide-svelte'
 	import { flip } from 'svelte/animate'
 	import { cubicOut } from 'svelte/easing'
 
@@ -10,18 +9,11 @@
 </script>
 
 <svelte:head>
-	<title>Linque - Manage Links</title>
+	<title>Linque - Edit Links</title>
 </svelte:head>
 
 <header>
-	<h1>Manage Links</h1>
-
-	{#if data.links.length}
-		<div class="public-link-container">
-			<Link2 size={20} />
-			<a href="@{data.user?.displayname}">Public link page</a>
-		</div>
-	{/if}
+	<h1>Edit Links</h1>
 </header>
 
 <section>
@@ -82,13 +74,3 @@
 		{/if}
 	{/if}
 </section>
-
-<style>
-	header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		flex-wrap: wrap;
-		gap: 0.25rem;
-	}
-</style>

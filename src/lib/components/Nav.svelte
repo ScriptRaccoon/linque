@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state'
-	import { House, List, LogIn, User, UserPlus } from 'lucide-svelte'
+	import { Eye, House, Link2, List, LogIn, User, UserPlus } from 'lucide-svelte'
 	import NavLink from './NavLink.svelte'
 </script>
 
@@ -8,8 +8,13 @@
 	<ul>
 		{#if page.data.user}
 			<li>
-				<NavLink path="/links" label="Links">
+				<NavLink path="/links" label="Edit">
 					<List size={20} />
+				</NavLink>
+			</li>
+			<li>
+				<NavLink path="@{page.data.user?.displayname}" label="Preview">
+					<Eye size={20} />
 				</NavLink>
 			</li>
 			<li>
