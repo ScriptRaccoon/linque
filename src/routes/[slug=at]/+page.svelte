@@ -55,15 +55,18 @@
 		text-align: center;
 		text-decoration: none;
 		font-size: 1.5rem;
-		background-color: var(--secondary-bg-color);
+		background: var(--link-gradient);
 		padding: 0.75rem;
-		border-radius: 0.5rem;
-		overflow: hidden;
+		border-radius: 1rem;
+		box-shadow:
+			0 0 1rem #0006,
+			1px 1px 0.5rem #fff2 inset;
 	}
 
 	footer {
 		text-align: center;
 		padding-block: 3rem 2rem;
+		color: var(--secondary-font-color);
 	}
 
 	.info {
