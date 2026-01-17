@@ -25,8 +25,8 @@ export async function query<T = unknown>(
 		return { rows: res.rows as T[], err: null }
 	} catch (err) {
 		const libsql_error = err as LibsqlError
-		console.error(libsql_error)
-		return { rows: null, err: libsql_error }
+		if (!is_constraint_error(libsql_error)) console.error(libsql_error)
+		return { rows: null, err: err as LibsqlError }
 	}
 }
 
