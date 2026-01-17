@@ -22,23 +22,25 @@ export class RateLimiter {
 		const now = Date.now()
 		const state = this.map.get(ip)
 
-		if (!state) {
-			this.map.set(ip, { count: 1, window_start: now })
-			return true
-		}
+		if (!state) return true
 
 		if (now - state.window_start >= this.window_ms) {
-			state.window_start = now
-			state.count = 1
 			return true
 		}
 
-		if (state.count >= this.limit) {
-			return false
+		return state.count < this.limit
+	}
+
+	record(ip: string): void {
+		const now = Date.now()
+		const state = this.map.get(ip)
+
+		if (!state || now - state.window_start >= this.window_ms) {
+			this.map.set(ip, { count: 1, window_start: now })
+			return
 		}
 
 		state.count++
-		return true
 	}
 
 	clear(ip: string): void {

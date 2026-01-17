@@ -37,5 +37,7 @@ export const GET: RequestHandler = async (event) => {
 
 	const { url } = rows[0]
 
+	limiter.record(ip)
+
 	redirect(302, url)
 }

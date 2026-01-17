@@ -54,6 +54,8 @@ export const actions: Actions = {
 			return fail(500, { error: 'Internal Server Error' })
 		}
 
+		limiter.record(ip)
+
 		const { id } = users[0]
 
 		set_auth_cookie(event, { id, profile_id: null })
