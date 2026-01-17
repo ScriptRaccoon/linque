@@ -16,26 +16,30 @@ export const load: PageServerLoad = async (event) => {
 		error(401, 'Unauthorized')
 	}
 
+	const sql = `
+		SELECT
+			username,
+			displayname,
+			bio
+		FROM
+			users
+		INNER JOIN
+			profiles
+		ON
+			users.id = profiles.user_id
+		WHERE users.id = ?`
+
 	const { rows, err } = await query<{
 		username: string
-	}>('SELECT username FROM users WHERE id = ?', [user.id])
+		displayname: string
+		bio: string
+	}>(sql, [user.id])
 
 	if (err || !rows.length) {
 		error(500, 'Internal Server Error')
 	}
 
-	const { username } = rows[0]
-
-	const { rows: prof, err: err_prof } = await query<{ displayname: string; bio: string }>(
-		'SELECT displayname, bio FROM profiles WHERE user_id = ?',
-		[user.id],
-	)
-
-	if (err_prof || !prof.length) {
-		error(500, 'Internal Server Error')
-	}
-
-	const { displayname, bio } = prof[0]
+	const { username, displayname, bio } = rows[0]
 
 	return { username, displayname, bio }
 }
