@@ -1,14 +1,18 @@
 <script lang="ts">
+	import { invalidateAll } from '$app/navigation'
 	import { page } from '$app/state'
 	import FormWrapper from '$lib/components/FormWrapper.svelte'
 	import LinkEdit from '$lib/components/LinkEdit.svelte'
-	import LinkSwapper from '$lib/components/LinkSwapper.svelte'
+	import { sleep } from '$lib/utils.js'
+	import { ArrowDownUp } from 'lucide-svelte'
 	import { flip } from 'svelte/animate'
 	import { cubicOut } from 'svelte/easing'
 
 	let { data, form } = $props()
 
 	let copied = $state(false)
+
+	const FLIP_DURATION = 200
 
 	async function copy_url() {
 		const page_url = `${page.url.origin}/@${page.data.displayname}`
@@ -17,6 +21,31 @@
 		setTimeout(() => {
 			copied = false
 		}, 1200)
+	}
+
+	let links = $derived(data.links)
+
+	async function swap_links(i: number) {
+		const pos_1 = links[i].position
+		const pos_2 = links[i + 1].position
+
+		// optimistic update
+		links = [...links.slice(0, i), links[i + 1], links[i], ...links.slice(i + 2)]
+
+		await sleep(FLIP_DURATION)
+
+		try {
+			const res = await fetch('/api/links/swap', {
+				method: 'PATCH',
+				body: JSON.stringify({ pos_1, pos_2 }),
+			})
+			if (!res.ok) console.error('Failed to swap')
+		} catch (err) {
+			console.error(err)
+		}
+
+		// refetch links from db
+		invalidateAll()
 	}
 </script>
 
@@ -54,15 +83,23 @@
 <section>
 	<h2>Edit Links</h2>
 
-	{#if data.links.length}
+	{#if links.length}
 		<div>
-			{#each data.links as link, index (link.id)}
-				<div animate:flip={{ duration: 200, easing: cubicOut }}>
+			{#each links as link, index (link.id)}
+				<div animate:flip={{ duration: FLIP_DURATION, easing: cubicOut }}>
 					<LinkEdit {...link} />
 
-					{#if index < data.links.length - 1}
-						{@const next_link = data.links[index + 1]}
-						<LinkSwapper {link} {next_link} />
+					{#if index < links.length - 1}
+						{@const next_link = links[index + 1]}
+						<div class="swapper">
+							<button
+								aria-label="swap {link.label} with {next_link.label}"
+								class="icon-button"
+								onclick={() => swap_links(index)}
+							>
+								<ArrowDownUp size={20} />
+							</button>
+						</div>
 					{/if}
 				</div>
 			{/each}
@@ -87,5 +124,10 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+	}
+
+	.swapper {
+		text-align: center;
+		margin-block: 0.25rem;
 	}
 </style>
