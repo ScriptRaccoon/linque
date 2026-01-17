@@ -71,7 +71,7 @@ export const actions: Actions = {
 
 		if (err) {
 			if (is_constraint_error(err)) {
-				return fail(400, {
+				return fail(409, {
 					type: 'username',
 					error: 'Username is already taken',
 				})
@@ -179,7 +179,7 @@ export const actions: Actions = {
 
 		if (err) {
 			if (is_constraint_error(err)) {
-				return fail(400, {
+				return fail(409, {
 					type: 'displayname',
 					error: 'Display name is already taken',
 				})

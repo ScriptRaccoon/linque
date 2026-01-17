@@ -83,7 +83,7 @@ export const actions: Actions = {
 
 		if (err) {
 			if (is_constraint_error(err)) {
-				return fail(400, {
+				return fail(409, {
 					type: 'add',
 					error: 'Duplicates are not allowed',
 				})

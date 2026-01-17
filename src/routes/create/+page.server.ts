@@ -49,7 +49,7 @@ export const actions: Actions = {
 
 		if (err) {
 			if (is_constraint_error(err)) {
-				return fail(400, { error: 'Display name is already taken' })
+				return fail(409, { error: 'Display name is already taken' })
 			}
 			return fail(500, { error: 'Internal Server Error' })
 		}

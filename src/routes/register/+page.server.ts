@@ -45,7 +45,7 @@ export const actions: Actions = {
 
 		if (err) {
 			if (is_constraint_error(err)) {
-				return fail(400, { error: 'Username is already taken' })
+				return fail(409, { error: 'Username is already taken' })
 			}
 			return fail(500, { error: 'Internal Server Error' })
 		}
