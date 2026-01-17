@@ -178,7 +178,10 @@ export const actions: Actions = {
 
 		if (err) {
 			if (err.code === 'SQLITE_CONSTRAINT_UNIQUE') {
-				return fail(400, { error: 'Display name is already taken' })
+				return fail(400, {
+					type: 'displayname',
+					error: 'Display name is already taken',
+				})
 			}
 			return fail(500, { type: 'displayname', error: 'Internal Server Error' })
 		}
@@ -227,7 +230,10 @@ export const actions: Actions = {
 		const { err } = await query('DELETE FROM users WHERE id = ?', [user.id])
 
 		if (err) {
-			return fail(500, { error: 'Internal Server Error' })
+			return fail(500, {
+				type: 'delete',
+				error: 'Internal Server Error',
+			})
 		}
 
 		delete_auth_cookie(event)
