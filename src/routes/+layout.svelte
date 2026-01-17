@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { page } from '$app/state'
+	import { navigating, page } from '$app/state'
 	import Dialog from '$lib/components/Dialog.svelte'
+	import LoadingBar from '$lib/components/LoadingBar.svelte'
 	import Nav from '$lib/components/Nav.svelte'
 	import './app.css'
 
@@ -40,6 +41,10 @@
 </div>
 
 <Dialog />
+
+{#if navigating.to}
+	<LoadingBar />
+{/if}
 
 <style>
 	.container {
