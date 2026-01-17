@@ -1,5 +1,5 @@
 import { set_auth_cookie } from '$lib/server/auth'
-import { query } from '$lib/server/db'
+import { query, is_constraint_error } from '$lib/server/db'
 import { RateLimiter } from '$lib/server/ratelimit'
 import { password_schema, username_schema } from '$lib/server/schemas'
 import { fail, redirect, type Actions } from '@sveltejs/kit'
@@ -44,7 +44,7 @@ export const actions: Actions = {
 		)
 
 		if (err) {
-			if (err.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+			if (is_constraint_error(err)) {
 				return fail(400, { error: 'Username is already taken' })
 			}
 			return fail(500, { error: 'Internal Server Error' })

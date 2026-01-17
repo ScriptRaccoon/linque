@@ -29,3 +29,12 @@ export async function query<T = unknown>(
 		return { rows: null, err: libsql_error }
 	}
 }
+
+/**
+ * Locally, the error code for uniqueness constraints is
+ * SQLITE_CONSTRAINT_UNIQUE, but on Turso, the error code
+ * is just SQLITE_CONSTRAINT - for all constraints.
+ */
+export function is_constraint_error(err: LibsqlError) {
+	return err.code.startsWith('SQLITE_CONSTRAINT')
+}

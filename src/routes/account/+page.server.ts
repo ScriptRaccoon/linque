@@ -1,6 +1,6 @@
 import { error, fail, redirect, type Actions } from '@sveltejs/kit'
 import bcrypt from 'bcrypt'
-import { query } from '$lib/server/db'
+import { is_constraint_error, query } from '$lib/server/db'
 import { delete_auth_cookie } from '$lib/server/auth'
 import * as v from 'valibot'
 import { password_schema, username_schema } from '$lib/server/schemas'
@@ -70,7 +70,7 @@ export const actions: Actions = {
 		])
 
 		if (err) {
-			if (err.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+			if (is_constraint_error(err)) {
 				return fail(400, {
 					type: 'username',
 					error: 'Username is already taken',
@@ -178,7 +178,7 @@ export const actions: Actions = {
 		])
 
 		if (err) {
-			if (err.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+			if (is_constraint_error(err)) {
 				return fail(400, {
 					type: 'displayname',
 					error: 'Display name is already taken',

@@ -1,5 +1,6 @@
 import { COOKIE_OPTIONS, set_auth_cookie } from '$lib/server/auth'
 import { COOKIE_DISPLAYNAME } from '$lib/server/config'
+import { is_constraint_error } from '$lib/server/db'
 import { query } from '$lib/server/db'
 import { bio_schema } from '$lib/server/schemas'
 import { displayname_schema } from '$lib/server/schemas'
@@ -47,7 +48,7 @@ export const actions: Actions = {
 		const { rows, err } = await query<{ id: number }>(sql, [displayname_db, bio, user.id])
 
 		if (err) {
-			if (err.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+			if (is_constraint_error(err)) {
 				return fail(400, { error: 'Display name is already taken' })
 			}
 			return fail(500, { error: 'Internal Server Error' })

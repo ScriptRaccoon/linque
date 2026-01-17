@@ -1,6 +1,6 @@
 import { error, fail } from '@sveltejs/kit'
 import type { Actions, PageServerLoad } from './$types'
-import { query } from '$lib/server/db'
+import { query, is_constraint_error } from '$lib/server/db'
 import * as v from 'valibot'
 import { label_schema, url_schema } from '$lib/server/schemas'
 import type { LinkItem } from '$lib/types'
@@ -82,7 +82,7 @@ export const actions: Actions = {
 		const { err } = await query(sql, [link_id, label, url, user.id, user.id])
 
 		if (err) {
-			if (err.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+			if (is_constraint_error(err)) {
 				return fail(400, {
 					type: 'add',
 					error: 'Duplicates are not allowed',
