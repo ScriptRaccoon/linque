@@ -25,16 +25,14 @@
 <section>
 	<h2>Username</h2>
 
-	<p>Your username is used for logging in.</p>
-
 	<form method="POST" action="?/username" use:enhance>
 		<div class="form-group">
-			<label for="username">New username</label>
+			<label for="username">Username for login</label>
 			<input type="text" name="username" id="username" value={data.username} required />
 		</div>
 
 		<div class="form-actions">
-			<button>Submit</button>
+			<button>Update</button>
 		</div>
 	</form>
 
@@ -62,7 +60,7 @@
 		</div>
 
 		<div class="form-actions">
-			<button>Submit</button>
+			<button>Update</button>
 		</div>
 	</form>
 
@@ -78,11 +76,9 @@
 <section>
 	<h2>Display name</h2>
 
-	<p>Your display name is shown on the public link page.</p>
-
 	<form method="POST" action="?/displayname" use:enhance>
 		<div class="form-group">
-			<label for="displayname">New display name</label>
+			<label for="displayname">Name shown on link page</label>
 			<input
 				type="text"
 				name="displayname"
@@ -93,7 +89,7 @@
 		</div>
 
 		<div class="form-actions">
-			<button>Submit</button>
+			<button>Update</button>
 		</div>
 	</form>
 
@@ -109,16 +105,16 @@
 </section>
 
 <section>
-	<h2>Bio (optional)</h2>
+	<h2>Bio</h2>
 
 	<form method="POST" action="?/bio" use:enhance>
 		<div class="form-group">
-			<label for="bio">Bio</label>
+			<label for="bio">Bio shown on link page</label>
 			<textarea name="bio" id="bio">{data.bio ?? ''}</textarea>
 		</div>
 
 		<div class="form-actions">
-			<button>Submit</button>
+			<button>Update</button>
 		</div>
 	</form>
 
