@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-	<title>Linque by {data.displayname}</title>
+	<title>Linque by {decode_spaces(data.displayname)}</title>
 </svelte:head>
 
 <header>
