@@ -42,4 +42,8 @@ export const label_schema = v.pipe(
 	v.maxLength(50, 'Label must be at most 50 characters'),
 )
 
-export const url_schema = v.pipe(v.string('URL must be a string'), v.url('Invalid URL'))
+export const url_schema = v.pipe(
+	v.string('URL must be a string'),
+	v.url('Invalid URL'),
+	v.maxLength(1000, 'URL must be at most 1000 characters'),
+)
