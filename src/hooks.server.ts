@@ -3,7 +3,7 @@ import { initialize_db } from '$lib/server/db'
 import { redirect, type Handle, type ServerInit } from '@sveltejs/kit'
 
 const auth_routes = ['/account', '/links', '/register/complete']
-const completed_profile_routes = ['/account', '/links']
+const created_page_routes = ['/account', '/links']
 
 const matches_route = (pathname: string, routes: string[]) =>
 	routes.some((route) => pathname.startsWith(route))
@@ -18,12 +18,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 		redirect(307, '/login')
 	}
 
-	if (
-		user &&
-		!user.profile_completed &&
-		matches_route(pathname, completed_profile_routes)
-	) {
-		redirect(307, '/register/complete')
+	if (user && user.page_id === null && matches_route(pathname, created_page_routes)) {
+		redirect(307, '/create')
 	}
 
 	if (user && pathname === '/') {

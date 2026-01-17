@@ -3,7 +3,7 @@ import { fail, redirect, type Actions } from '@sveltejs/kit'
 import bcrypt from 'bcrypt'
 import type { PageServerLoad } from './$types'
 import { Rate_Limiter } from '$lib/server/ratelimit'
-import { set_auth_cookie } from '$lib/server/auth'
+import { COOKIE_OPTIONS, set_auth_cookie } from '$lib/server/auth'
 
 export const load: PageServerLoad = (event) => {
 	const LOGIN_MESSAGES: Record<string, undefined | string> = {
@@ -32,15 +32,28 @@ export const actions: Actions = {
 			return fail(400, { error: 'Username and password required' })
 		}
 
+		const sql = `
+		SELECT
+			u.id, 
+			u.password_hash,
+			p.id as page_id,
+			p.displayname
+		FROM
+			users u
+		LEFT JOIN
+			link_pages p
+		ON
+			u.id = p.user_id
+		WHERE
+			u.username = ?
+		`
+
 		const { rows, err } = await query<{
 			id: number
 			password_hash: string
-			displayname: string
-			profile_completed: 0 | 1
-		}>(
-			'SELECT id, password_hash, displayname, profile_completed FROM users WHERE username = ?',
-			[username],
-		)
+			page_id: number | null
+			displayname: string | null
+		}>(sql, [username])
 
 		if (err) {
 			return fail(500, { error: 'Internal Server Error' })
@@ -50,7 +63,7 @@ export const actions: Actions = {
 			return fail(401, { error: 'Invalid credentials' })
 		}
 
-		const { id, password_hash, displayname, profile_completed } = rows[0]
+		const { id, password_hash, page_id, displayname } = rows[0]
 
 		const is_correct = await bcrypt.compare(password, password_hash)
 
@@ -60,12 +73,13 @@ export const actions: Actions = {
 
 		limiter.clear(ip)
 
-		set_auth_cookie(event, { id, displayname, profile_completed })
+		set_auth_cookie(event, { id, page_id })
+		if (displayname) event.cookies.set('displayname', displayname, COOKIE_OPTIONS)
 
-		if (profile_completed) {
-			redirect(303, '/links')
+		if (page_id === null) {
+			redirect(303, '/create')
 		} else {
-			redirect(303, '/register/complete')
+			redirect(303, '/links')
 		}
 	},
 }

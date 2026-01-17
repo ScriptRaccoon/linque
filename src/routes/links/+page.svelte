@@ -1,23 +1,11 @@
 <script lang="ts">
 	import { enhance } from '$app/forms'
-	import { page } from '$app/state'
 	import LinkEdit from '$lib/components/LinkEdit.svelte'
 	import LinkSwapper from '$lib/components/LinkSwapper.svelte'
 	import { flip } from 'svelte/animate'
 	import { cubicOut } from 'svelte/easing'
 
 	let { data, form } = $props()
-
-	let copied = $state(false)
-
-	async function copy_url() {
-		const page_url = `${page.url.origin}/@${data.user?.displayname}`
-		copied = true
-		await navigator.clipboard.writeText(page_url)
-		setTimeout(() => {
-			copied = false
-		}, 1200)
-	}
 </script>
 
 <svelte:head>
@@ -26,16 +14,6 @@
 
 <header>
 	<h1>Links</h1>
-
-	{#if data.links.length}
-		<button class="button" onclick={copy_url}>
-			{#if copied}
-				Copied!
-			{:else}
-				Copy public URL
-			{/if}
-		</button>
-	{/if}
 </header>
 
 <section>
@@ -96,11 +74,3 @@
 		{/if}
 	{/if}
 </section>
-
-<style>
-	header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
-</style>

@@ -2,11 +2,7 @@ import type { RequestEvent } from '@sveltejs/kit'
 import jwt from 'jsonwebtoken'
 import { JWT_SECRET } from '$env/static/private'
 
-export type UserPayload = {
-	id: number
-	displayname: string
-	profile_completed: 0 | 1
-}
+export type UserPayload = { id: number; page_id: number | null }
 
 const COOKIE_AUTH_TOKEN = 'auth_token'
 

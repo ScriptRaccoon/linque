@@ -1,42 +1,20 @@
-import { delete_auth_cookie, set_auth_cookie } from '$lib/server/auth'
+import { COOKIE_OPTIONS, set_auth_cookie } from '$lib/server/auth'
 import { query } from '$lib/server/db'
-import { Rate_Limiter } from '$lib/server/ratelimit'
 import { bio_schema } from '$lib/server/schemas'
 import { displayname_schema } from '$lib/server/schemas'
 import { error, fail, redirect, type Actions } from '@sveltejs/kit'
 import * as v from 'valibot'
 
-const limiter = new Rate_Limiter({ limit: 5, window_ms: 60_000 })
-
 export const actions: Actions = {
-	cancel: async (event) => {
-		const user = event.locals.user
-		if (!user) {
-			error(401, 'Unauthorized')
-		}
-
-		const { err } = await query('DELETE FROM users WHERE id = ?', [user.id])
-
-		if (err) {
-			return fail(500, { error: 'Internal Server Error' })
-		}
-
-		delete_auth_cookie(event)
-
-		redirect(303, '/')
-	},
-
-	complete: async (event) => {
+	default: async (event) => {
 		const user = event.locals.user
 
 		if (!user) {
 			error(401, 'Unauthorized')
 		}
 
-		const ip = event.getClientAddress()
-
-		if (!limiter.is_allowed(ip)) {
-			return fail(420, { error: 'Too many registrations. Try again later' })
+		if (user.page_id !== null) {
+			return fail(403, { error: 'Link page already exists' })
 		}
 
 		const form = await event.request.formData()
@@ -55,19 +33,30 @@ export const actions: Actions = {
 			return fail(400, { type: 'bio', error: bio_parsed.issues[0].message })
 		}
 
-		const { err } = await query(
-			'UPDATE users SET displayname = ?, bio = ?, profile_completed = 1 WHERE id = ?',
-			[displayname, bio, user.id],
-		)
+		const sql = `
+			INSERT INTO link_pages
+				(displayname, bio, user_id)
+			VALUES
+				(?,?,?)
+			RETURNING id`
+
+		const { rows, err } = await query<{ id: number }>(sql, [displayname, bio, user.id])
 
 		if (err) {
 			if (err.code === 'SQLITE_CONSTRAINT_UNIQUE') {
-				return fail(400, { error: 'Try a different display name' })
+				return fail(400, { error: 'Display name is already taken' })
 			}
 			return fail(500, { error: 'Internal Server Error' })
 		}
 
-		set_auth_cookie(event, { id: user.id, displayname, profile_completed: 1 })
+		if (!rows.length) {
+			return fail(500, { error: 'Internal Server Error' })
+		}
+
+		const page_id = rows[0].id
+
+		set_auth_cookie(event, { id: user.id, page_id })
+		event.cookies.set('displayname', displayname, COOKIE_OPTIONS)
 
 		return redirect(303, '/links')
 	},

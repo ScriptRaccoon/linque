@@ -39,13 +39,13 @@ export const actions: Actions = {
 		const password_hash = await bcrypt.hash(password, 10)
 
 		const { rows: users, err } = await query<{ id: number }>(
-			'INSERT INTO users (username, password_hash, displayname) VALUES (?,?,?) RETURNING ID',
-			[username, password_hash, username],
+			'INSERT INTO users (username, password_hash) VALUES (?,?) RETURNING ID',
+			[username, password_hash],
 		)
 
 		if (err) {
 			if (err.code === 'SQLITE_CONSTRAINT_UNIQUE') {
-				return fail(400, { error: 'Try a different username' })
+				return fail(400, { error: 'Username is already taken' })
 			}
 			return fail(500, { error: 'Internal Server Error' })
 		}
@@ -56,8 +56,8 @@ export const actions: Actions = {
 
 		const { id } = users[0]
 
-		set_auth_cookie(event, { id, displayname: username, profile_completed: 0 })
+		set_auth_cookie(event, { id, page_id: null })
 
-		return redirect(303, '/register/complete')
+		return redirect(303, '/create')
 	},
 }

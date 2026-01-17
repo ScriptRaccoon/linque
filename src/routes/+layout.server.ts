@@ -1,5 +1,6 @@
 import type { LayoutServerLoad } from './$types'
 
 export const load: LayoutServerLoad = async (event) => {
-	return { user: event.locals.user }
+	const displayname = event.cookies.get('displayname')
+	return { user: event.locals.user, displayname }
 }

@@ -10,6 +10,7 @@ declare global {
 		}
 		interface PageData {
 			user?: UserPayload
+			displayname?: string
 			is_linkpage?: boolean
 		}
 		// interface PageState {}

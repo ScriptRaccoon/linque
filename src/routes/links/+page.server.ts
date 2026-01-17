@@ -7,9 +7,20 @@ import type { LinkItem } from '$lib/types'
 
 export const load: PageServerLoad = async (event) => {
 	const user = event.locals.user
-	if (!user) {
+	if (!user || user.page_id === null) {
 		error(401, 'Unauthorized')
 	}
+
+	const { rows: pages } = await query<{ displayname: string }>(
+		'SELECT displayname FROM link_pages WHERE id = ?',
+		[user.page_id],
+	)
+
+	if (!pages?.length) {
+		error(500, 'Internal Server Error')
+	}
+
+	const { displayname } = pages[0]
 
 	const sql = `
         SELECT
@@ -17,17 +28,17 @@ export const load: PageServerLoad = async (event) => {
         FROM
             links
         WHERE
-            user_id = ?
+        	page_id = ?
         ORDER BY
             position`
 
-	const { rows: links, err: links_err } = await query<LinkItem>(sql, [user.id])
+	const { rows: links, err: links_err } = await query<LinkItem>(sql, [user.page_id])
 
 	if (links_err) {
 		error(500, 'Internal Server Error')
 	}
 
-	return { links }
+	return { displayname, links }
 }
 
 export const actions: Actions = {
@@ -67,7 +78,7 @@ export const actions: Actions = {
 
 		const sql = `
 			INSERT INTO
-				links (id, label, url, user_id, position)
+				links (id, label, url, page_id, position)
 			SELECT
 				?,
 				?,
@@ -77,9 +88,9 @@ export const actions: Actions = {
 			FROM
 				links
 			WHERE
-				links.user_id = ?`
+				links.page_id = ?`
 
-		const { err } = await query(sql, [link_id, label, url, user.id, user.id])
+		const { err } = await query(sql, [link_id, label, url, user.page_id, user.page_id])
 
 		if (err) {
 			if (err.code === 'SQLITE_CONSTRAINT_UNIQUE') {
@@ -114,8 +125,8 @@ export const actions: Actions = {
 		const form = await event.request.formData()
 		const link_id = form.get('id') as string
 
-		const { err } = await query('DELETE FROM links WHERE user_id = ? AND id = ?', [
-			user.id,
+		const { err } = await query('DELETE FROM links WHERE page_id = ? AND id = ?', [
+			user.page_id,
 			link_id,
 		])
 
@@ -159,9 +170,9 @@ export const actions: Actions = {
 					ELSE position
 				END
 			WHERE
-				user_id = ?`
+				page_id = ?`
 
-		const args = [position_a, position_b, position_b, position_a, user.id]
+		const args = [position_a, position_b, position_b, position_a, user.page_id]
 
 		const { err } = await query(sql, args)
 
