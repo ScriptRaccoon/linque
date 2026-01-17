@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms'
+	import { page } from '$app/state'
 	import LinkEdit from '$lib/components/LinkEdit.svelte'
 	import LinkSwapper from '$lib/components/LinkSwapper.svelte'
 	import { flip } from 'svelte/animate'
@@ -10,8 +11,9 @@
 	let copied = $state(false)
 
 	async function copy_url() {
+		const page_url = `${page.url.origin}/@${page.data.displayname}`
 		copied = true
-		await navigator.clipboard.writeText(data.page_url)
+		await navigator.clipboard.writeText(page_url)
 		setTimeout(() => {
 			copied = false
 		}, 1200)

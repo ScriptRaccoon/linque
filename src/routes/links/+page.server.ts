@@ -11,18 +11,6 @@ export const load: PageServerLoad = async (event) => {
 		error(401, 'Unauthorized')
 	}
 
-	const { rows: profiles } = await query<{ displayname: string }>(
-		'SELECT displayname FROM profiles WHERE id = ?',
-		[user.profile_id],
-	)
-
-	if (!profiles?.length) {
-		error(500, 'Internal Server Error')
-	}
-
-	const { displayname } = profiles[0]
-	const page_url = `${event.url.origin}/@${displayname}`
-
 	const sql = `
         SELECT
             id, url, label, position, click_count
@@ -39,7 +27,7 @@ export const load: PageServerLoad = async (event) => {
 		error(500, 'Internal Server Error')
 	}
 
-	return { links, page_url }
+	return { links }
 }
 
 export const actions: Actions = {
