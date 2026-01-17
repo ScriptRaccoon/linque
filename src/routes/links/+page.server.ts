@@ -12,14 +12,10 @@ export const load: PageServerLoad = async (event) => {
 	}
 
 	const sql = `
-        SELECT
-            id, url, label, position, click_count
-        FROM
-            links
-        WHERE
-        	user_id = ?
-        ORDER BY
-            position`
+        SELECT id, url, label, position, click_count
+        FROM links
+        WHERE user_id = ?
+        ORDER BY position`
 
 	const { rows: links, err: links_err } = await query<LinkItem>(sql, [user.id])
 
@@ -66,18 +62,10 @@ export const actions: Actions = {
 		const link_id = crypto.randomUUID()
 
 		const sql = `
-			INSERT INTO
-				links (id, label, url, user_id, position)
-			SELECT
-				?,
-				?,
-				?,
-				?,
-				COALESCE(MAX(position), 0) + 1
-			FROM
-				links
-			WHERE
-				links.user_id = ?`
+			INSERT INTO links (id, label, url, user_id, position)
+			SELECT ?, ?, ?, ?, COALESCE(MAX(position), 0) + 1
+			FROM links
+			WHERE links.user_id = ?`
 
 		const { err } = await query(sql, [link_id, label, url, user.id, user.id])
 

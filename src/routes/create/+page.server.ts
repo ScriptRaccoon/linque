@@ -39,10 +39,8 @@ export const actions: Actions = {
 		const displayname_db = encode_spaces(displayname)
 
 		const sql = `
-			INSERT INTO profiles
-				(displayname, bio, user_id)
-			VALUES
-				(?,?,?)
+			INSERT INTO profiles (displayname, bio, user_id)
+			VALUES (?,?,?)
 			RETURNING id`
 
 		const { rows, err } = await query<{ id: number }>(sql, [displayname_db, bio, user.id])

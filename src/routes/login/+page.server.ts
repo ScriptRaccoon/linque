@@ -34,19 +34,11 @@ export const actions: Actions = {
 		}
 
 		const sql = `
-			SELECT
-				u.id, 
-				u.password_hash,
-				p.id as profile_id,
-				p.displayname
-			FROM
-				users u
-			LEFT JOIN
-				profiles p
-			ON
-				u.id = p.user_id
-			WHERE
-				u.username = ?`
+			SELECT u.id, u.password_hash, p.id as profile_id, p.displayname
+			FROM users u
+			LEFT JOIN profiles p
+			ON u.id = p.user_id
+			WHERE u.username = ?`
 
 		const { rows, err } = await query<{
 			id: number

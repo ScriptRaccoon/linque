@@ -26,14 +26,12 @@ export const PATCH: RequestHandler = async (event) => {
 
 	const sql = `
 		UPDATE links
-		SET
-			position = CASE position
-				WHEN ? THEN ?
-				WHEN ? THEN ?
-				ELSE position
+		SET position = CASE position
+			WHEN ? THEN ?
+			WHEN ? THEN ?
+			ELSE position
 			END
-		WHERE
-			user_id = ?`
+		WHERE user_id = ?`
 
 	const args = [pos_1, pos_2, pos_2, pos_1, user.id]
 

@@ -18,16 +18,10 @@ export const load: PageServerLoad = async (event) => {
 	}
 
 	const sql = `
-		SELECT
-			username,
-			displayname,
-			bio
-		FROM
-			users
-		INNER JOIN
-			profiles
-		ON
-			users.id = profiles.user_id
+		SELECT username, displayname, bio
+		FROM users
+		INNER JOIN profiles
+		ON users.id = profiles.user_id
 		WHERE users.id = ?`
 
 	const { rows, err } = await query<{
