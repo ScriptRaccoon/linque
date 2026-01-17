@@ -24,8 +24,8 @@ export const displayname_schema = v.pipe(
 	v.nonEmpty('Display name required'),
 	v.maxLength(50, 'Display name must be at most 50 characters'),
 	v.regex(
-		/^[A-Za-z0-9_ -]+$/,
-		'Display name can only have letters, digits, spaces, underscores, and dashes',
+		/^[A-Za-z0-9 -]+$/,
+		'Display name can only have letters, digits, spaces, and dashes',
 	),
 )
 

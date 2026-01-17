@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms'
+	import { decode_spaces } from '$lib/utils'
 
 	let { form, data } = $props()
 
@@ -40,7 +41,7 @@
 				type="text"
 				name="displayname"
 				id="displayname"
-				value={data.displayname}
+				value={decode_spaces(data.displayname)}
 				required
 			/>
 		</div>

@@ -2,6 +2,7 @@ import { COOKIE_OPTIONS, set_auth_cookie } from '$lib/server/auth'
 import { query } from '$lib/server/db'
 import { bio_schema } from '$lib/server/schemas'
 import { displayname_schema } from '$lib/server/schemas'
+import { encode_spaces } from '$lib/utils'
 import { error, fail, redirect, type Actions } from '@sveltejs/kit'
 import * as v from 'valibot'
 
@@ -33,6 +34,8 @@ export const actions: Actions = {
 			return fail(400, { type: 'bio', error: bio_parsed.issues[0].message })
 		}
 
+		const displayname_db = encode_spaces(displayname)
+
 		const sql = `
 			INSERT INTO link_pages
 				(displayname, bio, user_id)
@@ -40,7 +43,7 @@ export const actions: Actions = {
 				(?,?,?)
 			RETURNING id`
 
-		const { rows, err } = await query<{ id: number }>(sql, [displayname, bio, user.id])
+		const { rows, err } = await query<{ id: number }>(sql, [displayname_db, bio, user.id])
 
 		if (err) {
 			if (err.code === 'SQLITE_CONSTRAINT_UNIQUE') {
@@ -56,7 +59,7 @@ export const actions: Actions = {
 		const page_id = rows[0].id
 
 		set_auth_cookie(event, { id: user.id, page_id })
-		event.cookies.set('displayname', displayname, COOKIE_OPTIONS)
+		event.cookies.set('displayname', displayname_db, COOKIE_OPTIONS)
 
 		return redirect(303, '/links')
 	},

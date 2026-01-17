@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { decode_spaces } from '$lib/utils'
+
 	let { data } = $props()
 </script>
 
@@ -7,7 +9,7 @@
 </svelte:head>
 
 <header>
-	<h1>{data.displayname}</h1>
+	<h1>{decode_spaces(data.displayname)}</h1>
 
 	{#if data.bio}
 		<div class="bio">{data.bio}</div>

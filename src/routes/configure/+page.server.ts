@@ -4,6 +4,7 @@ import * as v from 'valibot'
 import { bio_schema, displayname_schema } from '$lib/server/schemas'
 import type { PageServerLoad } from './$types'
 import { COOKIE_OPTIONS } from '$lib/server/auth'
+import { encode_spaces } from '$lib/utils'
 
 export const load: PageServerLoad = async (event) => {
 	const user = event.locals.user
@@ -46,8 +47,10 @@ export const actions: Actions = {
 			})
 		}
 
+		const displayname_db = encode_spaces(displayname)
+
 		const { err } = await query('UPDATE link_pages SET displayname = ? WHERE id = ?', [
-			displayname,
+			displayname_db,
 			user.page_id,
 		])
 
@@ -58,7 +61,7 @@ export const actions: Actions = {
 			return fail(500, { type: 'displayname', error: 'Internal Server Error' })
 		}
 
-		event.cookies.set('displayname', displayname, COOKIE_OPTIONS)
+		event.cookies.set('displayname', displayname_db, COOKIE_OPTIONS)
 
 		return { type: 'displayname', message: 'Displayname has been updated' }
 	},
