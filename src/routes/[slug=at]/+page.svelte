@@ -6,6 +6,16 @@
 
 <svelte:head>
 	<title>Linque by {decode_spaces(data.displayname)}</title>
+
+	<meta property="og:title" content="Lingue by {decode_spaces(data.displayname)}" />
+
+	{#if data.bio}
+		<meta property="og:description" content={data.bio} />
+		<meta name="description" content={data.bio} />
+	{/if}
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://linque.netlify.app/@{data.displayname}" />
+	<meta property="og:site_name" content="Linque" />
 </svelte:head>
 
 <header>
