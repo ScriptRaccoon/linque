@@ -5,11 +5,11 @@
 </script>
 
 <svelte:head>
-	<title>Linque - Create Linque</title>
+	<title>Linque - Create Profile</title>
 </svelte:head>
 
 <header>
-	<h1>Create Linque</h1>
+	<h1>Create Profile</h1>
 </header>
 
 <form method="POST" use:enhance>

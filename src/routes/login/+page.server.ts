@@ -36,12 +36,12 @@ export const actions: Actions = {
 		SELECT
 			u.id, 
 			u.password_hash,
-			p.id as page_id,
+			p.id as profile_id,
 			p.displayname
 		FROM
 			users u
 		LEFT JOIN
-			link_pages p
+			profiles p
 		ON
 			u.id = p.user_id
 		WHERE
@@ -51,7 +51,7 @@ export const actions: Actions = {
 		const { rows, err } = await query<{
 			id: number
 			password_hash: string
-			page_id: number | null
+			profile_id: number | null
 			displayname: string | null
 		}>(sql, [username])
 
@@ -63,7 +63,7 @@ export const actions: Actions = {
 			return fail(401, { error: 'Invalid credentials' })
 		}
 
-		const { id, password_hash, page_id, displayname } = rows[0]
+		const { id, password_hash, profile_id, displayname } = rows[0]
 
 		const is_correct = await bcrypt.compare(password, password_hash)
 
@@ -73,10 +73,10 @@ export const actions: Actions = {
 
 		limiter.clear(ip)
 
-		set_auth_cookie(event, { id, page_id })
+		set_auth_cookie(event, { id, profile_id })
 		if (displayname) event.cookies.set('displayname', displayname, COOKIE_OPTIONS)
 
-		if (page_id === null) {
+		if (profile_id === null) {
 			redirect(303, '/create')
 		} else {
 			redirect(303, '/links')

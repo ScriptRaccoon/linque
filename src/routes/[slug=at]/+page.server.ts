@@ -7,26 +7,26 @@ export const load: PageServerLoad = async (event) => {
 	const slug = event.params.slug
 	const displayname = slug.substring(1)
 
-	const { rows: pages, err: err_page } = await query<{
-		page_id: number
+	const { rows: profiles, err: err_profile } = await query<{
+		user_id: number
 		bio: string | null
-	}>('SELECT id as page_id, bio FROM link_pages where displayname = ?', [displayname])
+	}>('SELECT user_id, bio FROM profiles where displayname = ?', [displayname])
 
-	if (err_page) {
+	if (err_profile) {
 		error(500, 'Internal Server Error')
 	}
 
-	if (!pages.length) {
+	if (!profiles.length) {
 		error(404, 'Not Found')
 	}
 
-	const { page_id, bio } = pages[0]
+	const { user_id, bio } = profiles[0]
 
 	const { rows: links, err: err_links } = await query<{
 		id: string
 		url: string
 		label: string
-	}>('SELECT id, url, label FROM links WHERE page_id = ? ORDER BY position', [page_id])
+	}>('SELECT id, url, label FROM links WHERE user_id = ? ORDER BY position', [user_id])
 
 	if (err_links) {
 		error(500, 'Internal Server Error')

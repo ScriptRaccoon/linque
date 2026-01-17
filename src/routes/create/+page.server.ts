@@ -14,8 +14,8 @@ export const actions: Actions = {
 			error(401, 'Unauthorized')
 		}
 
-		if (user.page_id !== null) {
-			return fail(403, { error: 'Link page already exists' })
+		if (user.profile_id !== null) {
+			return fail(403, { error: 'Profile already exists' })
 		}
 
 		const form = await event.request.formData()
@@ -37,7 +37,7 @@ export const actions: Actions = {
 		const displayname_db = encode_spaces(displayname)
 
 		const sql = `
-			INSERT INTO link_pages
+			INSERT INTO profiles
 				(displayname, bio, user_id)
 			VALUES
 				(?,?,?)
@@ -56,9 +56,9 @@ export const actions: Actions = {
 			return fail(500, { error: 'Internal Server Error' })
 		}
 
-		const page_id = rows[0].id
+		const profile_id = rows[0].id
 
-		set_auth_cookie(event, { id: user.id, page_id })
+		set_auth_cookie(event, { id: user.id, profile_id })
 		event.cookies.set('displayname', displayname_db, COOKIE_OPTIONS)
 
 		return redirect(303, '/links')

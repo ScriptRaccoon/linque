@@ -56,7 +56,7 @@ export const actions: Actions = {
 
 		const { id } = users[0]
 
-		set_auth_cookie(event, { id, page_id: null })
+		set_auth_cookie(event, { id, profile_id: null })
 
 		return redirect(303, '/create')
 	},

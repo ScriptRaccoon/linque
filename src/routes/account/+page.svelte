@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms'
 	import { open_dialog } from '$lib/dialog.svelte.js'
+	import { decode_spaces } from '$lib/utils.js'
 
 	let { data, form } = $props()
 
@@ -23,6 +24,8 @@
 
 <section>
 	<h2>Username</h2>
+
+	<p>Your username is used for logging in.</p>
 
 	<form method="POST" action="?/username" use:enhance>
 		<div class="form-group">
@@ -69,6 +72,64 @@
 
 	{#if form?.message && form.type === 'password'}
 		<p class="message">{form.message}</p>
+	{/if}
+</section>
+
+<section>
+	<h2>Display name</h2>
+
+	<p>Your display name is shown on the public link page.</p>
+
+	<form method="POST" action="?/displayname" use:enhance>
+		<div class="form-group">
+			<label for="displayname">New display name</label>
+			<input
+				type="text"
+				name="displayname"
+				id="displayname"
+				value={decode_spaces(data.displayname)}
+				required
+			/>
+		</div>
+
+		<div class="form-actions">
+			<button>Submit</button>
+		</div>
+	</form>
+
+	{#if form?.type === 'displayname'}
+		{#if form?.error}
+			<p class="error">{form.error}</p>
+		{/if}
+
+		{#if form?.message}
+			<p class="message">{form.message}</p>
+		{/if}
+	{/if}
+</section>
+
+<section>
+	<h2>Bio (optional)</h2>
+
+	<form method="POST" action="?/bio" use:enhance>
+		<div class="form-group">
+			<label for="bio">Bio</label>
+			<textarea name="bio" id="bio">{data.bio ?? ''}</textarea>
+		</div>
+
+		<div class="form-actions">
+			<button>Submit</button>
+		</div>
+	</form>
+
+	{#if form?.type === 'bio'}
+		{#if form?.error}
+			<p class="error">{form.error}</p>
+		{/if}
+
+		{#if form?.message}
+			<p class="message">{form.message}</p>
+		{/if}
 	{/if}
 </section>
 

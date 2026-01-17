@@ -1,21 +1,15 @@
 <script lang="ts">
 	import { page } from '$app/state'
-	import { Eye, House, List, LogIn, User, UserPlus, Wrench } from 'lucide-svelte'
+	import { Eye, House, List, LogIn, User, UserPlus } from 'lucide-svelte'
 	import NavLink from './NavLink.svelte'
 </script>
 
 <nav>
 	<ul>
-		{#if page.data.user && page.data.user.page_id !== null}
+		{#if page.data.user && page.data.user.profile_id !== null}
 			<li>
 				<NavLink path="/links" label="Links">
 					<List size={20} />
-				</NavLink>
-			</li>
-
-			<li>
-				<NavLink path="/configure" label="Configure">
-					<Wrench size={20} />
 				</NavLink>
 			</li>
 

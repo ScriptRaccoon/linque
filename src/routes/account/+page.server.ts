@@ -5,6 +5,10 @@ import { delete_auth_cookie } from '$lib/server/auth'
 import * as v from 'valibot'
 import { password_schema, username_schema } from '$lib/server/schemas'
 import type { PageServerLoad } from './$types'
+import { displayname_schema } from '$lib/server/schemas'
+import { encode_spaces } from '$lib/utils'
+import { COOKIE_OPTIONS } from '$lib/server/auth'
+import { bio_schema } from '$lib/server/schemas'
 
 export const load: PageServerLoad = async (event) => {
 	const user = event.locals.user
@@ -22,7 +26,18 @@ export const load: PageServerLoad = async (event) => {
 
 	const { username } = rows[0]
 
-	return { username }
+	const { rows: prof, err: err_prof } = await query<{ displayname: string; bio: string }>(
+		'SELECT displayname, bio FROM profiles WHERE user_id = ?',
+		[user.id],
+	)
+
+	if (err_prof || !prof.length) {
+		error(500, 'Internal Server Error')
+	}
+
+	const { displayname, bio } = prof[0]
+
+	return { username, displayname, bio }
 }
 
 export const actions: Actions = {
@@ -130,6 +145,70 @@ export const actions: Actions = {
 			type: 'password',
 			message: 'Password has been updated',
 		}
+	},
+
+	displayname: async (event) => {
+		const user = event.locals.user
+		if (!user || user.profile_id === null) {
+			error(401, 'Unauthorized')
+		}
+
+		const form = await event.request.formData()
+		const displayname = form.get('displayname') as string
+
+		const displayname_parsed = v.safeParse(displayname_schema, displayname)
+
+		if (!displayname_parsed.success) {
+			return fail(400, {
+				type: 'displayname',
+				error: displayname_parsed.issues[0].message,
+			})
+		}
+
+		const displayname_db = encode_spaces(displayname)
+
+		const { err } = await query('UPDATE profiles SET displayname = ? WHERE id = ?', [
+			displayname_db,
+			user.profile_id,
+		])
+
+		if (err) {
+			if (err.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+				return fail(400, { error: 'Display name is already taken' })
+			}
+			return fail(500, { type: 'displayname', error: 'Internal Server Error' })
+		}
+
+		event.cookies.set('displayname', displayname_db, COOKIE_OPTIONS)
+
+		return { type: 'displayname', message: 'Display name has been updated' }
+	},
+
+	bio: async (event) => {
+		const user = event.locals.user
+		if (!user || user.profile_id === null) {
+			error(401, 'Unauthorized')
+		}
+
+		const form = await event.request.formData()
+		const bio = form.get('bio') as string
+
+		const bio_parsed = v.safeParse(bio_schema, bio)
+
+		if (!bio_parsed.success) {
+			return fail(400, { type: 'bio', error: bio_parsed.issues[0].message })
+		}
+
+		const { err } = await query('UPDATE profiles SET bio = ? WHERE id = ?', [
+			bio,
+			user.profile_id,
+		])
+
+		if (err) {
+			return fail(500, { type: 'bio', error: 'Internal Server Error' })
+		}
+
+		return { type: 'bio', message: 'Bio has been updated' }
 	},
 
 	delete: async (event) => {

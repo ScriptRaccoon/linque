@@ -6,6 +6,16 @@
 	import { cubicOut } from 'svelte/easing'
 
 	let { data, form } = $props()
+
+	let copied = $state(false)
+
+	async function copy_url() {
+		copied = true
+		await navigator.clipboard.writeText(data.page_url)
+		setTimeout(() => {
+			copied = false
+		}, 1200)
+	}
 </script>
 
 <svelte:head>
@@ -14,6 +24,13 @@
 
 <header>
 	<h1>Links</h1>
+	<button class="button" onclick={copy_url}>
+		{#if copied}
+			Copied!
+		{:else}
+			Copy public URL
+		{/if}
+	</button>
 </header>
 
 <section>
@@ -74,3 +91,11 @@
 		{/if}
 	{/if}
 </section>
+
+<style>
+	header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+</style>
