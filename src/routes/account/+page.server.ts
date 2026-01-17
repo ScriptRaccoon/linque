@@ -9,6 +9,7 @@ import { displayname_schema } from '$lib/server/schemas'
 import { encode_spaces } from '$lib/utils'
 import { COOKIE_OPTIONS } from '$lib/server/auth'
 import { bio_schema } from '$lib/server/schemas'
+import { COOKIE_DISPLAYNAME } from '$lib/server/config'
 
 export const load: PageServerLoad = async (event) => {
 	const user = event.locals.user
@@ -186,9 +187,12 @@ export const actions: Actions = {
 			return fail(500, { type: 'displayname', error: 'Internal Server Error' })
 		}
 
-		event.cookies.set('displayname', displayname_db, COOKIE_OPTIONS)
+		event.cookies.set(COOKIE_DISPLAYNAME, displayname_db, COOKIE_OPTIONS)
 
-		return { type: 'displayname', message: 'Display name has been updated' }
+		return {
+			type: 'displayname',
+			message: 'Display name has been updated',
+		}
 	},
 
 	bio: async (event) => {
@@ -203,7 +207,10 @@ export const actions: Actions = {
 		const bio_parsed = v.safeParse(bio_schema, bio)
 
 		if (!bio_parsed.success) {
-			return fail(400, { type: 'bio', error: bio_parsed.issues[0].message })
+			return fail(400, {
+				type: 'bio',
+				error: bio_parsed.issues[0].message,
+			})
 		}
 
 		const { err } = await query('UPDATE profiles SET bio = ? WHERE id = ?', [
@@ -212,10 +219,16 @@ export const actions: Actions = {
 		])
 
 		if (err) {
-			return fail(500, { type: 'bio', error: 'Internal Server Error' })
+			return fail(500, {
+				type: 'bio',
+				error: 'Internal Server Error',
+			})
 		}
 
-		return { type: 'bio', message: 'Bio has been updated' }
+		return {
+			type: 'bio',
+			message: 'Bio has been updated',
+		}
 	},
 
 	delete: async (event) => {

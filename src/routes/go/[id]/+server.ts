@@ -23,10 +23,7 @@ export const GET: RequestHandler = async (event) => {
 	}
 
 	const { rows, err } = await query<{ url: string }>(
-		`UPDATE links
-         SET click_count = click_count + 1
-         WHERE id = ?
-		 RETURNING url`,
+		'UPDATE links SET click_count = click_count + 1 WHERE id = ? RETURNING url',
 		[link_id],
 	)
 

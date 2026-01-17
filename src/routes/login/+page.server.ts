@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt'
 import type { PageServerLoad } from './$types'
 import { Rate_Limiter } from '$lib/server/ratelimit'
 import { COOKIE_OPTIONS, set_auth_cookie } from '$lib/server/auth'
+import { COOKIE_DISPLAYNAME } from '$lib/server/config'
 
 export const load: PageServerLoad = (event) => {
 	const LOGIN_MESSAGES: Record<string, undefined | string> = {
@@ -33,20 +34,19 @@ export const actions: Actions = {
 		}
 
 		const sql = `
-		SELECT
-			u.id, 
-			u.password_hash,
-			p.id as profile_id,
-			p.displayname
-		FROM
-			users u
-		LEFT JOIN
-			profiles p
-		ON
-			u.id = p.user_id
-		WHERE
-			u.username = ?
-		`
+			SELECT
+				u.id, 
+				u.password_hash,
+				p.id as profile_id,
+				p.displayname
+			FROM
+				users u
+			LEFT JOIN
+				profiles p
+			ON
+				u.id = p.user_id
+			WHERE
+				u.username = ?`
 
 		const { rows, err } = await query<{
 			id: number
@@ -74,7 +74,7 @@ export const actions: Actions = {
 		limiter.clear(ip)
 
 		set_auth_cookie(event, { id, profile_id })
-		if (displayname) event.cookies.set('displayname', displayname, COOKIE_OPTIONS)
+		if (displayname) event.cookies.set(COOKIE_DISPLAYNAME, displayname, COOKIE_OPTIONS)
 
 		if (profile_id === null) {
 			redirect(303, '/create')

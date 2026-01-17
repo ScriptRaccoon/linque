@@ -1,4 +1,5 @@
 import { COOKIE_OPTIONS, set_auth_cookie } from '$lib/server/auth'
+import { COOKIE_DISPLAYNAME } from '$lib/server/config'
 import { query } from '$lib/server/db'
 import { bio_schema } from '$lib/server/schemas'
 import { displayname_schema } from '$lib/server/schemas'
@@ -59,7 +60,7 @@ export const actions: Actions = {
 		const profile_id = rows[0].id
 
 		set_auth_cookie(event, { id: user.id, profile_id })
-		event.cookies.set('displayname', displayname_db, COOKIE_OPTIONS)
+		event.cookies.set(COOKIE_DISPLAYNAME, displayname_db, COOKIE_OPTIONS)
 
 		return redirect(303, '/links')
 	},
