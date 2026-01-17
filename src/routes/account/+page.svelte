@@ -1,7 +1,7 @@
 <script lang="ts">
 	import FormWrapper from '$lib/components/FormWrapper.svelte'
-	import { open_dialog } from '$lib/dialog.svelte.js'
-	import { decode_spaces } from '$lib/utils.js'
+	import { open_dialog } from '$lib/dialog.svelte'
+	import { decode_spaces } from '$lib/utils'
 
 	let { data, form } = $props()
 
