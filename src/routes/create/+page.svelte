@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { enhance } from '$app/forms'
+	import FormWrapper from '$lib/components/FormWrapper.svelte'
 
 	let { form } = $props()
 </script>
@@ -12,7 +12,7 @@
 	<h1>Create Profile</h1>
 </header>
 
-<form method="POST" use:enhance>
+<FormWrapper submit_text="Create">
 	<div class="form-group">
 		<label for="displayname">Display name (required)</label>
 		<input type="text" name="displayname" id="displayname" required />
@@ -22,11 +22,7 @@
 		<label for="bio">Bio (optional)</label>
 		<textarea name="bio" id="bio"></textarea>
 	</div>
-
-	<div class="form-actions">
-		<button>Create</button>
-	</div>
-</form>
+</FormWrapper>
 
 {#if form?.error}
 	<p class="error">{form.error}</p>

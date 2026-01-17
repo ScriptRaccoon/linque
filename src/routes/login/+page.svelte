@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { enhance } from '$app/forms'
+	import FormWrapper from '$lib/components/FormWrapper.svelte'
 
 	let { form, data } = $props()
 </script>
@@ -12,7 +12,7 @@
 	<h1>Login</h1>
 </header>
 
-<form method="POST" use:enhance>
+<FormWrapper>
 	<div class="form-group">
 		<label for="username">Username</label>
 		<input type="text" id="username" name="username" required />
@@ -22,11 +22,7 @@
 		<label for="password">Password</label>
 		<input type="password" id="password" name="password" required />
 	</div>
-
-	<div class="form-actions">
-		<button>Submit</button>
-	</div>
-</form>
+</FormWrapper>
 
 {#if form?.error}
 	<p class="error">{form.error}</p>

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { enhance } from '$app/forms'
 	import { page } from '$app/state'
+	import FormWrapper from '$lib/components/FormWrapper.svelte'
 	import LinkEdit from '$lib/components/LinkEdit.svelte'
 	import LinkSwapper from '$lib/components/LinkSwapper.svelte'
 	import { flip } from 'svelte/animate'
@@ -38,7 +38,7 @@
 <section>
 	<h2>Add Link</h2>
 
-	<form method="POST" action="?/add" use:enhance>
+	<FormWrapper action="?/add">
 		<div class="form-group">
 			<label for="label">Label</label>
 			<input type="text" name="label" id="label" required />
@@ -48,11 +48,7 @@
 			<label for="url">URL</label>
 			<input type="text" name="url" id="url" required value="https://" />
 		</div>
-
-		<div class="form-actions">
-			<button>Submit</button>
-		</div>
-	</form>
+	</FormWrapper>
 
 	{#if form?.type === 'add' && form.error}
 		<p class="error">{form.error}</p>

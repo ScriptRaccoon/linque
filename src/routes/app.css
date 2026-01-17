@@ -157,6 +157,10 @@ textarea {
 	button.danger {
 		background-color: var(--error-color);
 	}
+
+	button:disabled {
+		opacity: 0.75;
+	}
 }
 
 .button {

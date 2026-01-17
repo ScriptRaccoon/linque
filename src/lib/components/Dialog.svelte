@@ -11,6 +11,8 @@
 			dialog_element?.close()
 		}
 	})
+
+	let sending = $state(false)
 </script>
 
 <dialog bind:this={dialog_element} onclose={close_dialog}>
@@ -22,8 +24,10 @@
 		method="POST"
 		action={dialog_state.action}
 		use:enhance={() => {
+			sending = true
 			return async ({ update }) => {
 				await update()
+				sending = false
 				close_dialog()
 			}
 		}}
@@ -32,8 +36,14 @@
 			<input type="hidden" name="id" value={dialog_state.id} />
 		{/if}
 		<div class="form-actions">
-			<button class="danger">Yes</button>
-			<button type="button" onclick={close_dialog}>Cancel</button>
+			<button class="danger" disabled={sending}>
+				{#if sending}
+					Yes...
+				{:else}
+					Yes
+				{/if}
+			</button>
+			<button type="button" onclick={close_dialog} disabled={sending}>Cancel</button>
 		</div>
 	</form>
 </dialog>

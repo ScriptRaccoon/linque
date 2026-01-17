@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { enhance } from '$app/forms'
+	import FormWrapper from '$lib/components/FormWrapper.svelte'
 	import { open_dialog } from '$lib/dialog.svelte.js'
 	import { decode_spaces } from '$lib/utils.js'
 
@@ -25,16 +25,12 @@
 <section>
 	<h2>Username</h2>
 
-	<form method="POST" action="?/username" use:enhance>
+	<FormWrapper submit_text="Update" action="?/username">
 		<div class="form-group">
 			<label for="username">Username for login</label>
 			<input type="text" name="username" id="username" value={data.username} required />
 		</div>
-
-		<div class="form-actions">
-			<button>Update</button>
-		</div>
-	</form>
+	</FormWrapper>
 
 	{#if form?.error && form.type === 'username'}
 		<p class="error">{form.error}</p>
@@ -48,7 +44,7 @@
 <section>
 	<h2>Password</h2>
 
-	<form method="POST" action="?/password" use:enhance>
+	<FormWrapper submit_text="Update" action="?/password">
 		<div class="form-group">
 			<label for="current_password">Current password</label>
 			<input type="password" name="current_password" id="current_password" required />
@@ -58,11 +54,7 @@
 			<label for="new_password">New password</label>
 			<input type="password" name="new_password" id="new_password" required />
 		</div>
-
-		<div class="form-actions">
-			<button>Update</button>
-		</div>
-	</form>
+	</FormWrapper>
 
 	{#if form?.error && form.type === 'password'}
 		<p class="error">{form.error}</p>
@@ -76,7 +68,7 @@
 <section>
 	<h2>Display name</h2>
 
-	<form method="POST" action="?/displayname" use:enhance>
+	<FormWrapper submit_text="Update" action="?/displayname">
 		<div class="form-group">
 			<label for="displayname">Name shown on link page</label>
 			<input
@@ -87,11 +79,7 @@
 				required
 			/>
 		</div>
-
-		<div class="form-actions">
-			<button>Update</button>
-		</div>
-	</form>
+	</FormWrapper>
 
 	{#if form?.type === 'displayname'}
 		{#if form?.error}
@@ -107,16 +95,12 @@
 <section>
 	<h2>Bio</h2>
 
-	<form method="POST" action="?/bio" use:enhance>
+	<FormWrapper submit_text="Update" action="?/bio">
 		<div class="form-group">
 			<label for="bio">Bio shown on link page</label>
 			<textarea name="bio" id="bio">{data.bio ?? ''}</textarea>
 		</div>
-
-		<div class="form-actions">
-			<button>Update</button>
-		</div>
-	</form>
+	</FormWrapper>
 
 	{#if form?.type === 'bio'}
 		{#if form?.error}
