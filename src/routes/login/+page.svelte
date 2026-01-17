@@ -12,7 +12,7 @@
 	<h1>Login</h1>
 </header>
 
-<FormWrapper>
+<FormWrapper {form}>
 	<div class="form-group">
 		<label for="username">Username</label>
 		<input type="text" id="username" name="username" required />
@@ -24,8 +24,6 @@
 	</div>
 </FormWrapper>
 
-{#if form?.error}
-	<p class="error">{form.error}</p>
-{:else if data.message}
-	<p class="message">{data.message}</p>
+{#if !form && data.from_message}
+	<p class="message">{data.from_message}</p>
 {/if}

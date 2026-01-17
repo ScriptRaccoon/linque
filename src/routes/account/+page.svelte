@@ -25,26 +25,26 @@
 <section>
 	<h2>Username</h2>
 
-	<FormWrapper submit_text="Update" action="?/username">
+	<FormWrapper
+		submit_text="Update"
+		action="?/username"
+		form={form?.type === 'username' ? form : null}
+	>
 		<div class="form-group">
 			<label for="username">Username for login</label>
 			<input type="text" name="username" id="username" value={data.username} required />
 		</div>
 	</FormWrapper>
-
-	{#if form?.error && form.type === 'username'}
-		<p class="error">{form.error}</p>
-	{/if}
-
-	{#if form?.message && form.type === 'username'}
-		<p class="message">{form.message}</p>
-	{/if}
 </section>
 
 <section>
 	<h2>Password</h2>
 
-	<FormWrapper submit_text="Update" action="?/password">
+	<FormWrapper
+		submit_text="Update"
+		action="?/password"
+		form={form?.type === 'password' ? form : null}
+	>
 		<div class="form-group">
 			<label for="current_password">Current password</label>
 			<input type="password" name="current_password" id="current_password" required />
@@ -55,20 +55,16 @@
 			<input type="password" name="new_password" id="new_password" required />
 		</div>
 	</FormWrapper>
-
-	{#if form?.error && form.type === 'password'}
-		<p class="error">{form.error}</p>
-	{/if}
-
-	{#if form?.message && form.type === 'password'}
-		<p class="message">{form.message}</p>
-	{/if}
 </section>
 
 <section>
 	<h2>Display name</h2>
 
-	<FormWrapper submit_text="Update" action="?/displayname">
+	<FormWrapper
+		submit_text="Update"
+		action="?/displayname"
+		form={form?.type === 'displayname' ? form : null}
+	>
 		<div class="form-group">
 			<label for="displayname">Name shown on link page</label>
 			<input
@@ -80,37 +76,21 @@
 			/>
 		</div>
 	</FormWrapper>
-
-	{#if form?.type === 'displayname'}
-		{#if form?.error}
-			<p class="error">{form.error}</p>
-		{/if}
-
-		{#if form?.message}
-			<p class="message">{form.message}</p>
-		{/if}
-	{/if}
 </section>
 
 <section>
 	<h2>Bio</h2>
 
-	<FormWrapper submit_text="Update" action="?/bio">
+	<FormWrapper
+		submit_text="Update"
+		action="?/bio"
+		form={form?.type === 'bio' ? form : null}
+	>
 		<div class="form-group">
 			<label for="bio">Bio shown on link page</label>
 			<textarea name="bio" id="bio">{data.bio ?? ''}</textarea>
 		</div>
 	</FormWrapper>
-
-	{#if form?.type === 'bio'}
-		{#if form?.error}
-			<p class="error">{form.error}</p>
-		{/if}
-
-		{#if form?.message}
-			<p class="message">{form.message}</p>
-		{/if}
-	{/if}
 </section>
 
 <section>

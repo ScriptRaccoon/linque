@@ -12,7 +12,7 @@
 	<h1>Register</h1>
 </header>
 
-<FormWrapper>
+<FormWrapper {form}>
 	<div class="form-group">
 		<label for="username">Username</label>
 		<input type="text" name="username" id="username" required />
@@ -23,7 +23,3 @@
 		<input type="password" name="password" id="password" required />
 	</div>
 </FormWrapper>
-
-{#if form?.error}
-	<p class="error">{form.error}</p>
-{/if}

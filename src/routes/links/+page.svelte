@@ -38,7 +38,7 @@
 <section>
 	<h2>Add Link</h2>
 
-	<FormWrapper action="?/add">
+	<FormWrapper action="?/add" form={form?.type === 'add' ? form : null}>
 		<div class="form-group">
 			<label for="label">Label</label>
 			<input type="text" name="label" id="label" required />
@@ -49,14 +49,6 @@
 			<input type="text" name="url" id="url" required value="https://" />
 		</div>
 	</FormWrapper>
-
-	{#if form?.type === 'add' && form.error}
-		<p class="error">{form.error}</p>
-	{/if}
-
-	{#if form?.type === 'add' && form?.message}
-		<p class="message">{form.message}</p>
-	{/if}
 </section>
 
 <section>

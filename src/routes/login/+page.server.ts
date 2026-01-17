@@ -12,7 +12,7 @@ export const load: PageServerLoad = (event) => {
 	}
 
 	const from = event.url.searchParams.get('from') ?? ''
-	return { message: LOGIN_MESSAGES[from] }
+	return { from_message: LOGIN_MESSAGES[from] }
 }
 
 const limiter = new RateLimiter({ limit: 5, window_ms: 60_000 })

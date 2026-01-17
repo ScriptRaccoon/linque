@@ -12,7 +12,7 @@
 	<h1>Create Profile</h1>
 </header>
 
-<FormWrapper submit_text="Create">
+<FormWrapper submit_text="Create" {form}>
 	<div class="form-group">
 		<label for="displayname">Display name (required)</label>
 		<input type="text" name="displayname" id="displayname" required />
@@ -23,7 +23,3 @@
 		<textarea name="bio" id="bio"></textarea>
 	</div>
 </FormWrapper>
-
-{#if form?.error}
-	<p class="error">{form.error}</p>
-{/if}

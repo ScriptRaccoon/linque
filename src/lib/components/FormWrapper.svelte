@@ -6,9 +6,10 @@
 		children: Snippet
 		submit_text?: string
 		action?: string
+		form: { error: string } | { message: string } | null
 	}
 
-	let { children, submit_text = 'Submit', action = '' }: Props = $props()
+	let { children, submit_text = 'Submit', action = '', form }: Props = $props()
 
 	let sending = $state(false)
 </script>
@@ -36,3 +37,13 @@
 		</button>
 	</div>
 </form>
+
+{#if form && !sending}
+	{#if 'error' in form}
+		<p class="error">{form.error}</p>
+	{/if}
+
+	{#if 'message' in form}
+		<p class="message">{form.message}</p>
+	{/if}
+{/if}
