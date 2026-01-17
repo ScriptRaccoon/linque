@@ -1,12 +1,12 @@
 import { set_auth_cookie } from '$lib/server/auth'
 import { query } from '$lib/server/db'
-import { Rate_Limiter } from '$lib/server/ratelimit'
+import { RateLimiter } from '$lib/server/ratelimit'
 import { password_schema, username_schema } from '$lib/server/schemas'
 import { fail, redirect, type Actions } from '@sveltejs/kit'
 import bcrypt from 'bcrypt'
 import * as v from 'valibot'
 
-const limiter = new Rate_Limiter({ limit: 5, window_ms: 60_000 })
+const limiter = new RateLimiter({ limit: 5, window_ms: 60_000 })
 
 export const actions: Actions = {
 	default: async (event) => {

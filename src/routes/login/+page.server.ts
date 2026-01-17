@@ -2,7 +2,7 @@ import { query } from '$lib/server/db'
 import { fail, redirect, type Actions } from '@sveltejs/kit'
 import bcrypt from 'bcrypt'
 import type { PageServerLoad } from './$types'
-import { Rate_Limiter } from '$lib/server/ratelimit'
+import { RateLimiter } from '$lib/server/ratelimit'
 import { COOKIE_OPTIONS, set_auth_cookie } from '$lib/server/auth'
 import { COOKIE_DISPLAYNAME } from '$lib/server/config'
 
@@ -15,7 +15,7 @@ export const load: PageServerLoad = (event) => {
 	return { message: LOGIN_MESSAGES[from] }
 }
 
-const limiter = new Rate_Limiter({ limit: 5, window_ms: 60_000 })
+const limiter = new RateLimiter({ limit: 5, window_ms: 60_000 })
 
 export const actions: Actions = {
 	default: async (event) => {

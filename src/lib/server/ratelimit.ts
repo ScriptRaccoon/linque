@@ -8,7 +8,7 @@ type State = {
 	window_start: number
 }
 
-export class Rate_Limiter {
+export class RateLimiter {
 	private limit: number
 	private window_ms: number
 	private map = new Map<string, State>()

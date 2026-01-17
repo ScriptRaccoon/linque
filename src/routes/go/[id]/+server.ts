@@ -1,10 +1,10 @@
 import { error, redirect } from '@sveltejs/kit'
 import type { RequestHandler } from './$types'
 import { query } from '$lib/server/db'
-import { Rate_Limiter } from '$lib/server/ratelimit'
+import { RateLimiter } from '$lib/server/ratelimit'
 import { validate_token } from '$lib/server/tokens'
 
-const limiter = new Rate_Limiter({ limit: 10, window_ms: 10_000 })
+const limiter = new RateLimiter({ limit: 10, window_ms: 10_000 })
 
 export const GET: RequestHandler = async (event) => {
 	const ip = event.getClientAddress()
