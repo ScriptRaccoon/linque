@@ -128,48 +128,4 @@ export const actions: Actions = {
 
 		return { type: 'delete', message: 'Link has been deleted' }
 	},
-
-	swap: async (event) => {
-		const user = event.locals.user
-
-		if (!user) {
-			return fail(401, {
-				type: 'edit',
-				error: 'Unauthorized',
-			})
-		}
-
-		const form = await event.request.formData()
-		const position_a = Number(form.get('position_a') as string)
-		const position_b = Number(form.get('position_b') as string)
-
-		if (!Number.isInteger(position_a) || !Number.isInteger(position_b)) {
-			return fail(400, {
-				type: 'edit',
-				error: 'Positions must be integers',
-			})
-		}
-
-		const sql = `
-			UPDATE links
-			SET
-				position = CASE position
-					WHEN ? THEN ?
-					WHEN ? THEN ?
-					ELSE position
-				END
-			WHERE
-				user_id = ?`
-
-		const args = [position_a, position_b, position_b, position_a, user.id]
-
-		const { err } = await query(sql, args)
-
-		if (err) {
-			return fail(500, {
-				type: 'edit',
-				error: 'Internal Server Error',
-			})
-		}
-	},
 }
