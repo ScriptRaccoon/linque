@@ -16,18 +16,15 @@ export const GET: RequestHandler = async (event) => {
 	const link_id = event.params.id
 	const token = event.url.searchParams.get('token')
 
-	if (token === null) {
-		error(401, 'Token required')
-	}
+	const sql_without_tracking = 'SELECT url FROM links WHERE id = ?'
 
-	if (!validate_token(token)) {
-		error(401, 'Invalid token')
-	}
+	const sql_with_tracking =
+		'UPDATE links SET click_count = click_count + 1 WHERE id = ? RETURNING url'
 
-	const { rows, err } = await query<{ url: string }>(
-		'UPDATE links SET click_count = click_count + 1 WHERE id = ? RETURNING url',
-		[link_id],
-	)
+	const sql =
+		token !== null && validate_token(token) ? sql_with_tracking : sql_without_tracking
+
+	const { rows, err } = await query<{ url: string }>(sql, [link_id])
 
 	if (err) {
 		error(500, 'Internal Server Error')
