@@ -34,13 +34,11 @@ export const load: PageServerLoad = async (event) => {
 
 	const token = generate_token()
 
-	const is_linkpage = !event.url.searchParams.has('preview')
-
 	return {
 		displayname,
 		bio,
 		links,
 		token,
-		is_linkpage,
+		is_linkpage: true,
 	}
 }

@@ -15,11 +15,7 @@
 
 			{#if page.data.displayname}
 				<li>
-					<NavLink
-						path="@{page.data.displayname}?preview=true"
-						label="Preview"
-						current={page.url.pathname === `/@${page.data.displayname}`}
-					>
+					<NavLink path="@{page.data.displayname}" label="Preview" target="_blank">
 						<Eye size={20} />
 					</NavLink>
 				</li>
