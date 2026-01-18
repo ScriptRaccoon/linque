@@ -1,4 +1,4 @@
-import { error, redirect } from '@sveltejs/kit'
+import { error, json } from '@sveltejs/kit'
 import type { RequestHandler } from './$types'
 import { query } from '$lib/server/db'
 import { RateLimiter } from '$lib/server/ratelimit'
@@ -16,27 +16,21 @@ export const GET: RequestHandler = async (event) => {
 	const link_id = event.params.id
 	const token = event.url.searchParams.get('token')
 
-	const sql_without_tracking = 'SELECT url FROM links WHERE id = ?'
+	if (token === null) {
+		error(401, 'Token required')
+	}
 
-	const sql_with_tracking =
-		'UPDATE links SET click_count = click_count + 1 WHERE id = ? RETURNING url'
+	if (!validate_token(token)) {
+		error(401, 'Invalid token')
+	}
 
-	const sql =
-		token !== null && validate_token(token) ? sql_with_tracking : sql_without_tracking
+	const sql = 'UPDATE links SET click_count = click_count + 1 WHERE id = ?'
 
-	const { rows, err } = await query<{ url: string }>(sql, [link_id])
+	const { err } = await query<{ url: string }>(sql, [link_id])
 
 	if (err) {
 		error(500, 'Internal Server Error')
 	}
 
-	if (!rows.length) {
-		error(404, 'Not Found')
-	}
-
-	const { url } = rows[0]
-
-	limiter.record(ip)
-
-	redirect(302, url)
+	return json({ message: 'Link click has been tracked' })
 }

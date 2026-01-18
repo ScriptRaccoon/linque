@@ -2,7 +2,7 @@ import { authenticate } from '$lib/server/auth'
 import { initialize_db } from '$lib/server/db'
 import { redirect, type Handle, type ServerInit } from '@sveltejs/kit'
 
-const auth_routes = ['/account', '/links', '/create', '/api']
+const auth_routes = ['/account', '/links', '/create', '/api/links']
 const profile_routes = ['/account', '/links']
 
 const matches_route = (pathname: string, routes: string[]) =>

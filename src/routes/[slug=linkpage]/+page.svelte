@@ -3,6 +3,12 @@
 	import { Lightbulb } from 'lucide-svelte'
 
 	let { data } = $props()
+
+	async function handle_click(link: { id: string; url: string }) {
+		const res = await fetch(`/api/track/links/${link.id}?token=${data.token}`)
+		if (!res.ok) console.error('Failed to track link click')
+		window.location.href = link.url
+	}
 </script>
 
 <svelte:head>
@@ -30,7 +36,14 @@
 {#if data.links.length}
 	<main class="links">
 		{#each data.links as link (link.id)}
-			<a href="/redirect/{link.id}?token={data.token}" class="link">
+			<a
+				href={link.url}
+				class="link"
+				onclick={(e) => {
+					e.preventDefault()
+					handle_click(link)
+				}}
+			>
 				{link.label}
 			</a>
 		{/each}
