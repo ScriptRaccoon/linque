@@ -30,7 +30,7 @@
 {#if data.links.length}
 	<main class="links">
 		{#each data.links as link (link.id)}
-			<a href="/go/{link.id}?token={data.token}" class="link">
+			<a href="/redirect/{link.id}?token={data.token}" class="link">
 				{link.label}
 			</a>
 		{/each}
