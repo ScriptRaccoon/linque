@@ -96,8 +96,8 @@
 <section>
 	<h2>Delete account</h2>
 
-	<div class="form-actions">
-		<button class="danger" onclick={open_delete_account_dialog}>Delete</button>
+	<div>
+		<button class="button danger" onclick={open_delete_account_dialog}>Delete</button>
 	</div>
 
 	{#if form?.error && form.type === 'delete'}

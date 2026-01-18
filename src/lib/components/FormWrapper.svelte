@@ -27,8 +27,8 @@
 >
 	{@render children()}
 
-	<div class="form-actions">
-		<button disabled={sending}>
+	<div>
+		<button class="button" disabled={sending}>
 			{#if sending}
 				{submit_text}...
 			{:else}

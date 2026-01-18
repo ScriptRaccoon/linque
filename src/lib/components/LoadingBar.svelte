@@ -7,14 +7,14 @@
 		top: 0;
 		right: 0;
 		height: 2px;
-		background-color: yellow;
+		background-color: var(--accent-color);
 		animation: grow 2s linear forwards;
 		opacity: 0.75;
 	}
 
 	@keyframes grow {
 		0% {
-			width: 0rem;
+			width: 0%;
 		}
 
 		20% {

@@ -35,15 +35,18 @@
 		{#if dialog_state.id}
 			<input type="hidden" name="id" value={dialog_state.id} />
 		{/if}
-		<div class="form-actions">
-			<button class="danger" disabled={sending}>
+		<div class="actions">
+			<button class="button" type="button" onclick={close_dialog} disabled={sending}>
+				Cancel
+			</button>
+
+			<button class="button danger" disabled={sending}>
 				{#if sending}
 					Yes...
 				{:else}
 					Yes
 				{/if}
 			</button>
-			<button type="button" onclick={close_dialog} disabled={sending}>Cancel</button>
 		</div>
 	</form>
 </dialog>
@@ -56,8 +59,7 @@
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
-		outline: 1px solid var(--light-outline-color);
-		border: none;
+		border: 1px solid var(--light-outline-color);
 		box-shadow: 0 0 1rem #000a;
 		width: min(95vw, 40ch);
 		padding: 1.25rem;
@@ -74,7 +76,9 @@
 		margin-bottom: 1rem;
 	}
 
-	.form-actions {
+	.actions {
+		display: flex;
 		justify-content: center;
+		gap: 1rem;
 	}
 </style>

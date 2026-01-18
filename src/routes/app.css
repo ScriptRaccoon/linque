@@ -7,18 +7,19 @@
 }
 
 :root {
-	--error-color: #db3030;
-	--success-color: #22e222;
-	--button-color: royalblue;
 	--bg-color: #101013;
 	--secondary-bg-color: #25252d;
-	--link-gradient: linear-gradient(#3d3d48, #25252d);
 	--font-color: #fff;
 	--secondary-font-color: #bbc;
-	--light-outline-color: #bbb;
+	--button-color: royalblue;
 	--outline-color: #444;
+	--light-outline-color: #bbb;
 	--input-bg-color: #202020;
-	--input-focus-color: #252525;
+	--input-bg-focus-color: #252525;
+	--link-gradient: linear-gradient(#3d3d48, #25252d);
+	--error-color: #db3030;
+	--success-color: #22e222;
+	--accent-color: yellow;
 }
 
 body {
@@ -105,6 +106,10 @@ button:not(:disabled) {
 	cursor: pointer;
 }
 
+button:disabled {
+	opacity: 0.75;
+}
+
 :is(button, input, textarea, select, a):focus-visible {
 	outline: 1px solid var(--light-outline-color) !important;
 }
@@ -135,38 +140,21 @@ textarea {
 		outline: 1px solid var(--outline-color);
 
 		&:focus-visible {
-			background-color: var(--input-focus-color);
+			background-color: var(--input-bg-focus-color);
 		}
 	}
-
-	textarea {
-		font-size: 1.2rem;
-	}
 }
 
-.form-actions {
-	display: flex;
-	gap: 0.5rem;
-
-	button {
-		background-color: var(--button-color);
-		padding: 0.2rem 0.75rem;
-		border-radius: 0.2rem;
-	}
-
-	button.danger {
-		background-color: var(--error-color);
-	}
-
-	button:disabled {
-		opacity: 0.75;
-	}
-}
+/* BUTTONS */
 
 .button {
 	background-color: var(--button-color);
 	padding: 0.2rem 0.75rem;
 	border-radius: 0.2rem;
+}
+
+.button.danger {
+	background-color: var(--error-color);
 }
 
 a.button {

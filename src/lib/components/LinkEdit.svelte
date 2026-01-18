@@ -22,7 +22,9 @@
 
 <div class="link">
 	<h3>{label}</h3>
+
 	<a href={url} class="url">{url}</a>
+
 	<span aria-label="number of clicks" class="clicks">
 		<Eye size={18} />
 		{click_count}
@@ -46,7 +48,6 @@
 		grid-template-rows: repeat(3, 1fr);
 		grid-template-columns: 1fr auto;
 		gap: 0.25rem;
-		position: relative;
 		box-shadow: 0 0 1rem #0006;
 
 		button {
@@ -56,16 +57,16 @@
 		}
 	}
 
+	.url {
+		font-family: monospace;
+		width: fit-content;
+	}
+
 	.clicks {
 		display: flex;
 		align-items: center;
 		gap: 0.25rem;
 		font-size: 0.875rem;
 		color: var(--secondary-font-color);
-	}
-
-	.url {
-		font-family: monospace;
-		width: fit-content;
 	}
 </style>
