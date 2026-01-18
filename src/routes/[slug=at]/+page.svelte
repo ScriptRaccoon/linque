@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { decode_spaces } from '$lib/utils'
+	import { Lightbulb } from 'lucide-svelte'
 
 	let { data } = $props()
 </script>
@@ -39,7 +40,8 @@
 {/if}
 
 <footer>
-	<a href="/">Create your own linque</a>
+	<Lightbulb size={20} />
+	<a href="/"> Create your own linque</a>
 </footer>
 
 <style>
@@ -76,6 +78,7 @@
 	}
 
 	.info {
+		font-size: 1.5rem;
 		text-align: center;
 	}
 </style>
