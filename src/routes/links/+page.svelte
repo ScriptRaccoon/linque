@@ -3,7 +3,7 @@
 	import { page } from '$app/state'
 	import FormWrapper from '$lib/components/FormWrapper.svelte'
 	import LinkEdit from '$lib/components/LinkEdit.svelte'
-	import { sleep } from '$lib/utils.js'
+	import { sleep } from '$lib/utils'
 	import { ArrowDownUp } from 'lucide-svelte'
 	import { flip } from 'svelte/animate'
 	import { cubicOut } from 'svelte/easing'

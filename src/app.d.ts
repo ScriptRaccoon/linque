@@ -1,4 +1,4 @@
-import type { UserPayload } from '$lib/server/auth'
+import type { User } from '$lib/server/auth'
 
 // See https://svelte.dev/docs/kit/types#app.d.ts
 // for information about these interfaces
@@ -6,10 +6,10 @@ declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
-			user?: UserPayload
+			user?: User
 		}
 		interface PageData {
-			user?: UserPayload
+			user?: User
 			displayname?: string
 			is_linkpage?: boolean
 		}

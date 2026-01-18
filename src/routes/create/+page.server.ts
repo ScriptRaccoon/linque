@@ -1,5 +1,5 @@
-import { COOKIE_OPTIONS, set_auth_cookie } from '$lib/server/auth'
-import { COOKIE_DISPLAYNAME } from '$lib/server/config'
+import { set_auth_cookie } from '$lib/server/auth'
+import { COOKIE_DISPLAYNAME, COOKIE_OPTIONS } from '$lib/server/config'
 import { is_constraint_error } from '$lib/server/db'
 import { query } from '$lib/server/db'
 import { bio_schema } from '$lib/server/schemas'

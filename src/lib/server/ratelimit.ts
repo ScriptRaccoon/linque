@@ -1,8 +1,3 @@
-type Options = {
-	limit: number
-	window_ms: number
-}
-
 type State = {
 	count: number
 	window_start: number
@@ -13,7 +8,7 @@ export class RateLimiter {
 	private window_ms: number
 	private map = new Map<string, State>()
 
-	constructor(options: Options) {
+	constructor(options: { limit: number; window_ms: number }) {
 		this.limit = options.limit
 		this.window_ms = options.window_ms
 	}

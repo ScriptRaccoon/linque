@@ -3,8 +3,8 @@ import { fail, redirect, type Actions } from '@sveltejs/kit'
 import bcrypt from 'bcrypt'
 import type { PageServerLoad } from './$types'
 import { RateLimiter } from '$lib/server/ratelimit'
-import { COOKIE_OPTIONS, set_auth_cookie } from '$lib/server/auth'
-import { COOKIE_DISPLAYNAME } from '$lib/server/config'
+import { set_auth_cookie } from '$lib/server/auth'
+import { COOKIE_DISPLAYNAME, COOKIE_OPTIONS } from '$lib/server/config'
 
 export const load: PageServerLoad = (event) => {
 	const LOGIN_MESSAGES: Record<string, undefined | string> = {

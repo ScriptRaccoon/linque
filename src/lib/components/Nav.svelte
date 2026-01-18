@@ -15,7 +15,7 @@
 
 			{#if page.data.displayname}
 				<li>
-					<NavLink path="@{page.data.displayname}" label="Preview" target="_blank">
+					<NavLink path="/@{page.data.displayname}" label="Preview" target="_blank">
 						<Eye size={20} />
 					</NavLink>
 				</li>

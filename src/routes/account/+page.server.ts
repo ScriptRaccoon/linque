@@ -7,7 +7,7 @@ import { password_schema, username_schema } from '$lib/server/schemas'
 import type { PageServerLoad } from './$types'
 import { displayname_schema } from '$lib/server/schemas'
 import { encode_spaces } from '$lib/utils'
-import { COOKIE_OPTIONS } from '$lib/server/auth'
+import { COOKIE_OPTIONS } from '$lib/server/config'
 import { bio_schema } from '$lib/server/schemas'
 import { COOKIE_DISPLAYNAME } from '$lib/server/config'
 
@@ -94,12 +94,12 @@ export const actions: Actions = {
 		const current_password = form.get('current_password') as string
 		const new_password = form.get('new_password') as string
 
-		const { rows, err } = await query<{ password_hash: string }>(
+		const { rows, err: err_password } = await query<{ password_hash: string }>(
 			'SELECT password_hash FROM users WHERE id = ?',
 			[user.id],
 		)
 
-		if (err || !rows.length) {
+		if (err_password || !rows.length) {
 			return fail(500, {
 				type: 'password',
 				error: 'Internal Server Error',

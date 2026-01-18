@@ -11,8 +11,7 @@ export async function initialize_db() {
 		await db.executeMultiple('PRAGMA foreign_keys = ON; PRAGMA journal_mode = WAL;')
 		console.info('Database initialized ✅')
 	} catch (err) {
-		const libsql_error = err as LibsqlError
-		console.error(libsql_error.message)
+		console.error((err as LibsqlError).message)
 	}
 }
 
@@ -26,7 +25,7 @@ export async function query<T = unknown>(
 	} catch (err) {
 		const libsql_error = err as LibsqlError
 		if (!is_constraint_error(libsql_error)) console.error(libsql_error)
-		return { rows: null, err: err as LibsqlError }
+		return { rows: null, err: libsql_error }
 	}
 }
 

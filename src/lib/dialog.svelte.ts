@@ -15,12 +15,12 @@ export function open_dialog(state: Omit<DialogState, 'open'>) {
 	dialog_state.open = true
 	dialog_state.question = state.question
 	dialog_state.action = state.action
-	if (state.id) dialog_state.id = state.id
+	if (state.id !== undefined) dialog_state.id = state.id
 }
 
 export function close_dialog() {
 	dialog_state.open = false
-	delete dialog_state.id
 	dialog_state.question = ''
 	dialog_state.action = ''
+	delete dialog_state.id
 }

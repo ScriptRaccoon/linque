@@ -16,9 +16,11 @@ export const GET: RequestHandler = async (event) => {
 	const link_id = event.params.id
 	const token = event.url.searchParams.get('token')
 
-	const valid = token !== null && validate_token(token)
+	if (token === null) {
+		error(401, 'Token required')
+	}
 
-	if (!valid) {
+	if (!validate_token(token)) {
 		error(401, 'Invalid token')
 	}
 
