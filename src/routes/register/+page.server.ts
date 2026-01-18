@@ -21,6 +21,7 @@ export const actions: Actions = {
 		const form = await event.request.formData()
 		const username = form.get('username') as string
 		const password = form.get('password') as string
+		const repeat_password = form.get('repeat_password') as string
 
 		const username_parsed = v.safeParse(username_schema, username)
 
@@ -34,6 +35,10 @@ export const actions: Actions = {
 
 		if (!password_parsed.success) {
 			return fail(400, { error: password_parsed.issues[0].message })
+		}
+
+		if (password !== repeat_password) {
+			return fail(400, { error: 'Passwords do not match' })
 		}
 
 		const password_hash = await bcrypt.hash(password, 10)
