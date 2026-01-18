@@ -8,11 +8,7 @@ You can add links to social media profiles, personal websites, blogs, portfolios
 
 ## Screenshots
 
-<img width="300" alt="preview" src="https://github.com/user-attachments/assets/4d4bbafa-9254-4b45-9116-c900c0d9d578" /> <br />
-
-<img width="300" alt="links" src="https://github.com/user-attachments/assets/933a63cc-54a0-4ff0-87d7-fdc9b66d0eb7" /> <br />
-
-<img width="300" alt="account" src="https://github.com/user-attachments/assets/13367c07-905b-42f6-bdbb-415e23967337" /> <br />
+<img width="300" src="https://github.com/user-attachments/assets/9d669da0-3dc8-4a7f-bf30-b92e0777d64a" alt="public link page" /> &nbsp;&nbsp;&nbsp; <img width="300" src="https://github.com/user-attachments/assets/c26ab920-fca2-4935-b71a-c18ef1db917a" alt="edit link page" />
 
 
 
