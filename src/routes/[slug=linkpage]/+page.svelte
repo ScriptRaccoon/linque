@@ -5,7 +5,9 @@
 	let { data } = $props()
 
 	async function handle_click(link: { id: string; url: string }) {
-		const res = await fetch(`/api/track/links/${link.id}?token=${data.token}`)
+		const res = await fetch(`/api/track/links/${link.id}?token=${data.token}`, {
+			method: 'PATCH',
+		})
 		if (!res.ok) console.error('Failed to track link click')
 		window.location.href = link.url
 	}

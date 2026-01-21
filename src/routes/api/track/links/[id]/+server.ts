@@ -6,7 +6,7 @@ import { validate_token } from '$lib/server/tokens'
 
 const limiter = new RateLimiter({ limit: 10, window_ms: 10_000 })
 
-export const GET: RequestHandler = async (event) => {
+export const PATCH: RequestHandler = async (event) => {
 	const ip = event.getClientAddress()
 
 	if (!limiter.is_allowed(ip)) {
