@@ -8,7 +8,7 @@ export const db = createClient({
 
 export async function initialize_db() {
 	try {
-		await db.executeMultiple('PRAGMA foreign_keys = ON; PRAGMA journal_mode = WAL;')
+		await db.executeMultiple('PRAGMA foreign_keys = ON;')
 		console.info('Database initialized ✅')
 	} catch (err) {
 		console.error((err as LibsqlError).message)

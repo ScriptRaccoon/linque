@@ -27,5 +27,3 @@ todos.txt
 
 # local database
 local.db
-local.db-shm
-local.db-wal
