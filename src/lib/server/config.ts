@@ -1,5 +1,3 @@
-export const COOKIE_DISPLAYNAME = 'displayname'
-
 export const COOKIE_OPTIONS = {
 	httpOnly: true,
 	path: '/',

@@ -1,7 +1,7 @@
-import { COOKIE_DISPLAYNAME } from '$lib/server/config'
+import { get_displayname } from '$lib/server/displayname'
 import type { LayoutServerLoad } from './$types'
 
 export const load: LayoutServerLoad = async (event) => {
-	const displayname = event.cookies.get(COOKIE_DISPLAYNAME)
+	const displayname = get_displayname(event)
 	return { user: event.locals.user, displayname }
 }

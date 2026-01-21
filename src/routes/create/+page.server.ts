@@ -1,9 +1,10 @@
 import { set_auth_cookie } from '$lib/server/auth'
-import { COOKIE_DISPLAYNAME, COOKIE_OPTIONS } from '$lib/server/config'
+import { COOKIE_OPTIONS } from '$lib/server/config'
 import { is_constraint_error } from '$lib/server/db'
 import { query } from '$lib/server/db'
 import { bio_schema } from '$lib/server/schemas'
 import { displayname_schema } from '$lib/server/schemas'
+import { set_displayname_cookie } from '$lib/server/displayname'
 import { encode_spaces } from '$lib/utils'
 import { error, fail, redirect, type Actions } from '@sveltejs/kit'
 import * as v from 'valibot'
@@ -59,7 +60,7 @@ export const actions: Actions = {
 		const profile_id = rows[0].id
 
 		set_auth_cookie(event, { id: user.id, profile_id })
-		event.cookies.set(COOKIE_DISPLAYNAME, displayname_db, COOKIE_OPTIONS)
+		set_displayname_cookie(event, displayname_db)
 
 		return redirect(303, '/links')
 	},

@@ -9,7 +9,10 @@ import { displayname_schema } from '$lib/server/schemas'
 import { encode_spaces } from '$lib/utils'
 import { COOKIE_OPTIONS } from '$lib/server/config'
 import { bio_schema } from '$lib/server/schemas'
-import { COOKIE_DISPLAYNAME } from '$lib/server/config'
+import {
+	delete_displayname_cookie,
+	set_displayname_cookie,
+} from '$lib/server/displayname'
 
 export const load: PageServerLoad = async (event) => {
 	const user = event.locals.user
@@ -181,7 +184,7 @@ export const actions: Actions = {
 			return fail(500, { type: 'displayname', error: 'Internal Server Error' })
 		}
 
-		event.cookies.set(COOKIE_DISPLAYNAME, displayname_db, COOKIE_OPTIONS)
+		set_displayname_cookie(event, displayname_db)
 
 		return {
 			type: 'displayname',
@@ -244,7 +247,7 @@ export const actions: Actions = {
 		}
 
 		delete_auth_cookie(event)
-		event.cookies.delete('displayname', { path: '/' })
+		delete_displayname_cookie(event)
 
 		return redirect(302, '/')
 	},

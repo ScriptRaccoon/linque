@@ -4,7 +4,8 @@ import bcrypt from 'bcrypt'
 import type { PageServerLoad } from './$types'
 import { RateLimiter } from '$lib/server/ratelimit'
 import { set_auth_cookie } from '$lib/server/auth'
-import { COOKIE_DISPLAYNAME, COOKIE_OPTIONS } from '$lib/server/config'
+import { COOKIE_OPTIONS } from '$lib/server/config'
+import { set_displayname_cookie } from '$lib/server/displayname'
 
 export const load: PageServerLoad = (event) => {
 	const LOGIN_MESSAGES: Record<string, undefined | string> = {
@@ -68,7 +69,8 @@ export const actions: Actions = {
 		limiter.clear(ip)
 
 		set_auth_cookie(event, { id, profile_id })
-		if (displayname) event.cookies.set(COOKIE_DISPLAYNAME, displayname, COOKIE_OPTIONS)
+
+		if (displayname) set_displayname_cookie(event, displayname)
 
 		if (profile_id === null) {
 			redirect(303, '/create')
