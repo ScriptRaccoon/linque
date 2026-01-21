@@ -32,5 +32,7 @@ export const PATCH: RequestHandler = async (event) => {
 		return json({ message: 'Internal Server Error' }, { status: 500 })
 	}
 
+	limiter.record(ip)
+
 	return json({ message: 'Link click has been tracked' })
 }
