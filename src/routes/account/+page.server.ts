@@ -244,6 +244,7 @@ export const actions: Actions = {
 		}
 
 		delete_auth_cookie(event)
+		event.cookies.delete('displayname', { path: '/' })
 
 		return redirect(302, '/')
 	},
