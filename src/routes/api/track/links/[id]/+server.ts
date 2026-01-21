@@ -1,4 +1,4 @@
-import { error, json } from '@sveltejs/kit'
+import { json } from '@sveltejs/kit'
 import type { RequestHandler } from './$types'
 import { query } from '$lib/server/db'
 import { RateLimiter } from '$lib/server/ratelimit'
@@ -10,18 +10,18 @@ export const PATCH: RequestHandler = async (event) => {
 	const ip = event.getClientAddress()
 
 	if (!limiter.is_allowed(ip)) {
-		error(429, 'Too many link clicks. Try again later.')
+		return json({ message: 'Too many link clicks. Try again later.' }, { status: 429 })
 	}
 
 	const link_id = event.params.id
 	const token = event.url.searchParams.get('token')
 
 	if (token === null) {
-		error(401, 'Token required')
+		return json({ message: 'Token required' }, { status: 401 })
 	}
 
 	if (!validate_token(token)) {
-		error(401, 'Invalid token')
+		return json({ message: 'Invalid token' }, { status: 401 })
 	}
 
 	const sql = 'UPDATE links SET click_count = click_count + 1 WHERE id = ?'
@@ -29,7 +29,7 @@ export const PATCH: RequestHandler = async (event) => {
 	const { err } = await query<{ url: string }>(sql, [link_id])
 
 	if (err) {
-		error(500, 'Internal Server Error')
+		return json({ message: 'Internal Server Error' }, { status: 500 })
 	}
 
 	return json({ message: 'Link click has been tracked' })

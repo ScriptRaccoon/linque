@@ -1,4 +1,4 @@
-import { error, json } from '@sveltejs/kit'
+import { json } from '@sveltejs/kit'
 import type { RequestHandler } from './$types'
 import * as v from 'valibot'
 import { query } from '$lib/server/db'
@@ -11,7 +11,7 @@ const request_schema = v.object({
 export const PATCH: RequestHandler = async (event) => {
 	const user = event.locals.user
 	if (!user || user.profile_id === null) {
-		error(401, 'Unauthorized')
+		return json({ message: 'Unauthorized' }, { status: 401 })
 	}
 
 	const body: unknown = await event.request.json()
@@ -19,7 +19,7 @@ export const PATCH: RequestHandler = async (event) => {
 	const parsed = v.safeParse(request_schema, body)
 
 	if (!parsed.success) {
-		error(400, 'Invalid request body')
+		return json({ message: 'Invalid request body' }, { status: 400 })
 	}
 
 	const { pos_1, pos_2 } = parsed.output
@@ -38,7 +38,7 @@ export const PATCH: RequestHandler = async (event) => {
 	const { err } = await query(sql, args)
 
 	if (err) {
-		return error(500, 'Internal Server Error')
+		return json({ message: 'Internal Server Error' }, { status: 500 })
 	}
 
 	return json({ message: 'Links have been swapped' })
