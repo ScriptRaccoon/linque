@@ -4,7 +4,6 @@ import bcrypt from 'bcrypt'
 import type { PageServerLoad } from './$types'
 import { RateLimiter } from '$lib/server/ratelimit'
 import { set_auth_cookie } from '$lib/server/auth'
-import { COOKIE_OPTIONS } from '$lib/server/config'
 import { set_displayname_cookie } from '$lib/server/displayname'
 
 export const load: PageServerLoad = (event) => {

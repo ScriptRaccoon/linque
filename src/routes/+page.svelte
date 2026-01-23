@@ -1,3 +1,7 @@
+<script lang="ts">
+	let { data } = $props()
+</script>
+
 <svelte:head>
 	<title>Linque</title>
 </svelte:head>
@@ -5,6 +9,10 @@
 <header>
 	<h1>Linque</h1>
 </header>
+
+{#if data.message}
+	<p class="message">{data.message}</p>
+{/if}
 
 <main>
 	<p>
