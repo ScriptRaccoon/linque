@@ -3,8 +3,8 @@
 	import { page } from '$app/state'
 	import FormWrapper from '$lib/components/FormWrapper.svelte'
 	import LinkEdit from '$lib/components/LinkEdit.svelte'
+	import Swapper from '$lib/components/Swapper.svelte'
 	import { sleep } from '$lib/utils'
-	import { ArrowDownUp } from 'lucide-svelte'
 	import { flip } from 'svelte/animate'
 	import { cubicOut } from 'svelte/easing'
 
@@ -91,15 +91,10 @@
 
 					{#if index < links.length - 1}
 						{@const next_link = links[index + 1]}
-						<div class="swapper">
-							<button
-								aria-label="swap {link.label} with {next_link.label}"
-								class="icon-button"
-								onclick={() => swap_links(index)}
-							>
-								<ArrowDownUp size={20} />
-							</button>
-						</div>
+						<Swapper
+							swap={() => swap_links(index)}
+							label="swap {link.label} with {next_link.label}"
+						/>
 					{/if}
 				</div>
 			{/each}
@@ -124,10 +119,5 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-	}
-
-	.swapper {
-		text-align: center;
-		margin-block: 0.25rem;
 	}
 </style>
