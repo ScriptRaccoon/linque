@@ -12,6 +12,7 @@ declare global {
 			user?: User
 			displayname?: string
 			is_linkpage?: boolean
+			max_bio_length: number
 		}
 		// interface PageState {}
 		// interface Platform {}

@@ -7,7 +7,6 @@ import { password_schema, username_schema } from '$lib/server/schemas'
 import type { PageServerLoad } from './$types'
 import { displayname_schema } from '$lib/server/schemas'
 import { encode_spaces } from '$lib/utils'
-import { COOKIE_OPTIONS } from '$lib/server/config'
 import { bio_schema } from '$lib/server/schemas'
 import {
 	delete_displayname_cookie,

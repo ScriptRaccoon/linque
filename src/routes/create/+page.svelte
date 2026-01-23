@@ -1,7 +1,8 @@
 <script lang="ts">
 	import FormWrapper from '$lib/components/FormWrapper.svelte'
+	import Textarea from '$lib/components/Textarea.svelte'
 
-	let { form } = $props()
+	let { data, form } = $props()
 </script>
 
 <svelte:head>
@@ -20,6 +21,6 @@
 
 	<div class="form-group">
 		<label for="bio">Bio (optional)</label>
-		<textarea name="bio" id="bio"></textarea>
+		<Textarea name="bio" content="" max_length={data.max_bio_length} />
 	</div>
 </FormWrapper>

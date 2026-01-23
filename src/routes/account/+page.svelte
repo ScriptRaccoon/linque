@@ -1,5 +1,6 @@
 <script lang="ts">
 	import FormWrapper from '$lib/components/FormWrapper.svelte'
+	import Textarea from '$lib/components/Textarea.svelte'
 	import { open_dialog } from '$lib/dialog.svelte'
 	import { decode_spaces } from '$lib/utils'
 
@@ -88,7 +89,8 @@
 	>
 		<div class="form-group">
 			<label for="bio">Bio shown on link page</label>
-			<textarea name="bio" id="bio">{data.bio ?? ''}</textarea>
+			<Textarea name="bio" content={data.bio ?? ''} max_length={data.max_bio_length}
+			></Textarea>
 		</div>
 	</FormWrapper>
 </section>

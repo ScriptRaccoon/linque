@@ -29,10 +29,12 @@ export const displayname_schema = v.pipe(
 	),
 )
 
+export const MAX_BIO_LENGTH = 160
+
 export const bio_schema = v.nullable(
 	v.pipe(
 		v.string('Bio must be a string'),
-		v.maxLength(160, 'Bio must be at most 160 characters long'),
+		v.maxLength(MAX_BIO_LENGTH, `Bio must be at most ${MAX_BIO_LENGTH} characters long`),
 	),
 )
 
