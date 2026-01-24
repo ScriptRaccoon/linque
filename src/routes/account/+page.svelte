@@ -1,5 +1,6 @@
 <script lang="ts">
 	import FormWrapper from '$lib/components/FormWrapper.svelte'
+	import InfoPopover from '$lib/components/InfoPopover.svelte'
 	import Textarea from '$lib/components/Textarea.svelte'
 	import { open_dialog } from '$lib/dialog.svelte'
 	import { decode_spaces } from '$lib/utils'
@@ -33,7 +34,12 @@
 		form={form?.type === 'username' ? form : null}
 	>
 		<div class="form-group">
-			<label for="username">Username for login</label>
+			<div class="label-with-info">
+				<label for="username">Username</label>
+				<InfoPopover label="infos about the username">
+					The username is only used for the login and stays private.
+				</InfoPopover>
+			</div>
 			<input type="text" name="username" id="username" value={data.username} required />
 		</div>
 	</FormWrapper>
@@ -70,7 +76,13 @@
 		form={form?.type === 'displayname' ? form : null}
 	>
 		<div class="form-group">
-			<label for="displayname">Name shown on link page</label>
+			<div class="label-with-info">
+				<label for="displayname">Display name</label>
+				<InfoPopover label="infos about the display name">
+					The display name is shown on the public link page. It is not used for logging
+					in.
+				</InfoPopover>
+			</div>
 			<input
 				type="text"
 				name="displayname"
@@ -92,7 +104,12 @@
 		form={form?.type === 'bio' ? form : null}
 	>
 		<div class="form-group">
-			<label for="bio">Bio shown on link page</label>
+			<div class="label-with-info">
+				<label for="bio">Bio</label>
+				<InfoPopover label="infos about bio">
+					The bio is a short summary about yourself. It is shown on the public link page.
+				</InfoPopover>
+			</div>
 			<Textarea name="bio" content={data.bio ?? ''} max_length={data.max_bio_length}
 			></Textarea>
 		</div>

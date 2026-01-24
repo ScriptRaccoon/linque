@@ -125,9 +125,20 @@ textarea {
 
 	label {
 		display: block;
-		margin-bottom: 0.1rem;
+		margin-bottom: 0.2rem;
 		font-size: 0.875rem;
 		color: var(--secondary-font-color);
+	}
+
+	.label-with-info {
+		display: flex;
+		justify-content: space-between;
+		margin-bottom: 0.2rem;
+		align-items: end;
+
+		label {
+			margin-bottom: unset;
+		}
 	}
 
 	input,
