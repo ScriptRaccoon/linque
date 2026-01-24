@@ -29,6 +29,14 @@
 		To get started, <a href="/login">log in</a> or
 		<a href="/register">create an account</a>.
 	</p>
+
+	<p>
+		The code for this application can be found on <a
+			href="https://github.com/scriptraccoon/linque"
+		>
+			GitHub
+		</a>.
+	</p>
 </main>
 
 <style>
