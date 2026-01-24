@@ -10,6 +10,7 @@ type LinkItem = {
 	label: string
 	position: number
 	click_count: number
+	is_public: 0 | 1
 }
 
 export const load: PageServerLoad = async (event) => {
@@ -19,7 +20,7 @@ export const load: PageServerLoad = async (event) => {
 	}
 
 	const sql = `
-        SELECT id, url, label, position, click_count
+        SELECT id, url, label, position, click_count, is_public
         FROM links
         WHERE user_id = ?
         ORDER BY position`
@@ -101,7 +102,7 @@ export const actions: Actions = {
 
 		if (!user) {
 			return fail(401, {
-				type: 'delete',
+				type: 'edit',
 				error: 'Unauthorized',
 			})
 		}
@@ -116,11 +117,67 @@ export const actions: Actions = {
 
 		if (err) {
 			return fail(500, {
-				type: 'delete',
+				type: 'edit',
 				error: 'Internal Server Error',
 			})
 		}
 
-		return { type: 'delete', message: 'Link has been deleted' }
+		return { type: 'edit', message: 'Link has been deleted' }
+	},
+
+	publish: async (event) => {
+		const user = event.locals.user
+
+		if (!user) {
+			return fail(401, {
+				type: 'edit',
+				error: 'Unauthorized',
+			})
+		}
+
+		const form = await event.request.formData()
+		const link_id = form.get('id') as string
+
+		const { err } = await query(
+			'UPDATE links SET is_public = 1 WHERE user_id = ? and id = ?',
+			[user.id, link_id],
+		)
+
+		if (err) {
+			return fail(500, {
+				type: 'edit',
+				error: 'Internal Server Error',
+			})
+		}
+
+		return { type: 'edit', message: 'Link has been published' }
+	},
+
+	unpublish: async (event) => {
+		const user = event.locals.user
+
+		if (!user) {
+			return fail(401, {
+				type: 'edit',
+				error: 'Unauthorized',
+			})
+		}
+
+		const form = await event.request.formData()
+		const link_id = form.get('id') as string
+
+		const { err } = await query(
+			'UPDATE links SET is_public = 0 WHERE user_id = ? and id = ?',
+			[user.id, link_id],
+		)
+
+		if (err) {
+			return fail(500, {
+				type: 'edit',
+				error: 'Internal Server Error',
+			})
+		}
+
+		return { type: 'edit', message: 'Link has been unpublished' }
 	},
 }

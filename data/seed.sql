@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS links (
     label TEXT NOT NULL,
     position INTEGER NOT NULL,
     click_count INTEGER NOT NULL DEFAULT 0,
+    is_public INTEGER NOT NULL DEFAULT 0 CHECK (is_public IN (0, 1)),
     created_at TEXT NOT NULL DEFAULT current_timestamp,
     UNIQUE (user_id, url),
     UNIQUE (user_id, label),

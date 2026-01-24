@@ -24,7 +24,10 @@ export const PATCH: RequestHandler = async (event) => {
 		return json({ message: 'Invalid token' }, { status: 401 })
 	}
 
-	const sql = 'UPDATE links SET click_count = click_count + 1 WHERE id = ?'
+	const sql = `
+		UPDATE links
+		SET click_count = click_count + 1
+		WHERE id = ? AND is_public = 1`
 
 	const { err } = await query<{ url: string }>(sql, [link_id])
 

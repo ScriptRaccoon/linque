@@ -7,10 +7,12 @@ export const load: PageServerLoad = async (event) => {
 	const slug = event.params.slug
 	const displayname = slug.substring(1)
 
+	const sql_profile = 'SELECT user_id, bio FROM profiles where displayname = ?'
+
 	const { rows: profiles, err: err_profile } = await query<{
 		user_id: number
 		bio: string | null
-	}>('SELECT user_id, bio FROM profiles where displayname = ?', [displayname])
+	}>(sql_profile, [displayname])
 
 	if (err_profile) {
 		error(500, 'Internal Server Error')
@@ -22,11 +24,17 @@ export const load: PageServerLoad = async (event) => {
 
 	const { user_id, bio } = profiles[0]
 
+	const sql_links = `
+		SELECT id, url, label
+		FROM links
+		WHERE user_id = ? AND is_public = 1
+		ORDER BY position`
+
 	const { rows: links, err: err_links } = await query<{
 		id: string
 		url: string
 		label: string
-	}>('SELECT id, url, label FROM links WHERE user_id = ? ORDER BY position', [user_id])
+	}>(sql_links, [user_id])
 
 	if (err_links) {
 		error(500, 'Internal Server Error')

@@ -103,7 +103,7 @@
 		<p>No links yet</p>
 	{/if}
 
-	{#if form && ['edit', 'delete'].includes(form.type)}
+	{#if form?.type === 'edit'}
 		{#if form.error}
 			<p class="error">{form.error}</p>
 		{/if}
