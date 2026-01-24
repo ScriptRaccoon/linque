@@ -5,11 +5,18 @@
 	type Props = {
 		children: Snippet
 		submit_text?: string
+		submitting_text?: string
 		action?: string
 		form: { error: string } | { message: string } | null
 	}
 
-	let { children, submit_text = 'Submit', action = '', form }: Props = $props()
+	let {
+		children,
+		submit_text = 'Submit',
+		submitting_text = 'Submitting...',
+		action = '',
+		form,
+	}: Props = $props()
 
 	let sending = $state(false)
 </script>
@@ -30,7 +37,7 @@
 	<div>
 		<button class="button" disabled={sending}>
 			{#if sending}
-				{submit_text}...
+				{submitting_text}
 			{:else}
 				{submit_text}
 			{/if}

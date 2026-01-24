@@ -67,7 +67,12 @@
 <section>
 	<h2>Add Link</h2>
 
-	<FormWrapper action="?/add" form={form?.type === 'add' ? form : null}>
+	<FormWrapper
+		action="?/add"
+		form={form?.type === 'add' ? form : null}
+		submit_text="Add"
+		submitting_text="Adding..."
+	>
 		<div class="form-group">
 			<label for="label">Label</label>
 			<input type="text" name="label" id="label" required />

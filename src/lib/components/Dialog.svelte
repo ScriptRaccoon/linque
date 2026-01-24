@@ -50,7 +50,7 @@
 
 			<button class="button danger" disabled={sending}>
 				{#if sending}
-					Yes...
+					Wait...
 				{:else}
 					Yes
 				{/if}

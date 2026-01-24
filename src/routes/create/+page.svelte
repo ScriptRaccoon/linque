@@ -13,7 +13,7 @@
 	<h1>Create Profile</h1>
 </header>
 
-<FormWrapper submit_text="Create" {form}>
+<FormWrapper submit_text="Create" submitting_text="Creating..." {form}>
 	<div class="form-group">
 		<label for="displayname">Display name (required)</label>
 		<input type="text" name="displayname" id="displayname" required />

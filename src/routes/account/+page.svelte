@@ -28,6 +28,7 @@
 
 	<FormWrapper
 		submit_text="Update"
+		submitting_text="Updating..."
 		action="?/username"
 		form={form?.type === 'username' ? form : null}
 	>
@@ -43,6 +44,7 @@
 
 	<FormWrapper
 		submit_text="Update"
+		submitting_text="Updating..."
 		action="?/password"
 		form={form?.type === 'password' ? form : null}
 	>
@@ -63,6 +65,7 @@
 
 	<FormWrapper
 		submit_text="Update"
+		submitting_text="Updating..."
 		action="?/displayname"
 		form={form?.type === 'displayname' ? form : null}
 	>
@@ -84,6 +87,7 @@
 
 	<FormWrapper
 		submit_text="Update"
+		submitting_text="Updating..."
 		action="?/bio"
 		form={form?.type === 'bio' ? form : null}
 	>
