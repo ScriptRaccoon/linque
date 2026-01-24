@@ -32,6 +32,6 @@
 	}
 
 	a[aria-current='true'] {
-		outline: 1px solid var(--light-outline-color);
+		outline-color: var(--light-outline-color);
 	}
 </style>
