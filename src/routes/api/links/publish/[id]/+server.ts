@@ -11,12 +11,12 @@ export const PATCH: RequestHandler = async (event) => {
 
 	const link_id = event.params.id
 
-	const { err } = await query(
-		'UPDATE links SET is_public = 1 WHERE user_id = ? and id = ?',
+	const { rows, err } = await query<{ id: number }>(
+		'UPDATE links SET is_public = 1 WHERE user_id = ? and id = ? RETURNING id',
 		[user.id, link_id],
 	)
 
-	if (err) {
+	if (err || !rows.length) {
 		return json({ error: 'Internal Server Error' }, { status: 500 })
 	}
 
