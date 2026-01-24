@@ -15,13 +15,14 @@
 <textarea {name} id={name} bind:value={live_content} class:invalid={length > max_length}
 ></textarea>
 
-<div class="indicator">{length} / {max_length}</div>
+<div class="indicator">{length}/{max_length}</div>
 
 <style>
 	.indicator {
 		margin-top: -2px;
 		font-size: 0.75rem;
 		color: var(--secondary-font-color);
+		font-family: monospace;
 	}
 
 	textarea.invalid {
