@@ -18,9 +18,13 @@ export function open_dialog(state: Omit<DialogState, 'open'>) {
 	if (state.id !== undefined) dialog_state.id = state.id
 }
 
+export const DIALOG_ANIMATION_DURATION = 120
+
 export function close_dialog() {
 	dialog_state.open = false
-	dialog_state.question = ''
-	dialog_state.action = ''
-	delete dialog_state.id
+	setTimeout(() => {
+		dialog_state.question = ''
+		dialog_state.action = ''
+		delete dialog_state.id
+	}, DIALOG_ANIMATION_DURATION)
 }

@@ -1,6 +1,10 @@
 <script lang="ts">
 	import { enhance } from '$app/forms'
-	import { close_dialog, dialog_state } from '$lib/dialog.svelte'
+	import {
+		close_dialog,
+		dialog_state,
+		DIALOG_ANIMATION_DURATION,
+	} from '$lib/dialog.svelte'
 
 	let dialog_element = $state<HTMLDialogElement | null>(null)
 
@@ -15,7 +19,11 @@
 	let sending = $state(false)
 </script>
 
-<dialog bind:this={dialog_element} onclose={close_dialog}>
+<dialog
+	bind:this={dialog_element}
+	onclose={close_dialog}
+	style:--duration="{DIALOG_ANIMATION_DURATION}ms"
+>
 	<div class="question">
 		{dialog_state.question}
 	</div>
@@ -58,12 +66,31 @@
 		position: fixed;
 		top: 50%;
 		left: 50%;
-		transform: translate(-50%, -50%);
 		border: 1px solid var(--light-outline-color);
 		box-shadow: 0 0 1rem #000a;
 		width: min(95vw, 40ch);
 		padding: 1.25rem;
 		border-radius: 1rem;
+
+		transition:
+			transform var(--duration) ease-in-out,
+			opacity var(--duration) ease-in-out,
+			display var(--duration) ease-in-out allow-discrete;
+	}
+
+	dialog[open] {
+		transform: translate(-50%, -50%);
+		opacity: 1;
+
+		@starting-style {
+			opacity: 0;
+			transform: translate(-50%, calc(-1rem - 50%));
+		}
+	}
+
+	dialog:not([open]) {
+		opacity: 0;
+		transform: translate(-50%, calc(-1rem - 50%));
 	}
 
 	dialog::backdrop {
