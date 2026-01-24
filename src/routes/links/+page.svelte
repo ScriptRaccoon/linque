@@ -45,7 +45,7 @@
 		}
 
 		// refetch links from db
-		invalidateAll()
+		await invalidateAll()
 	}
 </script>
 

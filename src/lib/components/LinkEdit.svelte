@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Eye, EyeClosed, Globe, X } from 'lucide-svelte'
 	import { open_dialog } from '$lib/dialog.svelte'
-	import { enhance } from '$app/forms'
+	import { invalidateAll } from '$app/navigation'
 
 	type Props = {
 		id: string
@@ -13,12 +13,24 @@
 
 	let { id, label, url, click_count, is_public }: Props = $props()
 
+	let is_public_live = $derived(is_public === 1)
+
 	function show_delete_dialog() {
 		open_dialog({
 			id,
 			question: `Do you want to delete the link '${label}'?`,
 			action: '/links?/delete',
 		})
+	}
+
+	async function toggle_publish() {
+		is_public_live = !is_public_live
+		const endpoint = is_public_live
+			? `/api/links/publish/${id}`
+			: `/api/links/unpublish/${id}`
+		const res = await fetch(endpoint, { method: 'PATCH' })
+		if (!res.ok) console.error('Failed to (un)publish link')
+		await invalidateAll()
 	}
 </script>
 
@@ -35,19 +47,17 @@
 	</div>
 
 	<div class="actions">
-		<form method="POST" action={is_public ? '?/unpublish' : '?/publish'} use:enhance>
-			<input type="hidden" name="id" value={id} />
-			<button
-				aria-label={is_public ? `unpublish ${label}` : `publish ${label}`}
-				class="icon-button"
-			>
-				{#if is_public}
-					<Globe size={20} />
-				{:else}
-					<EyeClosed size={20} />
-				{/if}
-			</button>
-		</form>
+		<button
+			aria-label={is_public_live ? `unpublish ${label}` : `publish ${label}`}
+			class="icon-button"
+			onclick={toggle_publish}
+		>
+			{#if is_public_live}
+				<Globe size={20} />
+			{:else}
+				<EyeClosed size={20} />
+			{/if}
+		</button>
 
 		<button
 			aria-label="delete {label}"
