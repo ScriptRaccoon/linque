@@ -16,7 +16,7 @@
 <svelte:head>
 	<title>Linque by {decode_spaces(data.displayname)}</title>
 
-	<meta property="og:title" content="Lingue by {decode_spaces(data.displayname)}" />
+	<meta property="og:title" content="Linque by {decode_spaces(data.displayname)}" />
 
 	{#if data.bio}
 		<meta property="og:description" content={data.bio} />

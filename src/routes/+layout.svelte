@@ -18,7 +18,7 @@
 	<meta name="apple-mobile-web-app-title" content="Linque" />
 	<link rel="manifest" href="/site.webmanifest" />
 
-	<meta property="og:title" content="Lingue" />
+	<meta property="og:title" content="Linque" />
 	<meta
 		property="og:description"
 		content="Linque is a simple page that shows all of your links in one place."
